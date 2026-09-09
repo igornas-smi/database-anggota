@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - IGORNAS Kota Sukabumi</title>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #dc2626;
+      --gold: #f59e0b;
+      --navy: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: 
+        linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(30, 58, 138, 0.85)),
+        url('assets/sports-bg.jpg') no-repeat center center / cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle background ambient glow */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(220, 38, 38, 0.3), transparent 70%);
+      top: -50px;
+      left: -50px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%);
+      bottom: -100px;
+      right: -100px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 40px 36px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .logo-box {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(30, 58, 138, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--navy);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 14px 14px 44px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14.5px;
+      outline: none;
+      background: #f8fafc;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--navy);
+    }
+
+    input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    input:focus + i {
+      color: var(--primary);
+    }
+
+    .login-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.45);
+    }
+
+    .login-button:disabled {
+      background: #cbd5e1;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      padding: 14px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .message.error {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .message.success {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13.5px;
+      color: #64748b;
+    }
+
+    .register-link a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    .test-info {
+      margin-top: 25px;
+      padding: 14px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.6;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 14px;
+      color: #64748b;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .loading i {
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <div class="login-card">
+
+      <!-- LOGO IGORNAS -->
+      <div class="logo-box">
+        <img src="assets/logo.svg" alt="Logo IGORNAS Kota Sukabumi" class="logo-img" onerror="this.onerror=null; this.src='assets/logo.png'">
+      </div>
+
+      <h1>IGORNAS Kota Sukabumi</h1>
+      <div class="subtitle">Sistem Informasi & Database Anggota</div>
+
+      <!-- PESAN -->
+      <div id="message" class="message"></div>
+
+      <!-- FORM LOGIN -->
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label for="email">Email Pengguna</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" name="email" placeholder="contoh@igornas.or.id" required>
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Kata Sandi</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+            <i class="fa-solid fa-lock"></i>
+          </div>
+        </div>
+
+        <button type="submit" id="loginButton" class="login-button">
+          <span>MASUK KE SISTEM</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </form>
+
+      <div id="loading" class="loading">
+        <i class="fa-solid fa-spinner"></i> Sedang memproses otentikasi...
+      </div>
+
+      <div class="register-link">
+        Belum memiliki akun?
+        <a href="register.html">Daftar Anggota Baru</a>
+      </div>
+
+      <!-- INFORMASI TEST -->
+      <div class="test-info">
+        <i class="fa-solid fa-circle-info" style="color:var(--primary);"></i> <strong>Testing Akun:</strong><br>
+        Email: <code>test.anggota.igornas@gmail.com</code><br>
+        Password: <code>Test12345</code>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0/exec';
+
+  const loginForm = document.getElementById('loginForm');
+  const loginButton = document.getElementById('loginButton');
+  const message = document.getElementById('message');
+  const loading = document.getElementById('loading');
+
+  function showMessage(text, type) {
+    const icon = type === 'error' ? '<i class="fa-solid fa-circle-xmark"></i>' : '<i class="fa-solid fa-circle-check"></i>';
+    message.innerHTML = `${icon} <span>${text}</span>`;
+    message.className = 'message ' + type;
+  }
+
+  function hideMessage() {
+    message.innerHTML = '';
+    message.className = 'message';
+  }
+
+  loginForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    hideMessage();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      showMessage('Email dan password wajib diisi.', 'error');
+      return;
+    }
+
+    loginButton.disabled = true;
+    loading.style.display = 'block';
+
+    try {
+      const response = await fetch(API_URL + '?action=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ email: email, password: password })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        if (!result.data || !result.data.token || !result.data.user) {
+          showMessage('Login berhasil, tetapi data session tidak lengkap.', 'error');
+          return;
+        }
+
+        const token = result.data.token;
+        const user = result.data.user;
+
+        localStorage.setItem('igornas_token', token);
+        localStorage.setItem('igornas_user', JSON.stringify(user));
+
+        const role = String(user.ROLE || '').trim().toUpperCase();
+
+        showMessage('Login berhasil. Mengalihkan ke dashboard...', 'success');
+
+        setTimeout(function() {
+          if (role === 'ANGGOTA') {
+            window.location.href = 'anggota.html';
+            return;
+          }
+
+          if (role === 'ADMIN') {
+            window.location.href = 'admin.html';
+            return;
+          }
+
+          if (role === 'SUPER_ADMIN') {
+            window.location.href = 'superadmin.html';
+            return;
+          }
+
+          showMessage('Login berhasil, tetapi role pengguna tidak dikenali: ' + role, 'error');
+        }, 700);
+
+      } else {
+        showMessage(result.message || 'Email atau password salah.', 'error');
+      }
+
+    } catch (error) {
+      console.error('Error login:', error);
+      showMessage('Tidak dapat terhubung ke server Apps Script. Periksa koneksi internet.', 'error');
+    } finally {
+      loginButton.disabled = false;
+      loading.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
