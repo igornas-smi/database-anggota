@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - IGORNAS Kota Sukabumi</title>
+  
+  <!-- Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --accent: #dc2626;
+      --gold: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 14px;
+      --shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =======================================
+       SIDEBAR
+       ======================================= */
+    .sidebar {
+      width: 270px;
+      background: var(--primary-dark);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      background: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .sidebar-title h2 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-title p {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .sidebar-menu {
+      padding: 16px 12px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .menu-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin: 16px 12px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: #94a3b8;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item.active {
+      background: var(--primary);
+      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.4);
+    }
+
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius);
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .user-info h4 {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .user-info p {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* =======================================
+       MAIN CONTENT
+       ======================================= */
+    .main-content {
+      margin-left: 270px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .top-header {
+      height: 70px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .header-title h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-api-setup {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-logout {
+      background: #fee2e2;
+      color: #991b1b;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-logout:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .content-body {
+      padding: 32px;
+      flex: 1;
+    }
+
+    /* =======================================
+       CARDS & STATS
+       ======================================= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.12);
+    }
+
+    .stat-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-info h3 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 4px;
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .icon-blue { background: #dbeafe; color: #1e3a8a; }
+    .icon-green { background: #dcfce7; color: #15803d; }
+    .icon-orange { background: #fef3c7; color: #b45309; }
+    .icon-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* =======================================
+       DATA TABLES & CONTAINERS
+       ======================================= */
+    .card-panel {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .panel-header h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      padding: 9px 14px 9px 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      width: 240px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 10px center / 18px;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .select-filter {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      background: white;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 12px 16px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    .badge-status {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .badge-aktif { background: #dcfce7; color: #15803d; }
+    .badge-nonaktif { background: #fee2e2; color: #991b1b; }
+    .badge-menunggu { background: #fef3c7; color: #b45309; }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: white;
+      transition: var(--transition);
+    }
+
+    .btn-sm:hover {
+      background: #f1f5f9;
+    }
+
+    .btn-sm.btn-approve { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .btn-sm.btn-reject { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+
+    /* =======================================
+       MODAL & OVERLAY
+       ======================================= */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 600px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    /* Views toggle */
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/logo.png" alt="Logo IGORNAS" style="width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/5328/5328224.png'">
+      <div class="sidebar-title">
+        <h2>IGORNAS SMI</h2>
+        <p>Admin Dashboard v2.0</p>
+      </div>
+    </div>
+
+    <div class="sidebar-menu">
+      <div class="menu-label">Navigasi Utama</div>
+      
+      <div class="nav-item active" onclick="switchTab('dashboard')">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </div>
+
+      <div class="nav-item" onclick="switchTab('anggota')">
+        <i class="fa-solid fa-users"></i>
+        <span>Data Anggota</span>
+      </div>
+
+      <div class="nav-item" onclick="switchTab('pengajuan')">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>Pengajuan</span>
+        <span class="badge" id="badgePengajuan">0</span>
+      </div>
+
+      <div class="menu-label" id="superAdminMenuLabel" style="display:none;">Super Admin</div>
+
+      <div class="nav-item" id="navUsers" onclick="switchTab('users')" style="display:none;">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Kelola User</span>
+      </div>
+
+      <div class="nav-item" id="navPengumuman" onclick="switchTab('pengumuman')" style="display:none;">
+        <i class="fa-solid fa-bullhorn"></i>
+        <span>Pengumuman</span>
+      </div>
+
+      <div class="nav-item" id="navLog" onclick="switchTab('log')" style="display:none;">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>Log Aktivitas</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" id="userAvatar">A</div>
+        <div class="user-info">
+          <h4 id="userName">Admin IGORNAS</h4>
+          <p id="userRole">ADMIN</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="header-title">
+        <h1 id="pageTitle">Dashboard Utama</h1>
+      </div>
+      <div class="header-actions">
+        <button class="btn-api-setup" onclick="openApiSetupModal()">
+          <i class="fa-solid fa-gear"></i> Endpoint API
+        </button>
+        <button class="btn-logout" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Keluar
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <div class="content-body">
+      
+      <!-- ==========================================
+           TAB 1: DASHBOARD
+           ========================================== -->
+      <div id="tab-dashboard" class="tab-view active">
+        
+        <!-- STATS CARDS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Total Anggota</p>
+              <h3 id="statTotalAnggota">0</h3>
+            </div>
+            <div class="stat-icon icon-blue">
+              <i class="fa-solid fa-id-card"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Anggota Aktif</p>
+              <h3 id="statAnggotaAktif">0</h3>
+            </div>
+            <div class="stat-icon icon-green">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Pengajuan Menunggu</p>
+              <h3 id="statPengajuanMenunggu">0</h3>
+            </div>
+            <div class="stat-icon icon-orange">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Total User Akun</p>
+              <h3 id="statTotalUser">0</h3>
+            </div>
+            <div class="stat-icon icon-purple">
+              <i class="fa-solid fa-users-gear"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT PENGAJUAN PREVIEW -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Pengajuan Perubahan Terbaru</h3>
+            <button class="btn-sm" onclick="switchTab('pengajuan')">Lihat Semua</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Request ID</th>
+                  <th>Member ID</th>
+                  <th>Field</th>
+                  <th>Alasan</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="previewPengajuanTable">
+                <tr><td colspan="5" style="text-align:center;">Memuat data pengajuan...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           TAB 2: DATA ANGGOTA
+           ========================================== -->
+      <div id="tab-anggota" class="tab-view">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Data Anggota IGORNAS Kota Sukabumi</h3>
+            <div class="filter-group">
+              <input type="text" class="search-input" id="searchAnggota" placeholder="Cari Nama / NIK / ID..." onkeyup="fetchAnggotaData()">
+              <button class="btn-primary" onclick="openTambahAnggotaModal()">
+                <i class="fa-solid fa-plus"></i> Tambah Anggota
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID / No. Anggota</th>
+                  <th>Nama Lengkap</th>
+                  <th>NIK</th>
+                  <th>Kecamatan</th>
+                  <th>Cabor</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="anggotaTableBody">
+                <tr><td colspan="7" style="text-align:center;">Memuat data anggota...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           TAB 3: PENGAJUAN
+           ========================================== -->
+      <div id="tab-pengajuan" class="tab-view">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Daftar Pengajuan Perubahan Data Anggota</h3>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID Pengajuan</th>
+                  <th>Member ID</th>
+                  <th>Field Diubah</th>
+                  <th>Nilai Lama</th>
+                  <th>Nilai Baru</th>
+                  <th>Alasan</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="pengajuanTableBody">
+                <tr><td colspan="8" style="text-align:center;">Memuat pengajuan...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           TAB 4: KELOLA USER (Super Admin)
+           ========================================== -->
+      <div id="tab-users" class="tab-view">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Manajemen Akun User</h3>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Member ID</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="6" style="text-align:center;">Memuat data user...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           TAB 5: PENGUMUMAN (Super Admin)
+           ========================================== -->
+      <div id="tab-pengumuman" class="tab-view">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Buat Pengumuman Baru</h3>
+          </div>
+          <form onsubmit="handleTambahPengumuman(event)">
+            <div class="form-group">
+              <label>Judul Pengumuman</label>
+              <input type="text" id="pengumumanJudul" class="form-control" placeholder="Masukkan Judul..." required>
+            </div>
+            <div class="form-group">
+              <label>Isi Pengumuman</label>
+              <textarea id="pengumumanIsi" class="form-control" rows="4" placeholder="Tuliskan pengumuman..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Terbitkan Pengumuman</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           TAB 6: LOG AKTIVITAS (Super Admin)
+           ========================================== -->
+      <div id="tab-log" class="tab-view">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3>Audit Log Aktivitas Sistem</h3>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Log ID</th>
+                  <th>User ID</th>
+                  <th>Action</th>
+                  <th>Target</th>
+                  <th>Info</th>
+                  <th>Waktu</th>
+                </tr>
+              </thead>
+              <tbody id="logTableBody">
+                <tr><td colspan="6" style="text-align:center;">Memuat log aktivitas...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       MODAL SETUP API
+       ========================================== -->
+  <div class="modal-overlay" id="modalApiSetup">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Pengaturan Web App API Google Apps Script</h3>
+        <button class="btn-close" onclick="closeModal('modalApiSetup')">&times;</button>
+      </div>
+      <div class="form-group">
+        <label>URL Web App Deployment Google Apps Script</label>
+        <input type="url" id="apiUrlInput" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+      <button class="btn-primary" onclick="saveApiUrl()"><i class="fa-solid fa-save"></i> Simpan Endpoint API</button>
+    </div>
+  </div>
+
+  <script>
+    // GLOBAL STATE & API ENDPOINT
+    const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0/exec';
+    let API_URL = localStorage.getItem('IGORNAS_API_URL') || DEFAULT_API_URL;
+    let authToken = localStorage.getItem('igornas_token') || localStorage.getItem('IGORNAS_TOKEN') || '';
+    
+    let savedUser = null;
+    try {
+      savedUser = JSON.parse(localStorage.getItem('igornas_user'));
+    } catch(e) {}
+    
+    let userRole = (savedUser && savedUser.ROLE) ? String(savedUser.ROLE).toUpperCase() : (localStorage.getItem('IGORNAS_ROLE') || 'ADMIN');
+    let userName = (savedUser && savedUser.EMAIL) ? savedUser.EMAIL : 'Admin IGORNAS';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('userName').innerText = userName;
+      document.getElementById('userAvatar').innerText = userName.charAt(0).toUpperCase();
+      setupUserRoleUI();
+      loadDashboardData();
+    });
+
+    function openApiSetupModal() {
+      document.getElementById('apiUrlInput').value = API_URL;
+      document.getElementById('modalApiSetup').style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function saveApiUrl() {
+      const url = document.getElementById('apiUrlInput').value.trim();
+      if (!url) return alert('Silakan masukkan URL Web App yang valid!');
+      localStorage.setItem('IGORNAS_API_URL', url);
+      API_URL = url;
+      closeModal('modalApiSetup');
+      alert('URL API Berhasil disimpan!');
+      loadDashboardData();
+    }
+
+    function setupUserRoleUI() {
+      document.getElementById('userRole').innerText = userRole;
+      if (userRole === 'SUPER_ADMIN') {
+        document.getElementById('superAdminMenuLabel').style.display = 'block';
+        document.getElementById('navUsers').style.display = 'flex';
+        document.getElementById('navPengumuman').style.display = 'flex';
+        document.getElementById('navLog').style.display = 'flex';
+      }
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+      document.getElementById('tab-' + tabName).classList.add('active');
+      
+      const pageTitles = {
+        dashboard: 'Dashboard Utama',
+        anggota: 'Kelola Data Anggota',
+        pengajuan: 'Persetujuan Pengajuan Data',
+        users: 'Manajemen Akun User',
+        pengumuman: 'Terbitan Pengumuman',
+        log: 'Audit Log Aktivitas'
+      };
+      document.getElementById('pageTitle').innerText = pageTitles[tabName] || 'Admin';
+
+      if (tabName === 'dashboard') loadDashboardData();
+      if (tabName === 'anggota') fetchAnggotaData();
+      if (tabName === 'pengajuan') fetchPengajuanData();
+      if (tabName === 'users') fetchUsersData();
+      if (tabName === 'log') fetchLogData();
+    }
+
+    async function apiGet(action, params = {}) {
+      if (!API_URL) return { success: false, message: 'URL API belum diset' };
+      const urlParams = new URLSearchParams({ action, token: authToken, ...params });
+      const res = await fetch(`${API_URL}?${urlParams.toString()}`);
+      return await res.json();
+    }
+
+    async function apiPost(action, body = {}) {
+      if (!API_URL) return { success: false, message: 'URL API belum diset' };
+      const res = await fetch(`${API_URL}?action=${action}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: authToken, ...body })
+      });
+      return await res.json();
+    }
+
+    async function loadDashboardData() {
+      const endpoint = userRole === 'SUPER_ADMIN' ? 'getDashboardSuperAdmin' : 'getDashboardAdmin';
+      const res = await apiGet(endpoint);
+      if (res.success && res.data) {
+        const d = res.data;
+        document.getElementById('statTotalAnggota').innerText = d.anggota ? d.anggota.total : 0;
+        document.getElementById('statAnggotaAktif').innerText = d.anggota ? d.anggota.aktif : 0;
+        document.getElementById('statPengajuanMenunggu').innerText = d.pengajuan ? d.pengajuan.menunggu : 0;
+        document.getElementById('badgePengajuan').innerText = d.pengajuan ? d.pengajuan.menunggu : 0;
+        document.getElementById('statTotalUser').innerText = d.users ? d.users.total : (d.totalUser || 0);
+
+        if (d.pengajuanTerbaru) {
+          renderPengajuanPreview(d.pengajuanTerbaru);
+        }
+      }
+    }
+
+    function renderPengajuanPreview(list) {
+      const tbody = document.getElementById('previewPengajuanTable');
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Tidak ada pengajuan terbaru.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(item => `
+        <tr>
+          <td><strong>${item.REQUEST_ID}</strong></td>
+          <td>${item.MEMBER_ID}</td>
+          <td>${item.FIELD_NAME}</td>
+          <td>${item.REASON}</td>
+          <td><span class="badge-status badge-menunggu">${item.STATUS}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    async function fetchAnggotaData() {
+      const search = document.getElementById('searchAnggota').value;
+      const res = await apiGet('getAnggotaPaged', { search });
+      const tbody = document.getElementById('anggotaTableBody');
+      
+      if (res.success && res.data && res.data.data) {
+        const members = res.data.data;
+        if (members.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Data anggota tidak ditemukan.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = members.map(m => `
+          <tr>
+            <td><strong>${m.NOMOR_ANGGOTA || m.MEMBER_ID}</strong></td>
+            <td>${m.NAMA_LENGKAP}</td>
+            <td>${m.NIK || '-'}</td>
+            <td>${m.KECAMATAN_ID || '-'}</td>
+            <td>${m.CABOR_ID || '-'}</td>
+            <td><span class="badge-status ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${m.STATUS_KEANGGOTAAN}</span></td>
+            <td>
+              <div class="action-btns">
+                <button class="btn-sm btn-reject" onclick="nonaktifkanAnggota('${m.MEMBER_ID}')"><i class="fa-solid fa-user-slash"></i> Nonaktifkan</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    async function fetchPengajuanData() {
+      const res = await apiGet('getPengajuan');
+      const tbody = document.getElementById('pengajuanTableBody');
+      if (res.success && res.data && res.data.data) {
+        const requests = res.data.data;
+        if (requests.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Belum ada pengajuan.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = requests.map(r => `
+          <tr>
+            <td><strong>${r.REQUEST_ID}</strong></td>
+            <td>${r.MEMBER_ID}</td>
+            <td><strong>${r.FIELD_NAME}</strong></td>
+            <td>${r.OLD_VALUE || '-'}</td>
+            <td style="color:var(--primary); font-weight:bold;">${r.NEW_VALUE}</td>
+            <td>${r.REASON}</td>
+            <td><span class="badge-status ${r.STATUS === 'MENUNGGU' ? 'badge-menunggu' : (r.STATUS === 'DISETUJUI' ? 'badge-aktif' : 'badge-nonaktif')}">${r.STATUS}</span></td>
+            <td>
+              ${r.STATUS === 'MENUNGGU' ? `
+                <div class="action-btns">
+                  <button class="btn-sm btn-approve" onclick="prosesPengajuan('${r.REQUEST_ID}', true)"><i class="fa-solid fa-check"></i> Setujui</button>
+                  <button class="btn-sm btn-reject" onclick="prosesPengajuan('${r.REQUEST_ID}', false)"><i class="fa-solid fa-xmark"></i> Tolak</button>
+                </div>
+              ` : '-'}
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    async function prosesPengajuan(requestId, setujui) {
+      const note = prompt(setujui ? 'Catatan Persetujuan (Opsional):' : 'Alasan Penolakan:');
+      if (!setujui && !note) return alert('Alasan penolakan wajib diisi!');
+      
+      const action = setujui ? 'setujuiPengajuan' : 'tolakPengajuan';
+      const res = await apiPost(action, { requestId, adminNote: note || '' });
+      alert(res.message);
+      fetchPengajuanData();
+    }
+
+    async function nonaktifkanAnggota(memberId) {
+      if (!confirm(`Apakah Anda yakin ingin menonaktifkan anggota ${memberId}?`)) return;
+      const res = await apiPost('nonaktifkanAnggota', { memberId });
+      alert(res.message);
+      fetchAnggotaData();
+    }
+
+    async function fetchUsersData() {
+      const res = await apiGet('getUsers');
+      const tbody = document.getElementById('usersTableBody');
+      if (res.success && res.data) {
+        tbody.innerHTML = res.data.map(u => `
+          <tr>
+            <td><strong>${u.USER_ID}</strong></td>
+            <td>${u.MEMBER_ID || '-'}</td>
+            <td>${u.EMAIL}</td>
+            <td><span class="badge-status badge-aktif">${u.ROLE}</span></td>
+            <td><span class="badge-status ${u.STATUS === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${u.STATUS}</span></td>
+            <td>
+              <button class="btn-sm" onclick="resetPassword('${u.USER_ID}')"><i class="fa-solid fa-key"></i> Reset Password</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    async function resetPassword(userId) {
+      const newPass = prompt('Masukkan Password Baru (min 8 Karakter):');
+      if (!newPass || newPass.length < 8) return alert('Password minimal 8 karakter!');
+      const res = await apiPost('resetUserPassword', { userId, newPassword: newPass });
+      alert(res.message);
+    }
+
+    async function handleTambahPengumuman(e) {
+      e.preventDefault();
+      const judul = document.getElementById('pengumumanJudul').value;
+      const isi = document.getElementById('pengumumanIsi').value;
+
+      const res = await apiPost('tambahPengumuman', { data: { JUDUL: judul, ISI: isi } });
+      alert(res.message);
+      document.getElementById('pengumumanJudul').value = '';
+      document.getElementById('pengumumanIsi').value = '';
+    }
+
+    async function fetchLogData() {
+      const res = await apiGet('getLogAktivitas', { limit: 50 });
+      const tbody = document.getElementById('logTableBody');
+      if (res.success && res.data) {
+        tbody.innerHTML = res.data.map(l => `
+          <tr>
+            <td><strong>${l.LOG_ID}</strong></td>
+            <td>${l.USER_ID}</td>
+            <td><span class="badge-status badge-aktif">${l.ACTION}</span></td>
+            <td>${l.TARGET} (${l.TARGET_ID})</td>
+            <td>${l.INFO}</td>
+            <td>${new Date(l.CREATED_AT).toLocaleString('id-ID')}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('IGORNAS_TOKEN');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

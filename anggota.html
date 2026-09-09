@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Anggota - IGORNAS Kota Sukabumi</title>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #dc2626;
+      --gold: #f59e0b;
+      --navy: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: 
+        linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(30, 58, 138, 0.85)),
+        url('assets/sports-bg.jpg') no-repeat center center / cover;
+      padding: 35px 15px;
+      color: #0f172a;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 920px;
+      margin: auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-img {
+      width: 85px;
+      height: 85px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 8px 16px rgba(30, 58, 138, 0.3));
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 13.5px;
+    }
+
+    .member-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 24px 0 28px;
+      padding: 8px;
+      background: #f1f5f9;
+      border-radius: 14px;
+    }
+
+    .member-nav a, .member-nav button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .member-nav a:hover {
+      background: #e2e8f0;
+      color: var(--primary);
+    }
+
+    .member-nav a.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .member-nav .logout-nav {
+      color: var(--accent);
+    }
+
+    .member-nav .logout-nav:hover {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .profile-card {
+      text-align: center;
+      margin: 24px 0;
+      padding: 30px 20px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 20px;
+      border: 1px solid #bfdbfe;
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1);
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      margin: auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      color: #ffffff;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 14px;
+      color: var(--navy);
+    }
+
+    .member-number {
+      margin-top: 4px;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 28px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .data-item {
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+
+    .data-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .data-value {
+      font-size: 14.5px;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message {
+      display: none;
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    @media (max-width: 650px) {
+      .data-grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <div id="loading" class="loading">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; margin-bottom:12px; color:var(--primary);"></i><br>
+        Memuat data profil anggota...
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div id="content" style="display:none;">
+
+        <div class="header">
+          <img src="assets/logo.png" alt="Logo IGORNAS" class="logo-img" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/5328/5328224.png'">
+          <h1>Profil Anggota IGORNAS</h1>
+          <div class="subtitle">Kota Sukabumi</div>
+        </div>
+
+        <nav class="member-nav">
+          <a href="anggota.html" class="active"><i class="fa-solid fa-user"></i> Profil Saya</a>
+          <button type="button" class="logout-nav" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </nav>
+
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <span id="avatarText">I</span>
+          </div>
+          <div id="namaLengkap" class="profile-name">-</div>
+          <div id="nomorAnggota" class="member-number">-</div>
+          <div id="statusKeanggotaan" class="status-badge">-</div>
+        </div>
+
+        <div class="section-title"><i class="fa-solid fa-address-card"></i> Data Pribadi</div>
+        <div class="data-grid">
+          <div class="data-item"><div class="data-label">NIK</div><div id="nik" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">NIP / NUPTK</div><div id="nip" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Jenis Kelamin</div><div id="jenisKelamin" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Tempat Lahir</div><div id="tempatLahir" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Tanggal Lahir</div><div id="tanggalLahir" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Nomor WhatsApp</div><div id="noHp" class="data-value">-</div></div>
+          <div class="data-item full"><div class="data-label">Alamat Lengkap</div><div id="alamat" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Kecamatan</div><div id="kecamatan" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Kelurahan</div><div id="kelurahan" class="data-value">-</div></div>
+        </div>
+
+        <div class="section-title"><i class="fa-solid fa-school"></i> Data Keanggotaan & Profesi</div>
+        <div class="data-grid">
+          <div class="data-item"><div class="data-label">Sekolah / Instansi</div><div id="sekolah" class="data-value">-</div></div>
+          <div class="data-item"><div class="data-label">Jabatan Guru</div><div id="jabatan" class="data-value">-</div></div>
+          <div class="data-item full"><div class="data-label">Cabang Olahraga</div><div id="cabor" class="data-value">-</div></div>
+        </div>
+
+        <div class="section-title"><i class="fa-solid fa-envelope"></i> Akun Login</div>
+        <div class="data-grid">
+          <div class="data-item full"><div class="data-label">Email Terdaftar</div><div id="email" class="data-value">-</div></div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-primary" onclick="loadProfile()"><i class="fa-solid fa-arrows-rotate"></i> Muat Ulang Data</button>
+          <button type="button" class="btn btn-danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout Sesi</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0/exec';
+    const token = localStorage.getItem('igornas_token');
+
+    if (!token) {
+      window.location.href = 'index.html';
+    }
+
+    async function loadProfile() {
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('content');
+      const message = document.getElementById('message');
+
+      loading.style.display = 'block';
+      content.style.display = 'none';
+      message.style.display = 'none';
+
+      try {
+        const user = JSON.parse(localStorage.getItem('igornas_user') || '{}');
+        const memberId = user.MEMBER_ID || user.memberId;
+
+        if (!memberId) throw new Error('MEMBER_ID tidak ditemukan dalam session.');
+
+        const response = await fetch(`${API_URL}?action=getAnggotaById&token=${encodeURIComponent(token)}&memberId=${encodeURIComponent(memberId)}`);
+        
+        if (!response.ok) throw new Error('Server mengembalikan status HTTP ' + response.status);
+
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message || 'Gagal mengambil data profil.');
+
+        const data = result.data;
+
+        setText('namaLengkap', data.NAMA_LENGKAP);
+        setText('nomorAnggota', data.NOMOR_ANGGOTA);
+        setText('statusKeanggotaan', data.STATUS_KEANGGOTAAN);
+
+        setText('nik', data.NIK);
+        setText('nip', data.NIP_NUPTK);
+        setText('jenisKelamin', getJenisKelamin(data.JENIS_KELAMIN));
+        setText('tempatLahir', data.TEMPAT_LAHIR);
+        setText('tanggalLahir', data.TANGGAL_LAHIR);
+        setText('noHp', data.NO_HP);
+        setText('alamat', data.ALAMAT);
+        setText('kecamatan', data.KECAMATAN_ID);
+        setText('kelurahan', data.KELURAHAN);
+
+        setText('sekolah', data.SEKOLAH_ID);
+        setText('jabatan', data.JABATAN);
+        setText('cabor', data.CABOR_ID);
+        setText('email', data.EMAIL);
+
+        const nama = data.NAMA_LENGKAP || 'I';
+        document.getElementById('avatarText').textContent = nama.charAt(0).toUpperCase();
+
+        loading.style.display = 'none';
+        content.style.display = 'block';
+
+      } catch (error) {
+        console.error('Error load profile:', error);
+        loading.style.display = 'none';
+        message.textContent = error.message || 'Gagal memuat profil anggota.';
+        message.style.display = 'block';
+
+        const errorText = String(error.message || '').toLowerCase();
+        if (errorText.includes('token') || errorText.includes('session') || errorText.includes('login')) {
+          localStorage.removeItem('igornas_token');
+          localStorage.removeItem('igornas_user');
+          setTimeout(() => window.location.href = 'index.html', 1500);
+        }
+      }
+    }
+
+    function setText(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value || '-';
+    }
+
+    function getJenisKelamin(value) {
+      if (value === 'L') return 'Laki-laki';
+      if (value === 'P') return 'Perempuan';
+      return value || '-';
+    }
+
+    async function logout() {
+      try {
+        await fetch(API_URL + '?action=logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ token: token })
+        });
+      } catch (error) {}
+
+      localStorage.removeItem('igornas_token');
+      localStorage.removeItem('igornas_user');
+      window.location.href = 'index.html';
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>
