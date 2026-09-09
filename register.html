@@ -142,9 +142,16 @@
       color: #475569;
     }
 
+    .checkbox-area label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
     .checkbox-area input {
       width: auto;
-      margin-right: 10px;
     }
 
     .button-area {
@@ -273,6 +280,7 @@
 
       <form id="registerForm">
 
+        <!-- Data Pribadi -->
         <div class="section-title"><i class="fa-solid fa-user"></i> Data Pribadi</div>
         <div class="form-grid">
           <div class="form-group full">
@@ -330,6 +338,7 @@
           </div>
         </div>
 
+        <!-- Data Keanggotaan & Profesi -->
         <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> Data Keanggotaan & Profesi</div>
         <div class="form-grid">
           <div class="form-group">
@@ -348,7 +357,8 @@
           </div>
         </div>
 
-        <div class="section-title"><div class="fa-solid fa-lock"></i> Akun Login</div>
+        <!-- Akun Login (Perbaikan Tag Icon <i class="fa-solid fa-lock"></i>) -->
+        <div class="section-title"><i class="fa-solid fa-lock"></i> Akun Login</div>
         <div class="form-grid">
           <div class="form-group full">
             <label for="email">Alamat Email <span class="required">*</span></label>
@@ -369,7 +379,7 @@
         <div class="checkbox-area">
           <label>
             <input type="checkbox" id="agreement" required>
-            Saya menyatakan bahwa seluruh data yang saya masukkan adalah benar dan siap menjadi anggota IGORNAS.
+            <span>Saya menyatakan bahwa seluruh data yang saya masukkan adalah benar dan siap menjadi anggota IGORNAS.</span>
           </label>
         </div>
 
