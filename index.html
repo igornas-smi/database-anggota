@@ -432,14 +432,14 @@
 
       <!-- LOGO & BADGE -->
       <div class="header-box">
-        <img src="assets/logo.svg" alt="Logo IGORNAS KOTA SUKABUMI" class="logo-img" onerror="this.onerror=null; this.src='assets/logo.png'">
+        <img src="assets/logo.svg" alt="Logo IGORNAS Kota Sukabumi" class="logo-img" onerror="this.onerror=null; this.src='assets/logo.png'">
         <div>
           <span id="roleBadge" class="role-badge">
             <i class="fa-solid fa-user"></i> Portal Anggota
           </span>
         </div>
-        <h1 id="portalTitle">IGORNAS KOTA SUKABUMI</h1>
-        <div id="portalSubtitle" class="subtitle">Sistem Informasi & Database Anggota</div>
+        <h1 id="portalTitle">IGORNAS Kota Sukabumi</h1>
+        <div id="portalSubtitle" class="subtitle">Sistem Informasi & Database Anggota Guru PJOK</div>
       </div>
 
       <!-- ROLE SELECTOR TABS -->
@@ -537,8 +537,8 @@
     ANGGOTA: {
       label: 'ANGGOTA',
       badge: '<i class="fa-solid fa-user"></i> Portal Anggota',
-      title: 'IGORNAS KOTA SUKABUMI',
-      subtitle: 'Sistem Informasi & Database Anggota',
+      title: 'IGORNAS Kota Sukabumi',
+      subtitle: 'Sistem Informasi & Database Anggota Guru PJOK',
       emailLabel: 'Email Anggota',
       emailPlaceholder: 'email.anggota@gmail.com',
       buttonText: 'MASUK SEBAGAI ANGGOTA',
@@ -550,12 +550,13 @@
       showRegister: true,
       noticeId: null,
       testEmail: 'test.anggota.igornas@gmail.com',
+      testPassword: 'Test12345',
       testRoleTitle: 'Testing Akun Anggota'
     },
     ADMIN: {
       label: 'ADMINISTRATOR',
       badge: '<i class="fa-solid fa-user-shield"></i> Portal Admin',
-      title: 'ADMIN IGORNAS KOTA SUKABUMI',
+      title: 'Panel Pengurus IGORNAS',
       subtitle: 'Verifikasi Data, Pengajuan & Pengelolaan Anggota',
       emailLabel: 'Email Administrator',
       emailPlaceholder: 'admin@igornas.or.id',
@@ -568,12 +569,13 @@
       showRegister: false,
       noticeId: 'adminNotice',
       testEmail: 'admin.igornas@gmail.com',
+      testPassword: 'Admin12345!',
       testRoleTitle: 'Testing Akun Admin'
     },
     SUPER_ADMIN: {
       label: 'SUPER ADMIN',
       badge: '<i class="fa-solid fa-crown"></i> Portal Super Admin',
-      title: 'SUPERADMIN IGORNAS KOTA SUKABUMI',
+      title: 'Pusat Kontrol Sistem',
       subtitle: 'Manajemen Akun User, Log Aktivitas & Pengaturan',
       emailLabel: 'Email Super Admin',
       emailPlaceholder: 'superadmin@igornas.or.id',
@@ -586,6 +588,7 @@
       showRegister: false,
       noticeId: 'superadminNotice',
       testEmail: 'superadmin.igornas@gmail.com',
+      testPassword: 'SuperAdmin12345!',
       testRoleTitle: 'Testing Akun Super Admin'
     }
   };
@@ -641,7 +644,7 @@
     superadminNotice.style.display = cfg.noticeId === 'superadminNotice' ? 'flex' : 'none';
 
     // Update test credential hint
-    testInfoContent.innerHTML = `<strong>${cfg.testRoleTitle}:</strong><br>Email: <code>${cfg.testEmail}</code> | Pass: <code>Test12345</code>`;
+    testInfoContent.innerHTML = `<strong>${cfg.testRoleTitle}:</strong><br>Email: <code>${cfg.testEmail}</code> | Pass: <code>${cfg.testPassword}</code>`;
 
     hideMessage();
   }
@@ -703,20 +706,29 @@
           return;
         }
 
-        const token = result.data.token;
-        const user = result.data.user;
+        const actualRole = String(user.ROLE || '').trim().toUpperCase();
 
+        // VALIDASI KETAT BERDASARKAN TAB PERAN
+        if (selectedRole === 'SUPER_ADMIN' && actualRole !== 'SUPER_ADMIN') {
+          localStorage.removeItem('igornas_token');
+          localStorage.removeItem('igornas_user');
+          const namaPeran = actualRole === 'ADMIN' ? 'Administrator' : 'Anggota';
+          showMessage(`<strong>Akses Ditolak!</strong> Portal ini khusus Super Administrator. Akun Anda terdaftar sebagai <strong>${namaPeran}</strong>. Silakan pilih tab ${namaPeran} untuk masuk.`, 'error');
+          return;
+        }
+
+        if (selectedRole === 'ADMIN' && actualRole === 'ANGGOTA') {
+          localStorage.removeItem('igornas_token');
+          localStorage.removeItem('igornas_user');
+          showMessage('<strong>Akses Ditolak!</strong> Portal ini khusus Administrator & Pengurus. Akun Anda terdaftar sebagai <strong>Anggota</strong>. Silakan pilih tab <strong>Anggota</strong>.', 'error');
+          return;
+        }
+
+        // Simpan token & user jika hak akses sesuai
         localStorage.setItem('igornas_token', token);
         localStorage.setItem('igornas_user', JSON.stringify(user));
 
-        const actualRole = String(user.ROLE || '').trim().toUpperCase();
-
-        // Validasi kesesuaian role yang dipilih dengan role di database
-        if (actualRole === selectedRole) {
-          showMessage(`Login berhasil sebagai ${actualRole}. Mengalihkan ke dashboard...`, 'success');
-        } else {
-          showMessage(`Akun Anda terdaftar sebagai <strong>${actualRole}</strong>. Mengalihkan ke dashboard terkait...`, 'success');
-        }
+        showMessage(`Login berhasil sebagai ${actualRole}. Mengalihkan ke dashboard...`, 'success');
 
         setTimeout(function() {
           if (actualRole === 'ANGGOTA') {
