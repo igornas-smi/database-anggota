@@ -45,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* Subtle background ambient glow */
     body::before {
       content: '';
       position: absolute;
@@ -143,7 +142,7 @@
       transition: color 0.3s ease;
     }
 
-    /* ROLE SWITCHER TABS */
+    /* ROLE SELECTOR TABS */
     .role-selector {
       margin-bottom: 22px;
     }
@@ -516,8 +515,8 @@
         </div>
       </div>
 
-      <!-- INFORMASI PENGUJIAN -->
-      <div class="test-info" id="testInfo">
+      <!-- INFO AKUN TEST -->
+      <div class="test-info">
         <i class="fa-solid fa-circle-info"></i>
         <div id="testInfoContent">
           <strong>Testing Akun Anggota:</strong><br>
@@ -525,11 +524,62 @@
         </div>
       </div>
 
+      <!-- PENGATURAN API URL -->
+      <div style="text-align: center; margin-top: 14px;">
+        <button type="button" onclick="openApiSetupModal()" style="background:none; border:none; color:#94a3b8; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
+          <i class="fa-solid fa-gear"></i> Atur URL Server Apps Script
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL ATUR API -->
+  <div id="modalApiSetup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:white; border-radius:20px; padding:28px; width:100%; max-width:440px; box-shadow:0 25px 50px rgba(0,0,0,0.3);">
+      <h3 style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <i class="fa-solid fa-link" style="color:var(--primary);"></i> URL Web App Apps Script
+      </h3>
+      <p style="font-size:12.5px; color:#64748b; line-height:1.5; margin-bottom:16px;">
+        Masukkan URL Web App hasil deploy Google Apps Script Anda (harus berakhiran <code>/exec</code>):
+      </p>
+      <input type="text" id="apiUrlInput" style="width:100%; padding:12px; border:1.5px solid #cbd5e1; border-radius:10px; font-size:13px; margin-bottom:16px;" placeholder="https://script.google.com/macros/s/.../exec">
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" onclick="closeApiSetupModal()" style="padding:10px 16px; border:none; background:#f1f5f9; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Batal</button>
+        <button type="button" onclick="saveApiUrl()" style="padding:10px 18px; border:none; background:#2563eb; color:white; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Simpan URL</button>
+      </div>
     </div>
   </div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4/exec';
+  const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4/exec';
+  let storedApi = localStorage.getItem('IGORNAS_API_URL');
+  if (storedApi && (storedApi.includes('AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0') || !storedApi.startsWith('https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4'))) {
+    localStorage.removeItem('IGORNAS_API_URL');
+    storedApi = null;
+  }
+  let API_URL = DEFAULT_API_URL;
+
+  function openApiSetupModal() {
+    document.getElementById('apiUrlInput').value = API_URL;
+    document.getElementById('modalApiSetup').style.display = 'flex';
+  }
+
+  function closeApiSetupModal() {
+    document.getElementById('modalApiSetup').style.display = 'none';
+  }
+
+  function saveApiUrl() {
+    const url = document.getElementById('apiUrlInput').value.trim();
+    if (!url.startsWith('https://script.google.com/macros/s/') || !url.endsWith('/exec')) {
+      alert('URL tidak valid! Harus diawali "https://script.google.com/macros/s/" dan diakhiri "/exec"');
+      return;
+    }
+    localStorage.setItem('IGORNAS_API_URL', url);
+    API_URL = url;
+    closeApiSetupModal();
+    showMessage('URL Server Apps Script berhasil disimpan!', 'success');
+  }
 
   let selectedRole = 'ANGGOTA';
 
@@ -644,7 +694,9 @@
     superadminNotice.style.display = cfg.noticeId === 'superadminNotice' ? 'flex' : 'none';
 
     // Update test credential hint
-    testInfoContent.innerHTML = `<strong>${cfg.testRoleTitle}:</strong><br>Email: <code>${cfg.testEmail}</code> | Pass: <code>${cfg.testPassword}</code>`;
+    if (testInfoContent) {
+      testInfoContent.innerHTML = `<strong>${cfg.testRoleTitle}:</strong><br>Email: <code>${cfg.testEmail}</code> | Pass: <code>${cfg.testPassword}</code>`;
+    }
 
     hideMessage();
   }
@@ -692,20 +744,29 @@
     loading.style.display = 'block';
 
     try {
-      const response = await fetch(API_URL + '?action=login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ email: email, password: password })
-      });
+      let result;
+      try {
+        const response = await fetch(API_URL + '?action=login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ email: email, password: password })
+        });
+        result = await response.json();
+      } catch (postError) {
+        console.warn('POST gagal atau parse error, mencoba fallback GET...', postError);
+        const qs = new URLSearchParams({ action: 'login', email: email, password: password }).toString();
+        const getResponse = await fetch(`${API_URL}?${qs}`);
+        result = await getResponse.json();
+      }
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (result && result.success) {
         if (!result.data || !result.data.token || !result.data.user) {
           showMessage('Login berhasil, tetapi data sesi tidak lengkap.', 'error');
           return;
         }
 
+        const token = result.data.token;
+        const user = result.data.user;
         const actualRole = String(user.ROLE || '').trim().toUpperCase();
 
         // VALIDASI KETAT BERDASARKAN TAB PERAN
@@ -750,12 +811,12 @@
         }, 900);
 
       } else {
-        showMessage(result.message || 'Email atau kata sandi salah.', 'error');
+        showMessage((result && result.message) || 'Email atau kata sandi salah.', 'error');
       }
 
     } catch (error) {
       console.error('Error login:', error);
-      showMessage('Tidak dapat terhubung ke server Apps Script. Periksa koneksi internet Anda.', 'error');
+      showMessage('Gagal terhubung ke server Apps Script: ' + (error.message || 'Periksa koneksi Anda.'), 'error');
     } finally {
       loginButton.disabled = false;
       loading.style.display = 'none';
