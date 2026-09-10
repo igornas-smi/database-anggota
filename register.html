@@ -133,6 +133,36 @@
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
+    /* Wrapper untuk fitur intip kata sandi */
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      padding-right: 44px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
     .checkbox-area {
       margin-top: 24px;
       padding: 16px;
@@ -142,16 +172,9 @@
       color: #475569;
     }
 
-    .checkbox-area label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: normal;
-      cursor: pointer;
-    }
-
     .checkbox-area input {
       width: auto;
+      margin-right: 10px;
     }
 
     .button-area {
@@ -357,7 +380,7 @@
           </div>
         </div>
 
-        <!-- Akun Login (Perbaikan Tag Icon <i class="fa-solid fa-lock"></i>) -->
+        <!-- Akun Login -->
         <div class="section-title"><i class="fa-solid fa-lock"></i> Akun Login</div>
         <div class="form-grid">
           <div class="form-group full">
@@ -367,19 +390,29 @@
 
           <div class="form-group">
             <label for="password">Kata Sandi <span class="required">*</span></label>
-            <input type="password" id="password" placeholder="Minimal 8 karakter" minlength="8" required>
+            <div class="input-wrapper">
+              <input type="password" id="password" placeholder="Minimal 8 karakter" minlength="8" required autocomplete="new-password">
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password', 'eyePassword')" aria-label="Lihat kata sandi">
+                <i class="fa-regular fa-eye" id="eyePassword"></i>
+              </button>
+            </div>
           </div>
 
           <div class="form-group">
             <label for="passwordConfirm">Konfirmasi Kata Sandi <span class="required">*</span></label>
-            <input type="password" id="passwordConfirm" placeholder="Ulangi kata sandi" minlength="8" required>
+            <div class="input-wrapper">
+              <input type="password" id="passwordConfirm" placeholder="Ulangi kata sandi" minlength="8" required autocomplete="new-password">
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('passwordConfirm', 'eyePasswordConfirm')" aria-label="Lihat konfirmasi kata sandi">
+                <i class="fa-regular fa-eye" id="eyePasswordConfirm"></i>
+              </button>
+            </div>
           </div>
         </div>
 
         <div class="checkbox-area">
           <label>
             <input type="checkbox" id="agreement" required>
-            <span>Saya menyatakan bahwa seluruh data yang saya masukkan adalah benar dan siap menjadi anggota IGORNAS.</span>
+            Saya menyatakan bahwa seluruh data yang saya masukkan adalah benar dan siap menjadi anggota IGORNAS.
           </label>
         </div>
 
@@ -418,6 +451,22 @@
   const message = document.getElementById('message');
   const resultBox = document.getElementById('resultBox');
 
+  // Fungsi toggle lihat/sembunyikan kata sandi
+  function togglePasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+
   function showMessage(text, type) {
     message.textContent = text;
     message.className = 'message ' + type;
@@ -428,10 +477,20 @@
     message.className = 'message';
   }
 
+  // Helper format 14 digit nomor anggota agar angka 0 di depan selalu ada
+  function formatNomorAnggota(no) {
+    if (!no) return '';
+    let str = String(no).trim().replace(/^'+/, '');
+    if (str.length === 13 && str.startsWith('6210208')) {
+      return '0' + str;
+    }
+    return str;
+  }
+
   function showResult(data) {
     resultBox.style.display = 'block';
     document.getElementById('resultMemberId').textContent = data.MEMBER_ID || '-';
-    document.getElementById('resultNomorAnggota').textContent = data.NOMOR_ANGGOTA || '-';
+    document.getElementById('resultNomorAnggota').textContent = formatNomorAnggota(data.NOMOR_ANGGOTA) || '-';
     document.getElementById('resultUserId').textContent = data.USER_ID || '-';
     document.getElementById('resultEmail').textContent = data.EMAIL || '-';
     document.getElementById('resultStatus').textContent = data.STATUS || '-';
@@ -456,7 +515,13 @@
     const alamat = document.getElementById('alamat').value.trim();
     const kecamatan = document.getElementById('kecamatan').value.trim();
     const kelurahan = document.getElementById('kelurahan').value.trim();
-    const noHp = document.getElementById('noHp').value.trim();
+
+    // Normalisasi nomor HP: otomatis tambahkan angka 0 jika pengguna mengetik 812...
+    let noHp = document.getElementById('noHp').value.trim();
+    if (noHp.startsWith('8') && noHp.length >= 9) {
+      noHp = '0' + noHp;
+    }
+
     const sekolah = document.getElementById('sekolah').value.trim();
     const jabatan = document.getElementById('jabatan').value.trim();
     const cabor = document.getElementById('cabor').value.trim();
