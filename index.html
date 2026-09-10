@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - IGORNAS Kota Sukabumi</title>
+  <title>Portal Login - IGORNAS Kota Sukabumi</title>
 
   <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,11 @@
       --accent: #dc2626;
       --gold: #f59e0b;
       --navy: #0f172a;
+      --theme-primary: #2563eb;
+      --theme-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --theme-glow: rgba(37, 99, 235, 0.35);
+      --theme-badge-bg: #eff6ff;
+      --theme-badge-text: #1d4ed8;
     }
 
     * {
@@ -35,7 +40,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px 16px;
       position: relative;
       overflow-x: hidden;
     }
@@ -44,11 +49,11 @@
     body::before {
       content: '';
       position: absolute;
-      width: 300px;
-      height: 300px;
+      width: 320px;
+      height: 320px;
       background: radial-gradient(circle, rgba(220, 38, 38, 0.3), transparent 70%);
-      top: -50px;
-      left: -50px;
+      top: -60px;
+      left: -60px;
       border-radius: 50%;
       pointer-events: none;
     }
@@ -56,9 +61,9 @@
     body::after {
       content: '';
       position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%);
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
       bottom: -100px;
       right: -100px;
       border-radius: 50%;
@@ -67,69 +72,150 @@
 
     .login-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       position: relative;
       z-index: 10;
     }
 
     .login-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(16px);
-      border-radius: 24px;
-      padding: 40px 36px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(18px);
+      border-radius: 28px;
+      padding: 36px 32px;
       box-shadow: 
         0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.4) inset;
-      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .logo-box {
+    .header-box {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .logo-img {
-      width: 90px;
-      height: 90px;
+      width: 82px;
+      height: 82px;
       object-fit: contain;
-      filter: drop-shadow(0 8px 16px rgba(30, 58, 138, 0.3));
+      filter: drop-shadow(0 8px 16px rgba(30, 58, 138, 0.25));
       transition: transform 0.3s ease;
+      margin-bottom: 12px;
     }
 
     .logo-img:hover {
-      transform: scale(1.05) rotate(2deg);
+      transform: scale(1.06) rotate(2deg);
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: var(--theme-badge-bg);
+      color: var(--theme-badge-text);
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
     }
 
     h1 {
-      text-align: center;
       color: var(--navy);
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       letter-spacing: -0.5px;
       margin-bottom: 4px;
     }
 
     .subtitle {
-      text-align: center;
       color: #64748b;
       font-size: 13.5px;
       font-weight: 500;
-      margin-bottom: 28px;
+      transition: color 0.3s ease;
     }
 
+    /* ROLE SWITCHER TABS */
+    .role-selector {
+      margin-bottom: 22px;
+    }
+
+    .role-selector-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .role-tabs {
+      display: flex;
+      background: #f1f5f9;
+      padding: 5px;
+      border-radius: 16px;
+      gap: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .role-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 4px;
+      border: none;
+      background: transparent;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+
+    .role-tab i {
+      font-size: 13px;
+      transition: transform 0.2s ease;
+    }
+
+    .role-tab:hover {
+      color: var(--navy);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .role-tab.active {
+      background: #ffffff;
+      color: var(--theme-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .role-tab.active i {
+      transform: scale(1.15);
+    }
+
+    /* FORM STYLES */
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       position: relative;
     }
 
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
       color: #334155;
       font-size: 13px;
       font-weight: 700;
@@ -140,9 +226,9 @@
       position: relative;
     }
 
-    .input-wrapper i {
+    .input-wrapper i.prefix-icon {
       position: absolute;
-      left: 14px;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
       color: #94a3b8;
@@ -152,10 +238,10 @@
 
     input {
       width: 100%;
-      padding: 14px 14px 14px 44px;
+      padding: 13px 14px 13px 44px;
       border: 1.5px solid #e2e8f0;
       border-radius: 12px;
-      font-size: 14.5px;
+      font-size: 14px;
       outline: none;
       background: #f8fafc;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -164,26 +250,44 @@
 
     input:focus {
       background: #ffffff;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      border-color: var(--theme-primary);
+      box-shadow: 0 0 0 4px var(--theme-glow);
     }
 
-    input:focus + i {
-      color: var(--primary);
+    input:focus ~ i.prefix-icon {
+      color: var(--theme-primary);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+    }
+
+    .toggle-password:hover {
+      color: #475569;
     }
 
     .login-button {
       width: 100%;
       border: none;
       border-radius: 12px;
-      padding: 15px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 14px;
+      background: var(--theme-gradient);
       color: white;
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
+      letter-spacing: 0.3px;
       cursor: pointer;
-      margin-top: 8px;
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+      margin-top: 6px;
+      box-shadow: 0 8px 20px var(--theme-glow);
       transition: all 0.25s ease;
       display: flex;
       align-items: center;
@@ -193,7 +297,8 @@
 
     .login-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.45);
+      filter: brightness(1.05);
+      box-shadow: 0 12px 24px var(--theme-glow);
     }
 
     .login-button:disabled {
@@ -201,21 +306,22 @@
       box-shadow: none;
       cursor: not-allowed;
       transform: none;
+      filter: none;
     }
 
     .message {
       display: none;
-      padding: 14px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 13.5px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 13px;
       line-height: 1.5;
       font-weight: 600;
     }
 
     .message.error {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       background: #fef2f2;
       color: #991b1b;
@@ -224,40 +330,64 @@
 
     .message.success {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       background: #f0fdf4;
       color: #166534;
       border: 1px solid #bbf7d0;
     }
 
-    .register-link {
+    .footer-actions {
+      margin-top: 22px;
       text-align: center;
-      margin-top: 24px;
-      font-size: 13.5px;
+      font-size: 13px;
+    }
+
+    .register-box {
       color: #64748b;
     }
 
-    .register-link a {
-      color: var(--primary);
+    .register-box a {
+      color: var(--theme-primary);
       font-weight: 700;
       text-decoration: none;
       margin-left: 4px;
     }
 
-    .register-link a:hover {
+    .register-box a:hover {
       text-decoration: underline;
     }
 
+    .role-notice {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #64748b;
+      font-size: 12.5px;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
     .test-info {
-      margin-top: 25px;
-      padding: 14px;
-      background: #f1f5f9;
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: #f8fafc;
       border-radius: 12px;
       font-size: 12px;
       color: #475569;
       line-height: 1.6;
       border: 1px dashed #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .test-info i {
+      color: var(--theme-primary);
+      margin-top: 3px;
     }
 
     .loading {
@@ -272,10 +402,25 @@
     .loading i {
       animation: spin 1s linear infinite;
       margin-right: 8px;
+      color: var(--theme-primary);
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 28px 20px;
+        border-radius: 20px;
+      }
+      .role-tab {
+        font-size: 11.5px;
+        padding: 9px 2px;
+      }
+      h1 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -285,38 +430,67 @@
   <div class="login-container">
     <div class="login-card">
 
-      <!-- LOGO IGORNAS -->
-      <div class="logo-box">
-        <img src="assets/logo.svg" alt="Logo IGORNAS Kota Sukabumi" class="logo-img" onerror="this.onerror=null; this.src='assets/logo.png'">
+      <!-- LOGO & BADGE -->
+      <div class="header-box">
+        <img src="assets/logo.svg" alt="Logo IGORNAS KOTA SUKABUMI" class="logo-img" onerror="this.onerror=null; this.src='assets/logo.png'">
+        <div>
+          <span id="roleBadge" class="role-badge">
+            <i class="fa-solid fa-user"></i> Portal Anggota
+          </span>
+        </div>
+        <h1 id="portalTitle">IGORNAS KOTA SUKABUMI</h1>
+        <div id="portalSubtitle" class="subtitle">Sistem Informasi & Database Anggota</div>
       </div>
 
-      <h1>IGORNAS Kota Sukabumi</h1>
-      <div class="subtitle">Sistem Informasi & Database Anggota</div>
+      <!-- ROLE SELECTOR TABS -->
+      <div class="role-selector">
+        <div class="role-selector-label">
+          <span>Pilih Peran Masuk</span>
+          <span id="activeRoleLabel" style="font-weight:800; color:var(--theme-primary);">ANGGOTA</span>
+        </div>
+        <div class="role-tabs" role="tablist">
+          <button type="button" class="role-tab active" data-role="ANGGOTA" onclick="switchRole('ANGGOTA')" role="tab" aria-selected="true">
+            <i class="fa-solid fa-user"></i>
+            <span>Anggota</span>
+          </button>
+          <button type="button" class="role-tab" data-role="ADMIN" onclick="switchRole('ADMIN')" role="tab" aria-selected="false">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>Admin</span>
+          </button>
+          <button type="button" class="role-tab" data-role="SUPER_ADMIN" onclick="switchRole('SUPER_ADMIN')" role="tab" aria-selected="false">
+            <i class="fa-solid fa-crown"></i>
+            <span>Super Admin</span>
+          </button>
+        </div>
+      </div>
 
-      <!-- PESAN -->
+      <!-- PESAN ALERT -->
       <div id="message" class="message"></div>
 
       <!-- FORM LOGIN -->
       <form id="loginForm">
 
         <div class="form-group">
-          <label for="email">Email Pengguna</label>
+          <label for="email" id="emailLabel">Email Pengguna</label>
           <div class="input-wrapper">
-            <input type="email" id="email" name="email" placeholder="contoh@igornas.or.id" required>
-            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="email" name="email" placeholder="contoh@igornas.or.id" required autocomplete="username">
+            <i class="fa-solid fa-envelope prefix-icon"></i>
           </div>
         </div>
 
         <div class="form-group">
           <label for="password">Kata Sandi</label>
           <div class="input-wrapper">
-            <input type="password" id="password" name="password" placeholder="••••••••" required>
-            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="current-password">
+            <i class="fa-solid fa-lock prefix-icon"></i>
+            <button type="button" class="toggle-password" id="togglePasswordBtn" onclick="togglePasswordVisibility()" aria-label="Lihat kata sandi">
+              <i class="fa-regular fa-eye" id="togglePasswordIcon"></i>
+            </button>
           </div>
         </div>
 
         <button type="submit" id="loginButton" class="login-button">
-          <span>MASUK KE SISTEM</span>
+          <span id="loginBtnText">MASUK SEBAGAI ANGGOTA</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
 
@@ -326,16 +500,29 @@
         <i class="fa-solid fa-spinner"></i> Sedang memproses otentikasi...
       </div>
 
-      <div class="register-link">
-        Belum memiliki akun?
-        <a href="register.html">Daftar Anggota Baru</a>
+      <!-- FOOTER ACTIONS BERDASARKAN ROLE -->
+      <div class="footer-actions">
+        <div id="registerBox" class="register-box">
+          Belum memiliki akun?
+          <a href="register.html">Daftar Anggota Baru</a>
+        </div>
+        <div id="adminNotice" class="role-notice">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Akses khusus pengurus & verifikator IGORNAS.</span>
+        </div>
+        <div id="superadminNotice" class="role-notice">
+          <i class="fa-solid fa-lock"></i>
+          <span>Akses terbatas otoritas Super Administrator.</span>
+        </div>
       </div>
 
-      <!-- INFORMASI TEST -->
-      <div class="test-info">
-        <i class="fa-solid fa-circle-info" style="color:var(--primary);"></i> <strong>Testing Akun:</strong><br>
-        Email: <code>test.anggota.igornas@gmail.com</code><br>
-        Password: <code>Test12345</code>
+      <!-- INFORMASI PENGUJIAN -->
+      <div class="test-info" id="testInfo">
+        <i class="fa-solid fa-circle-info"></i>
+        <div id="testInfoContent">
+          <strong>Testing Akun Anggota:</strong><br>
+          Email: <code>test.anggota.igornas@gmail.com</code> | Pass: <code>Test12345</code>
+        </div>
       </div>
 
     </div>
@@ -344,27 +531,153 @@
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0/exec';
 
+  let selectedRole = 'ANGGOTA';
+
+  const roleConfig = {
+    ANGGOTA: {
+      label: 'ANGGOTA',
+      badge: '<i class="fa-solid fa-user"></i> Portal Anggota',
+      title: 'IGORNAS KOTA SUKABUMI',
+      subtitle: 'Sistem Informasi & Database Anggota',
+      emailLabel: 'Email Anggota',
+      emailPlaceholder: 'email.anggota@gmail.com',
+      buttonText: 'MASUK SEBAGAI ANGGOTA',
+      themePrimary: '#2563eb',
+      themeGradient: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+      themeGlow: 'rgba(37, 99, 235, 0.35)',
+      badgeBg: '#eff6ff',
+      badgeText: '#1d4ed8',
+      showRegister: true,
+      noticeId: null,
+      testEmail: 'test.anggota.igornas@gmail.com',
+      testRoleTitle: 'Testing Akun Anggota'
+    },
+    ADMIN: {
+      label: 'ADMINISTRATOR',
+      badge: '<i class="fa-solid fa-user-shield"></i> Portal Admin',
+      title: 'ADMIN IGORNAS KOTA SUKABUMI',
+      subtitle: 'Verifikasi Data, Pengajuan & Pengelolaan Anggota',
+      emailLabel: 'Email Administrator',
+      emailPlaceholder: 'admin@igornas.or.id',
+      buttonText: 'MASUK SEBAGAI ADMIN',
+      themePrimary: '#0d9488',
+      themeGradient: 'linear-gradient(135deg, #0d9488, #0f766e)',
+      themeGlow: 'rgba(13, 148, 136, 0.35)',
+      badgeBg: '#f0fdfa',
+      badgeText: '#0f766e',
+      showRegister: false,
+      noticeId: 'adminNotice',
+      testEmail: 'admin.igornas@gmail.com',
+      testRoleTitle: 'Testing Akun Admin'
+    },
+    SUPER_ADMIN: {
+      label: 'SUPER ADMIN',
+      badge: '<i class="fa-solid fa-crown"></i> Portal Super Admin',
+      title: 'SUPERADMIN IGORNAS KOTA SUKABUMI',
+      subtitle: 'Manajemen Akun User, Log Aktivitas & Pengaturan',
+      emailLabel: 'Email Super Admin',
+      emailPlaceholder: 'superadmin@igornas.or.id',
+      buttonText: 'MASUK SEBAGAI SUPER ADMIN',
+      themePrimary: '#7c3aed',
+      themeGradient: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
+      themeGlow: 'rgba(124, 58, 237, 0.35)',
+      badgeBg: '#faf5ff',
+      badgeText: '#6d28d9',
+      showRegister: false,
+      noticeId: 'superadminNotice',
+      testEmail: 'superadmin.igornas@gmail.com',
+      testRoleTitle: 'Testing Akun Super Admin'
+    }
+  };
+
   const loginForm = document.getElementById('loginForm');
   const loginButton = document.getElementById('loginButton');
+  const loginBtnText = document.getElementById('loginBtnText');
   const message = document.getElementById('message');
   const loading = document.getElementById('loading');
+  const roleBadge = document.getElementById('roleBadge');
+  const portalTitle = document.getElementById('portalTitle');
+  const portalSubtitle = document.getElementById('portalSubtitle');
+  const emailInput = document.getElementById('email');
+  const emailLabel = document.getElementById('emailLabel');
+  const activeRoleLabel = document.getElementById('activeRoleLabel');
+  const registerBox = document.getElementById('registerBox');
+  const adminNotice = document.getElementById('adminNotice');
+  const superadminNotice = document.getElementById('superadminNotice');
+  const testInfoContent = document.getElementById('testInfoContent');
+
+  function switchRole(role) {
+    if (!roleConfig[role]) return;
+    selectedRole = role;
+
+    // Update active tab buttons
+    document.querySelectorAll('.role-tab').forEach(btn => {
+      const isActive = btn.getAttribute('data-role') === role;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    const cfg = roleConfig[role];
+
+    // Update CSS variables for dynamic color theme
+    document.documentElement.style.setProperty('--theme-primary', cfg.themePrimary);
+    document.documentElement.style.setProperty('--theme-gradient', cfg.themeGradient);
+    document.documentElement.style.setProperty('--theme-glow', cfg.themeGlow);
+    document.documentElement.style.setProperty('--theme-badge-bg', cfg.badgeBg);
+    document.documentElement.style.setProperty('--theme-badge-text', cfg.badgeText);
+
+    // Update Text & UI
+    roleBadge.innerHTML = cfg.badge;
+    portalTitle.textContent = cfg.title;
+    portalSubtitle.textContent = cfg.subtitle;
+    emailLabel.textContent = cfg.emailLabel;
+    emailInput.placeholder = cfg.emailPlaceholder;
+    loginBtnText.textContent = cfg.buttonText;
+    activeRoleLabel.textContent = cfg.label;
+
+    // Update notices / register link
+    registerBox.style.display = cfg.showRegister ? 'block' : 'none';
+    adminNotice.style.display = cfg.noticeId === 'adminNotice' ? 'flex' : 'none';
+    superadminNotice.style.display = cfg.noticeId === 'superadminNotice' ? 'flex' : 'none';
+
+    // Update test credential hint
+    testInfoContent.innerHTML = `<strong>${cfg.testRoleTitle}:</strong><br>Email: <code>${cfg.testEmail}</code> | Pass: <code>Test12345</code>`;
+
+    hideMessage();
+  }
+
+  function togglePasswordVisibility() {
+    const pwdInput = document.getElementById('password');
+    const icon = document.getElementById('togglePasswordIcon');
+    if (pwdInput.type === 'password') {
+      pwdInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      pwdInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
 
   function showMessage(text, type) {
     const icon = type === 'error' ? '<i class="fa-solid fa-circle-xmark"></i>' : '<i class="fa-solid fa-circle-check"></i>';
     message.innerHTML = `${icon} <span>${text}</span>`;
     message.className = 'message ' + type;
+    message.style.display = 'flex';
   }
 
   function hideMessage() {
     message.innerHTML = '';
     message.className = 'message';
+    message.style.display = 'none';
   }
 
   loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     hideMessage();
 
-    const email = document.getElementById('email').value.trim();
+    const email = emailInput.value.trim();
     const password = document.getElementById('password').value;
 
     if (!email || !password) {
@@ -386,7 +699,7 @@
 
       if (result.success) {
         if (!result.data || !result.data.token || !result.data.user) {
-          showMessage('Login berhasil, tetapi data session tidak lengkap.', 'error');
+          showMessage('Login berhasil, tetapi data sesi tidak lengkap.', 'error');
           return;
         }
 
@@ -396,41 +709,49 @@
         localStorage.setItem('igornas_token', token);
         localStorage.setItem('igornas_user', JSON.stringify(user));
 
-        const role = String(user.ROLE || '').trim().toUpperCase();
+        const actualRole = String(user.ROLE || '').trim().toUpperCase();
 
-        showMessage('Login berhasil. Mengalihkan ke dashboard...', 'success');
+        // Validasi kesesuaian role yang dipilih dengan role di database
+        if (actualRole === selectedRole) {
+          showMessage(`Login berhasil sebagai ${actualRole}. Mengalihkan ke dashboard...`, 'success');
+        } else {
+          showMessage(`Akun Anda terdaftar sebagai <strong>${actualRole}</strong>. Mengalihkan ke dashboard terkait...`, 'success');
+        }
 
         setTimeout(function() {
-          if (role === 'ANGGOTA') {
+          if (actualRole === 'ANGGOTA') {
             window.location.href = 'anggota.html';
             return;
           }
 
-          if (role === 'ADMIN') {
+          if (actualRole === 'ADMIN') {
             window.location.href = 'admin.html';
             return;
           }
 
-          if (role === 'SUPER_ADMIN') {
+          if (actualRole === 'SUPER_ADMIN') {
             window.location.href = 'superadmin.html';
             return;
           }
 
-          showMessage('Login berhasil, tetapi role pengguna tidak dikenali: ' + role, 'error');
-        }, 700);
+          showMessage('Role pengguna tidak dikenali di sistem: ' + actualRole, 'error');
+        }, 900);
 
       } else {
-        showMessage(result.message || 'Email atau password salah.', 'error');
+        showMessage(result.message || 'Email atau kata sandi salah.', 'error');
       }
 
     } catch (error) {
       console.error('Error login:', error);
-      showMessage('Tidak dapat terhubung ke server Apps Script. Periksa koneksi internet.', 'error');
+      showMessage('Tidak dapat terhubung ke server Apps Script. Periksa koneksi internet Anda.', 'error');
     } finally {
       loginButton.disabled = false;
       loading.style.display = 'none';
     }
   });
+
+  // Inisialisasi awal pada tab Anggota
+  switchRole('ANGGOTA');
 </script>
 
 </body>
