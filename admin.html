@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - IGORNAS Kota Sukabumi</title>
   
-  <!-- Font & Icons -->
+  <!-- Font & Icons & SheetJS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   
   <style>
     :root {
@@ -539,14 +540,278 @@
     .tab-view.active {
       display: block;
     }
+
+    /* ========================================================
+       KARTU ANGGOTA RESMI PREVIEW & PRINT DI ADMIN
+       ======================================================== */
+    .kta-card {
+      width: 580px;
+      height: 366px;
+      background: url('assets/kta-template.png') no-repeat center center;
+      background-size: 100% 100%;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .kta-photo-box {
+      position: absolute;
+      left: 6.6%;
+      top: 23.8%;
+      width: 25.5%;
+      height: 53.6%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #e2e8f0;
+      border: 2.5px solid #1e293b;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kta-photo-box img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block;
+    }
+
+    .kta-photo-empty {
+      font-size: 42px;
+      color: #94a3b8;
+    }
+
+    .kta-field-value {
+      position: absolute;
+      left: 45.6%;
+      right: 5%;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1;
+    }
+
+    .kta-val-nama   { top: 35.0%; font-size: 13.5px; font-weight: 800; text-transform: uppercase; color: #0f172a; }
+    .kta-val-no     { top: 39.8%; font-size: 13px; font-weight: 800; color: #dc2626; letter-spacing: 0.5px; }
+    .kta-val-ttl    { top: 44.5%; }
+    .kta-val-jk     { top: 49.2%; }
+    .kta-val-unit   { top: 54.0%; }
+    .kta-val-alamat { top: 58.7%; }
+
+    .kta-date-display {
+      position: absolute;
+      left: 60%;
+      top: 67.5%;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    .kta-qr-stamp {
+      position: absolute;
+      right: 3.5%;
+      bottom: 5.5%;
+      width: 48px;
+      height: 48px;
+      background: #ffffff;
+      padding: 2.5px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kta-qr-stamp img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* =======================================
+       RESPONSIVE MOBILE
+       ======================================= */
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0 !important;
+      }
+      .mobile-toggle {
+        display: block !important;
+      }
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .top-header {
+        padding: 0 16px !important;
+      }
+      .content-body {
+        padding: 16px !important;
+      }
+      .panel-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
+      .filter-group {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+      }
+      .search-input {
+        width: 100% !important;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stat-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .btn-api-setup span {
+        display: none;
+      }
+      .kta-card {
+        width: 100%;
+        max-width: 340px;
+        height: 214px;
+      }
+      .kta-field-value {
+        font-size: 8px;
+      }
+      .kta-val-nama { font-size: 8.5px; }
+      .kta-val-no   { font-size: 8px; }
+      .kta-date-display { font-size: 7px; }
+      .kta-qr-stamp {
+        width: 30px;
+        height: 30px;
+      }
+      .kta-photo-box {
+        border-radius: 10px;
+        border-width: 1.5px;
+      }
+    }
+
+    /* =======================================
+       PRINT MEDIA QUERY DARI ADMIN (PRESISI CR80)
+       ======================================= */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #adminKtaPreview, #adminKtaPreview * {
+        visibility: visible;
+      }
+
+      @page {
+        size: portrait;
+        margin: 15mm auto;
+      }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #adminKtaPreview {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: 20mm !important;
+        width: 85.6mm !important;
+        height: 54mm !important;
+        min-width: 85.6mm !important;
+        min-height: 54mm !important;
+        max-width: 85.6mm !important;
+        max-height: 54mm !important;
+        margin: 0 auto !important;
+        background: url('assets/kta-template.png') no-repeat center center !important;
+        background-size: 100% 100% !important;
+        border-radius: 3.2mm !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+        border: 0.3mm solid #94a3b8 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      #adminKtaPreview .kta-photo-box {
+        left: 6.6% !important;
+        top: 23.8% !important;
+        width: 25.5% !important;
+        height: 53.6% !important;
+        border: 0.4mm solid #1e293b !important;
+        border-radius: 2.2mm !important;
+        background: #f1f5f9 !important;
+      }
+
+      #adminKtaPreview .kta-photo-box img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+
+      #adminKtaPreview .kta-field-value {
+        font-size: 6.2pt !important;
+        left: 45.6% !important;
+        right: 5% !important;
+        color: #0f172a !important;
+        line-height: 1 !important;
+      }
+
+      #adminKtaPreview .kta-val-nama   { top: 35.0% !important; font-size: 6.8pt !important; font-weight: 800 !important; }
+      #adminKtaPreview .kta-val-no     { top: 39.8% !important; font-size: 6.6pt !important; color: #dc2626 !important; font-weight: 800 !important; }
+      #adminKtaPreview .kta-val-ttl    { top: 44.5% !important; }
+      #adminKtaPreview .kta-val-jk     { top: 49.2% !important; }
+      #adminKtaPreview .kta-val-unit   { top: 54.0% !important; }
+      #adminKtaPreview .kta-val-alamat { top: 58.7% !important; }
+
+      #adminKtaPreview .kta-date-display {
+        left: 60% !important;
+        top: 67.5% !important;
+        font-size: 5.5pt !important;
+        color: #0f172a !important;
+      }
+
+      #adminKtaPreview .kta-qr-stamp {
+        right: 3.5% !important;
+        bottom: 5.5% !important;
+        width: 7.8mm !important;
+        height: 7.8mm !important;
+        padding: 0.4mm !important;
+        border: 0.2mm solid #cbd5e1 !important;
+        background: #ffffff !important;
+      }
+
+      .modal-header, .btn-primary, .btn-api-setup, .sidebar, .top-header, .modal-overlay {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="assets/logo.png" alt="Logo IGORNAS" style="width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/5328/5328224.png'">
+      <img src="assets/logo.svg" alt="Logo IGORNAS" style="width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));" onerror="this.onerror=null; this.src='assets/logo.png'">
       <div class="sidebar-title">
         <h2>IGORNAS SMI</h2>
         <p>Admin Dashboard v2.0</p>
@@ -606,8 +871,13 @@
     
     <!-- TOP HEADER -->
     <header class="top-header">
-      <div class="header-title">
-        <h1 id="pageTitle">Dashboard Utama</h1>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button type="button" class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" style="display:none; background:none; border:none; font-size:20px; color:var(--primary-dark); cursor:pointer; padding:6px;">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="header-title">
+          <h1 id="pageTitle">Dashboard Utama</h1>
+        </div>
       </div>
       <div class="header-actions">
         <button class="btn-api-setup" onclick="openApiSetupModal()">
@@ -704,7 +974,13 @@
             <h3>Data Anggota IGORNAS Kota Sukabumi</h3>
             <div class="filter-group">
               <input type="text" class="search-input" id="searchAnggota" placeholder="Cari Nama / NIK / ID..." onkeyup="fetchAnggotaData()">
-              <button class="btn-primary" onclick="openTambahAnggotaModal()">
+              <button type="button" class="btn-primary" style="background:#16a34a; border-color:#16a34a;" onclick="exportAnggotaToExcel()" title="Download seluruh data anggota ke format Excel">
+                <i class="fa-solid fa-file-excel"></i> Download Excel
+              </button>
+              <button type="button" class="btn-primary" style="background:#0284c7; border-color:#0284c7;" onclick="perbaikiFormatNolAdmin()" title="Perbaiki dan kunci format angka 0 pada nomor telepon & anggota di Google Sheets">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Rapikan Angka 0
+              </button>
+              <button type="button" class="btn-primary" onclick="openTambahAnggotaModal()">
                 <i class="fa-solid fa-plus"></i> Tambah Anggota
               </button>
             </div>
@@ -859,10 +1135,131 @@
     </div>
   </div>
 
+  <!-- ==========================================
+       MODAL TAMBAH ANGGOTA (ADMIN)
+       ========================================== -->
+  <div class="modal-overlay" id="modalTambahAnggota">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus" style="color:var(--primary);"></i> Formulir Tambah Anggota Baru</h3>
+        <button class="btn-close" onclick="closeTambahAnggotaModal()">&times;</button>
+      </div>
+      <form id="formTambahAnggota" onsubmit="handleTambahAnggota(event)">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
+            <label>Nama Lengkap (beserta gelar) <span style="color:red;">*</span></label>
+            <input type="text" id="addNama" class="form-control" required placeholder="Contoh: Budi Santoso, S.Pd.">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>NIK (16 Digit)</label>
+            <input type="text" id="addNik" class="form-control" maxlength="16" placeholder="3272xxxxxxxxxxxx">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>NIP / NUPTK</label>
+            <input type="text" id="addNip" class="form-control" placeholder="19xxxxxxxxxxxxxxxx">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Jenis Kelamin</label>
+            <select id="addJk" class="form-control">
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Nomor WhatsApp / HP</label>
+            <input type="tel" id="addHp" class="form-control" placeholder="08xxxxxxxxxx">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Tempat Lahir</label>
+            <input type="text" id="addTempatLahir" class="form-control" placeholder="Kota Sukabumi">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Tanggal Lahir</label>
+            <input type="date" id="addTanggalLahir" class="form-control">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Sekolah / Unit Kerja</label>
+            <input type="text" id="addSekolah" class="form-control" placeholder="Contoh: SMPN 4 Kota Sukabumi">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Kecamatan</label>
+            <input type="text" id="addKecamatan" class="form-control" placeholder="Contoh: Cikole">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Kelurahan</label>
+            <input type="text" id="addKelurahan" class="form-control" placeholder="Contoh: Cisarua">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Cabang Olahraga</label>
+            <input type="text" id="addCabor" class="form-control" placeholder="Contoh: Sepak Bola / Bola Voli">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
+            <label>Email Anggota (Untuk Akun Login)</label>
+            <input type="email" id="addEmail" class="form-control" placeholder="anggota@gmail.com">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
+            <label>Alamat Lengkap</label>
+            <textarea id="addAlamat" class="form-control" rows="2" placeholder="Alamat rumah tinggal"></textarea>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+          <button type="button" class="btn-api-setup" onclick="closeTambahAnggotaModal()">Batal</button>
+          <button type="submit" id="btnSimpanAnggota" class="btn-primary"><i class="fa-solid fa-save"></i> Simpan Anggota</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL CETAK KTA (ADMIN)
+       ========================================== -->
+  <div class="modal-overlay" id="modalCetakKTA">
+    <div class="modal-card" style="max-width: 660px; text-align:center;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-id-card" style="color:var(--primary);"></i> Pratinjau & Cetak Kartu Anggota Resmi</h3>
+        <button class="btn-close" onclick="closeModal('modalCetakKTA')">&times;</button>
+      </div>
+
+      <div style="margin: 15px auto; display:flex; justify-content:center;">
+        <!-- KARTU RESMI DI ADMIN -->
+        <div class="kta-card" id="adminKtaPreview">
+          <div class="kta-photo-box">
+            <img id="adminKtaPhoto" src="" alt="Foto" style="display:none;">
+            <div class="kta-photo-empty" id="adminKtaPlaceholder">
+              <i class="fa-solid fa-user"></i>
+            </div>
+          </div>
+          <div class="kta-field-value kta-val-nama" id="adminKtaNama">-</div>
+          <div class="kta-field-value kta-val-no" id="adminKtaNo">-</div>
+          <div class="kta-field-value kta-val-ttl" id="adminKtaTtl">-</div>
+          <div class="kta-field-value kta-val-jk" id="adminKtaJk">-</div>
+          <div class="kta-field-value kta-val-unit" id="adminKtaUnit">-</div>
+          <div class="kta-field-value kta-val-alamat" id="adminKtaAlamat">-</div>
+          <div class="kta-date-display" id="adminKtaDate">Sukabumi, 2026</div>
+          <div class="kta-qr-stamp">
+            <img id="adminKtaQr" src="" alt="QR">
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+        <button type="button" class="btn-api-setup" onclick="closeModal('modalCetakKTA')">Tutup</button>
+        <button type="button" class="btn-primary" style="background:#16a34a; border-color:#16a34a;" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Cetak Kartu Sekarang (Print / PDF)
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // GLOBAL STATE & API ENDPOINT
     const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4/exec';
-    let API_URL = localStorage.getItem('IGORNAS_API_URL') || DEFAULT_API_URL;
+    let storedApi = localStorage.getItem('IGORNAS_API_URL');
+    if (storedApi && (storedApi.includes('AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0') || !storedApi.startsWith('https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4'))) {
+      localStorage.removeItem('IGORNAS_API_URL');
+      storedApi = null;
+    }
+    let API_URL = DEFAULT_API_URL;
     let authToken = localStorage.getItem('igornas_token') || localStorage.getItem('IGORNAS_TOKEN') || '';
     
     let savedUser = null;
@@ -983,6 +1380,42 @@
       `).join('');
     }
 
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function formatNomorAnggota(no) {
+      if (!no) return '';
+      let str = String(no).trim().replace(/^'+/, '');
+      if (str.length === 13 && str.startsWith('6210208')) {
+        return '0' + str;
+      }
+      return str;
+    }
+
+    function formatNoHp(hp) {
+      if (!hp) return '';
+      let str = String(hp).trim().replace(/^'+/, '');
+      if (str.startsWith('8') && str.length >= 9 && str.length <= 13) {
+        return '0' + str;
+      }
+      return str;
+    }
+
+    let currentMembersList = [];
+
+    async function perbaikiFormatNolAdmin() {
+      if (!confirm('Jalankan perbaikan format di Google Spreadsheet?\n\nProses ini akan mengunci kolom nomor anggota, nomor HP, NIK, dan NIP ke Plain Text (@) serta mengembalikan angka 0 di depan yang sempat hilang.')) return;
+      
+      try {
+        const res = await apiGet('perbaikiFormatAngkaNol');
+        alert(res.message || (res.data ? (typeof res.data === 'string' ? res.data : JSON.stringify(res.data)) : 'Berhasil merapikan format angka 0 di spreadsheet!'));
+        fetchAnggotaData();
+      } catch (err) {
+        alert('Gagal menjalankan perbaikan: ' + err.message);
+      }
+    }
+
     async function fetchAnggotaData() {
       const search = document.getElementById('searchAnggota').value;
       const res = await apiGet('getAnggotaPaged', { search });
@@ -990,13 +1423,14 @@
       
       if (res.success && res.data && res.data.data) {
         const members = res.data.data;
+        currentMembersList = members;
         if (members.length === 0) {
           tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Data anggota tidak ditemukan.</td></tr>';
           return;
         }
         tbody.innerHTML = members.map(m => `
           <tr>
-            <td><strong>${m.NOMOR_ANGGOTA || m.MEMBER_ID}</strong></td>
+            <td><strong>${formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID)}</strong></td>
             <td>${m.NAMA_LENGKAP}</td>
             <td>${m.NIK || '-'}</td>
             <td>${m.KECAMATAN_ID || '-'}</td>
@@ -1004,11 +1438,220 @@
             <td><span class="badge-status ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${m.STATUS_KEANGGOTAAN}</span></td>
             <td>
               <div class="action-btns">
-                <button class="btn-sm btn-reject" onclick="nonaktifkanAnggota('${m.MEMBER_ID}')"><i class="fa-solid fa-user-slash"></i> Nonaktifkan</button>
+                <button type="button" class="btn-sm btn-approve" onclick="cetakKTAAdmin('${m.MEMBER_ID}')" title="Cetak KTA Anggota">
+                  <i class="fa-solid fa-id-card"></i> Cetak KTA
+                </button>
+                <button type="button" class="btn-sm btn-reject" onclick="nonaktifkanAnggota('${m.MEMBER_ID}')">
+                  <i class="fa-solid fa-user-slash"></i> Nonaktifkan
+                </button>
               </div>
             </td>
           </tr>
         `).join('');
+      }
+    }
+
+    function openTambahAnggotaModal() {
+      document.getElementById('formTambahAnggota').reset();
+      document.getElementById('modalTambahAnggota').style.display = 'flex';
+    }
+
+    function closeTambahAnggotaModal() {
+      document.getElementById('modalTambahAnggota').style.display = 'none';
+    }
+
+    async function handleTambahAnggota(e) {
+      e.preventDefault();
+      const nama = document.getElementById('addNama').value.trim();
+      const nik = document.getElementById('addNik').value.trim();
+
+      if (nik && (!/^[0-9]{16}$/.test(nik))) {
+        return alert('NIK harus terdiri dari 16 digit angka!');
+      }
+
+      const btn = document.getElementById('btnSimpanAnggota');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+
+      let hp = document.getElementById('addHp').value.trim();
+      if (hp.startsWith('8') && hp.length >= 9) {
+        hp = '0' + hp;
+      }
+
+      const payload = {
+        NAMA_LENGKAP: nama,
+        NIK: nik,
+        NIP_NUPTK: document.getElementById('addNip').value.trim(),
+        JENIS_KELAMIN: document.getElementById('addJk').value,
+        NO_HP: hp,
+        TEMPAT_LAHIR: document.getElementById('addTempatLahir').value.trim(),
+        TANGGAL_LAHIR: document.getElementById('addTanggalLahir').value,
+        SEKOLAH_ID: document.getElementById('addSekolah').value.trim(),
+        KECAMATAN_ID: document.getElementById('addKecamatan').value.trim(),
+        KELURAHAN: document.getElementById('addKelurahan').value.trim(),
+        CABOR_ID: document.getElementById('addCabor').value.trim(),
+        EMAIL: document.getElementById('addEmail').value.trim(),
+        ALAMAT: document.getElementById('addAlamat').value.trim()
+      };
+
+      try {
+        const res = await apiPost('tambahAnggota', { data: payload });
+        if (res.success) {
+          const rawNo = (res.data && (res.data.NOMOR_ANGGOTA || res.data.MEMBER_ID)) || '';
+          const noAnggota = formatNomorAnggota(rawNo);
+          alert('Anggota baru berhasil ditambahkan!\nNomor Anggota: ' + noAnggota);
+          closeTambahAnggotaModal();
+          fetchAnggotaData();
+          loadDashboardData();
+        } else {
+          alert('Gagal menambahkan anggota: ' + (res.message || 'Terjadi kesalahan'));
+        }
+      } catch (err) {
+        alert('Gagal menghubungi server: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Anggota';
+      }
+    }
+
+    function formatDateIndo(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return String(dateStr).split('T')[0];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function cetakKTAAdmin(memberId) {
+      const member = currentMembersList.find(m => m.MEMBER_ID === memberId);
+      if (!member) {
+        return alert('Data anggota tidak ditemukan dalam daftar!');
+      }
+
+      document.getElementById('adminKtaNama').textContent = member.NAMA_LENGKAP || '-';
+      const noAnggota = formatNomorAnggota(member.NOMOR_ANGGOTA || member.MEMBER_ID) || '-';
+      document.getElementById('adminKtaNo').textContent = noAnggota;
+
+      const tempatLahir = member.TEMPAT_LAHIR || '';
+      const tglLahir = member.TANGGAL_LAHIR ? formatDateIndo(member.TANGGAL_LAHIR) : '';
+      const ttl = (tempatLahir && tglLahir) ? `${tempatLahir}, ${tglLahir}` : (tempatLahir || tglLahir || '-');
+      document.getElementById('adminKtaTtl').textContent = ttl;
+
+      document.getElementById('adminKtaJk').textContent = (member.JENIS_KELAMIN === 'P') ? 'Perempuan' : 'Laki-laki';
+      document.getElementById('adminKtaUnit').textContent = member.SEKOLAH_ID || member.instansi || '-';
+
+      const kel = member.KELURAHAN ? `Kel. ${member.KELURAHAN}, ` : '';
+      const kec = member.KECAMATAN_ID ? `Kec. ${member.KECAMATAN_ID}` : '';
+      const alamatFull = member.ALAMAT || (kel + kec) || '-';
+      document.getElementById('adminKtaAlamat').textContent = alamatFull;
+
+      const currentYear = new Date().getFullYear();
+      document.getElementById('adminKtaDate').textContent = `Sukabumi, ${currentYear}`;
+
+      const foto = member.FOTO_URL || localStorage.getItem('igornas_avatar_' + noAnggota) || '';
+      const imgEl = document.getElementById('adminKtaPhoto');
+      const placeholder = document.getElementById('adminKtaPlaceholder');
+      if (foto) {
+        imgEl.src = foto;
+        imgEl.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        imgEl.style.display = 'none';
+        placeholder.style.display = 'flex';
+      }
+
+      const qrData = encodeURIComponent(`IGORNAS-KOTA-SUKABUMI|${noAnggota}|${member.NAMA_LENGKAP}|${member.SEKOLAH_ID || ''}`);
+      document.getElementById('adminKtaQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+
+      document.getElementById('modalCetakKTA').style.display = 'flex';
+    }
+
+    async function exportAnggotaToExcel() {
+      try {
+        const res = await apiGet('getAnggota');
+        if (!res.success || !res.data) {
+          return alert('Gagal mengambil data anggota: ' + (res.message || 'Error'));
+        }
+
+        const members = res.data;
+        if (members.length === 0) {
+          return alert('Tidak ada data anggota untuk diekspor!');
+        }
+
+        // Format data untuk sheet Excel dan pastikan angka 0 di depan tidak terpotong
+        const excelRows = members.map((m, idx) => {
+          const noAnggota = formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID);
+          const noHp = formatNoHp(m.NO_HP);
+          const nik = String(m.NIK || '').trim().replace(/^'+/, '');
+          const nip = String(m.NIP_NUPTK || '').trim().replace(/^'+/, '');
+
+          return {
+            'No': idx + 1,
+            'Member ID': m.MEMBER_ID || '',
+            'Nomor Anggota': noAnggota,
+            'Nama Lengkap': m.NAMA_LENGKAP || '',
+            'NIK': nik,
+            'NIP/NUPTK': nip,
+            'Jenis Kelamin': m.JENIS_KELAMIN === 'P' ? 'Perempuan' : 'Laki-laki',
+            'Tempat Lahir': m.TEMPAT_LAHIR || '',
+            'Tanggal Lahir': m.TANGGAL_LAHIR ? String(m.TANGGAL_LAHIR).split('T')[0] : '',
+            'No WhatsApp/HP': noHp,
+            'Email': m.EMAIL || '',
+            'Sekolah / Instansi': m.SEKOLAH_ID || '',
+            'Jabatan': m.JABATAN || '',
+            'Cabang Olahraga': m.CABOR_ID || '',
+            'Kecamatan': m.KECAMATAN_ID || '',
+            'Kelurahan': m.KELURAHAN || '',
+            'Alamat Lengkap': m.ALAMAT || '',
+            'Status Keanggotaan': m.STATUS_KEANGGOTAAN || 'AKTIF'
+          };
+        });
+
+        if (typeof XLSX !== 'undefined') {
+          const ws = XLSX.utils.json_to_sheet(excelRows);
+
+          // Kunci semua sel nomor (Member ID, Nomor Anggota, NIK, NIP, HP) agar menjadi tipe String ('s') dan format Text ('@')
+          // sehingga Microsoft Excel / Google Sheets tidak mengubahnya menjadi angka atau menghilangkan angka 0 di depan
+          const range = XLSX.utils.decode_range(ws['!ref']);
+          for (let R = range.s.r; R <= range.e.r; ++R) {
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+              const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+              const cell = ws[cellAddress];
+              if (!cell) continue;
+              // Kolom: Member ID (C=1), Nomor Anggota (C=2), NIK (C=4), NIP (C=5), No HP (C=9)
+              if ([1, 2, 4, 5, 9].includes(C) && R > 0) {
+                cell.t = 's';
+                cell.z = '@';
+                cell.v = String(cell.v !== undefined && cell.v !== null ? cell.v : '');
+              }
+            }
+          }
+
+          // Set lebar kolom Excel agar rapi
+          ws['!cols'] = [
+            { wch: 5 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 22 },
+            { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 18 }, { wch: 26 }, { wch: 28 },
+            { wch: 16 }, { wch: 20 }, { wch: 16 }, { wch: 16 }, { wch: 35 }, { wch: 14 }
+          ];
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, 'Data Anggota');
+          XLSX.writeFile(wb, `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.xlsx`);
+        } else {
+          // Fallback CSV (gunakan pemisah titik koma dan kutip)
+          const headers = Object.keys(excelRows[0]);
+          let csv = '\uFEFF' + headers.join(';') + '\n';
+          excelRows.forEach(row => {
+            csv += headers.map(h => `"${String(row[h] || '').replace(/"/g, '""')}"`).join(';') + '\n';
+          });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.csv`;
+          link.click();
+        }
+
+      } catch (err) {
+        alert('Gagal mengunduh file Excel: ' + err.message);
       }
     }
 
