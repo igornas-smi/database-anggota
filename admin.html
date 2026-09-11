@@ -587,10 +587,12 @@
       color: #94a3b8;
     }
 
+    /* Nilai Identitas KTA Rata Kiri Presisi Setelah Titik Dua Template Blanko */
     .kta-field-value {
       position: absolute;
-      left: 45.6%;
-      right: 5%;
+      left: 57.5% !important;
+      right: 4% !important;
+      text-align: left !important;
       font-size: 12.5px;
       font-weight: 700;
       color: #0f172a;
@@ -600,21 +602,24 @@
       line-height: 1;
     }
 
-    .kta-val-nama   { top: 35.0%; font-size: 13.5px; font-weight: 800; text-transform: uppercase; color: #0f172a; }
-    .kta-val-no     { top: 39.8%; font-size: 13px; font-weight: 800; color: #dc2626; letter-spacing: 0.5px; }
-    .kta-val-ttl    { top: 44.5%; }
+    .kta-val-nama   { top: 34.8%; font-size: 13.5px; font-weight: 800; text-transform: uppercase; color: #0f172a; }
+    .kta-val-no     { top: 39.6%; font-size: 13px; font-weight: 800; color: #dc2626; letter-spacing: 0.5px; }
+    .kta-val-ttl    { top: 44.4%; }
     .kta-val-jk     { top: 49.2%; }
     .kta-val-unit   { top: 54.0%; }
-    .kta-val-alamat { top: 58.7%; }
+    .kta-val-alamat { top: 58.8%; }
 
+    /* Titimangsa: Di Samping Teks Sukabumi, Tanpa Menumpuk */
     .kta-date-display {
       position: absolute;
-      left: 60%;
-      top: 67.5%;
-      font-size: 11px;
-      font-weight: 700;
+      left: 71.5%;
+      top: 67.6%;
+      font-size: 10.5px;
+      font-weight: 600;
       color: #0f172a;
       line-height: 1;
+      text-align: left;
+      white-space: nowrap;
     }
 
     .kta-qr-stamp {
@@ -692,10 +697,15 @@
       }
       .kta-field-value {
         font-size: 8px;
+        left: 57.5% !important;
+        text-align: left !important;
       }
       .kta-val-nama { font-size: 8.5px; }
       .kta-val-no   { font-size: 8px; }
-      .kta-date-display { font-size: 7px; }
+      .kta-date-display { 
+        left: 71.5% !important;
+        font-size: 7px; 
+      }
       .kta-qr-stamp {
         width: 30px;
         height: 30px;
@@ -770,24 +780,27 @@
 
       #adminKtaPreview .kta-field-value {
         font-size: 6.2pt !important;
-        left: 45.6% !important;
-        right: 5% !important;
+        left: 57.5% !important;
+        right: 4% !important;
+        text-align: left !important;
         color: #0f172a !important;
         line-height: 1 !important;
       }
 
-      #adminKtaPreview .kta-val-nama   { top: 35.0% !important; font-size: 6.8pt !important; font-weight: 800 !important; }
-      #adminKtaPreview .kta-val-no     { top: 39.8% !important; font-size: 6.6pt !important; color: #dc2626 !important; font-weight: 800 !important; }
-      #adminKtaPreview .kta-val-ttl    { top: 44.5% !important; }
+      #adminKtaPreview .kta-val-nama   { top: 34.8% !important; font-size: 6.8pt !important; font-weight: 800 !important; }
+      #adminKtaPreview .kta-val-no     { top: 39.6% !important; font-size: 6.6pt !important; color: #dc2626 !important; font-weight: 800 !important; }
+      #adminKtaPreview .kta-val-ttl    { top: 44.4% !important; }
       #adminKtaPreview .kta-val-jk     { top: 49.2% !important; }
       #adminKtaPreview .kta-val-unit   { top: 54.0% !important; }
-      #adminKtaPreview .kta-val-alamat { top: 58.7% !important; }
+      #adminKtaPreview .kta-val-alamat { top: 58.8% !important; }
 
       #adminKtaPreview .kta-date-display {
-        left: 60% !important;
-        top: 67.5% !important;
+        left: 71.5% !important;
+        top: 67.6% !important;
         font-size: 5.5pt !important;
         color: #0f172a !important;
+        text-align: left !important;
+        white-space: nowrap !important;
       }
 
       #adminKtaPreview .kta-qr-stamp {
@@ -1235,7 +1248,7 @@
           <div class="kta-field-value kta-val-jk" id="adminKtaJk">-</div>
           <div class="kta-field-value kta-val-unit" id="adminKtaUnit">-</div>
           <div class="kta-field-value kta-val-alamat" id="adminKtaAlamat">-</div>
-          <div class="kta-date-display" id="adminKtaDate">Sukabumi, 2026</div>
+          <div class="kta-date-display" id="adminKtaDate">11 September 2026</div>
           <div class="kta-qr-stamp">
             <img id="adminKtaQr" src="" alt="QR">
           </div>
@@ -1545,8 +1558,10 @@
       const alamatFull = member.ALAMAT || (kel + kec) || '-';
       document.getElementById('adminKtaAlamat').textContent = alamatFull;
 
-      const currentYear = new Date().getFullYear();
-      document.getElementById('adminKtaDate').textContent = `Sukabumi, ${currentYear}`;
+      // Tanggal di samping tulisan Sukabumi pada template
+      const rawDate = member.TANGGAL_GABUNG || member.CREATED_AT || new Date();
+      const formattedDate = formatDateIndo(rawDate) || `${new Date().getDate()} September ${new Date().getFullYear()}`;
+      document.getElementById('adminKtaDate').textContent = String(formattedDate).replace(/^Sukabumi[,\s]*/i, '').trim();
 
       const foto = member.FOTO_URL || localStorage.getItem('igornas_avatar_' + noAnggota) || '';
       const imgEl = document.getElementById('adminKtaPhoto');
