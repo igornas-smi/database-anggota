@@ -10,10 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Library untuk Unduh E-Kartu PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <style>
     :root {
@@ -757,7 +754,7 @@
     .kta-card {
       width: 580px;
       height: 366px;
-      background: url('assets/kta-template.png') no-repeat center center;
+      background: #ffffff url('assets/kta-template.png') no-repeat center center;
       background-size: 100% 100%;
       border-radius: 16px;
       position: relative;
@@ -766,6 +763,18 @@
       border: 1px solid rgba(0, 0, 0, 0.08);
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0 auto;
+    }
+
+    .kta-template-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+      z-index: 1;
+      display: block;
     }
 
     .kta-photo-box {
@@ -782,6 +791,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
     }
 
     .kta-photo-box img {
@@ -796,7 +806,6 @@
       color: #94a3b8;
     }
 
-    /* Nilai Identitas KTA Rata Kiri Presisi Setelah Titik Dua Template Blanko */
     .kta-field-value {
       position: absolute;
       left: 57.5% !important;
@@ -809,6 +818,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1;
+      z-index: 2;
     }
 
     .kta-val-nama   { top: 34.8%; font-size: 13.5px; font-weight: 800; text-transform: uppercase; color: #0f172a; }
@@ -818,7 +828,6 @@
     .kta-val-unit   { top: 54.0%; }
     .kta-val-alamat { top: 58.8%; }
 
-    /* Titimangsa: Di Samping Teks Sukabumi, Tanpa Menumpuk */
     .kta-date-display {
       position: absolute;
       left: 71.5%;
@@ -829,6 +838,7 @@
       line-height: 1;
       text-align: left;
       white-space: nowrap;
+      z-index: 2;
     }
 
     .kta-qr-stamp {
@@ -845,6 +855,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
     }
 
     .kta-qr-stamp img {
@@ -941,7 +952,7 @@
       .kta-val-no   { font-size: 11px; }
       .kta-date-display { 
         left: 71.5% !important; 
-        font-size: 8.5px; 
+        font-size: 9px; 
       }
     }
 
@@ -959,7 +970,7 @@
       .kta-val-no   { font-size: 8.5px; }
       .kta-date-display { 
         left: 71.5% !important; 
-        font-size: 6.5px; 
+        font-size: 7px; 
       }
       .kta-qr-stamp {
         width: 32px;
@@ -974,20 +985,12 @@
 
     /* =======================================
        PRINT MEDIA QUERY UNTUK KTA (PRESISI CR80: 85.6mm x 54mm)
-       Anti Berantakan, Anti Rusak, Foto Terkunci
+       Anti Berantakan, Anti Rusak, Foto & Template Terkunci
        ======================================= */
     @media print {
-      body * {
-        visibility: hidden;
-      }
-
-      .kta-section, .kta-section * {
-        visibility: visible;
-      }
-
       @page {
         size: portrait;
-        margin: 15mm auto;
+        margin: 10mm auto;
       }
 
       body {
@@ -996,39 +999,70 @@
         margin: 0 !important;
       }
 
-      .kta-section {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+      body * {
+        visibility: hidden;
+      }
+
+      /* Hanya tampilkan KTA Card beserta seluruh isinya */
+      #ktaCardPreview, #ktaCardPreview * {
+        visibility: visible !important;
+      }
+
+      /* Netralkan container pembungkus agar tidak mempengaruhi cetak */
+      .card-panel, .content-body, .main-content, .tab-view, .kta-section {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
       }
 
-      .kta-card {
+      /* Sembunyikan elemen navigasi dan tombol UI */
+      .kta-toolbar, .sidebar, .top-header, .alert-msg, .kta-note, .panel-header, button {
+        display: none !important;
+      }
+
+      /* Posisi tetap kartu di halaman cetak presisi CR80 */
+      #ktaCardPreview {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: 15mm !important;
+        margin: 0 auto !important;
         width: 85.6mm !important;
         height: 54mm !important;
         min-width: 85.6mm !important;
         min-height: 54mm !important;
         max-width: 85.6mm !important;
         max-height: 54mm !important;
-        margin: 10mm auto !important;
-        background: url('assets/kta-template.png') no-repeat center center !important;
+        background: #ffffff url('assets/kta-template.png') no-repeat center center !important;
         background-size: 100% 100% !important;
         border-radius: 3.2mm !important;
         overflow: hidden !important;
         box-shadow: none !important;
         border: 0.3mm solid #94a3b8 !important;
-        position: relative !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        z-index: 999999 !important;
+      }
+
+      #ktaCardPreview .kta-template-bg {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: fill !important;
+        z-index: 1 !important;
+        visibility: visible !important;
+        display: block !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
-      .kta-photo-box {
+      #ktaCardPreview .kta-photo-box {
+        position: absolute !important;
         left: 6.6% !important;
         top: 23.8% !important;
         width: 25.5% !important;
@@ -1037,41 +1071,51 @@
         border-radius: 2.2mm !important;
         background: #f1f5f9 !important;
         overflow: hidden !important;
+        z-index: 2 !important;
+        visibility: visible !important;
       }
 
-      .kta-photo-box img {
+      #ktaCardPreview .kta-photo-box img {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
         display: block !important;
+        visibility: visible !important;
       }
 
-      .kta-field-value {
+      #ktaCardPreview .kta-field-value {
+        position: absolute !important;
         font-size: 6.2pt !important;
         left: 57.5% !important;
         right: 4% !important;
         text-align: left !important;
         color: #0f172a !important;
         line-height: 1 !important;
+        z-index: 2 !important;
+        visibility: visible !important;
       }
 
-      .kta-val-nama   { top: 34.8% !important; font-size: 6.8pt !important; font-weight: 800 !important; }
-      .kta-val-no     { top: 39.6% !important; font-size: 6.6pt !important; color: #dc2626 !important; font-weight: 800 !important; }
-      .kta-val-ttl    { top: 44.4% !important; }
-      .kta-val-jk     { top: 49.2% !important; }
-      .kta-val-unit   { top: 54.0% !important; }
-      .kta-val-alamat { top: 58.8% !important; }
+      #ktaCardPreview .kta-val-nama   { top: 34.8% !important; font-size: 6.8pt !important; font-weight: 800 !important; }
+      #ktaCardPreview .kta-val-no     { top: 39.6% !important; font-size: 6.6pt !important; color: #dc2626 !important; font-weight: 800 !important; }
+      #ktaCardPreview .kta-val-ttl    { top: 44.4% !important; }
+      #ktaCardPreview .kta-val-jk     { top: 49.2% !important; }
+      #ktaCardPreview .kta-val-unit   { top: 54.0% !important; }
+      #ktaCardPreview .kta-val-alamat { top: 58.8% !important; }
 
-      .kta-date-display {
+      #ktaCardPreview .kta-date-display {
+        position: absolute !important;
         left: 71.5% !important;
         top: 67.6% !important;
         font-size: 5.5pt !important;
         color: #0f172a !important;
         text-align: left !important;
         white-space: nowrap !important;
+        z-index: 2 !important;
+        visibility: visible !important;
       }
 
-      .kta-qr-stamp {
+      #ktaCardPreview .kta-qr-stamp {
+        position: absolute !important;
         right: 3.5% !important;
         bottom: 5.5% !important;
         width: 7.8mm !important;
@@ -1079,10 +1123,15 @@
         padding: 0.4mm !important;
         border: 0.2mm solid #cbd5e1 !important;
         background: #ffffff !important;
+        z-index: 2 !important;
+        visibility: visible !important;
       }
 
-      .kta-toolbar, .sidebar, .top-header, .alert-msg, .card-panel, .kta-note {
-        display: none !important;
+      #ktaCardPreview .kta-qr-stamp img {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        visibility: visible !important;
       }
     }
   </style>
@@ -1123,7 +1172,7 @@
 
       <button type="button" class="nav-item" onclick="switchTab('kartu')" id="nav-kartu">
         <i class="fa-solid fa-address-card"></i>
-        <span>Kartu Anggota</span>
+        <span>Unduh E-Kartu</span>
         <span class="badge">E-KTA</span>
       </button>
     </div>
@@ -1350,7 +1399,7 @@
                 <i class="fa-solid fa-image"></i> Ganti Foto Profil
               </button>
               <button type="button" class="btn btn-outline" onclick="switchTab('kartu')">
-                <i class="fa-solid fa-address-card"></i> Cetak Kartu Anggota
+                <i class="fa-solid fa-download"></i> Unduh E-Kartu Anggota
               </button>
             </div>
           </div>
@@ -1473,20 +1522,26 @@
         <div class="card-panel" style="text-align:center;">
           <div class="panel-header" style="justify-content:center; text-align:center;">
             <div>
-              <h3 style="justify-content:center;"><i class="fa-solid fa-address-card"></i> Kartu Tanda Anggota (KTA) Digital</h3>
+              <h3 style="justify-content:center;"><i class="fa-solid fa-address-card"></i> Unduh E-Kartu Anggota (KTA) Digital</h3>
               <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
                 Kartu Tanda Anggota Resmi Ikatan Guru Olahraga Nasional (IGORNAS) Pengurus Kota Sukabumi
               </p>
             </div>
           </div>
 
-          <!-- TOOLBAR CETAK -->
-          <div class="kta-toolbar">
+          <!-- TOOLBAR UNDUH & CETAK -->
+          <div class="kta-toolbar" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
             <button type="button" class="btn btn-primary" onclick="generateKTA()">
-              <i class="fa-solid fa-arrows-rotate"></i> Generate / Perbarui Tampilan
+              <i class="fa-solid fa-arrows-rotate"></i> Perbarui Tampilan
             </button>
-            <button type="button" class="btn btn-success" onclick="downloadKTA()">
-              <i class="fa-solid fa-download"></i> Unduh E-Kartu Anggota
+            <button type="button" class="btn btn-success" onclick="downloadKTA('png')" style="background:#16a34a; border-color:#16a34a; font-weight:700;">
+              <i class="fa-solid fa-download"></i> Unduh E-Kartu (PNG HD)
+            </button>
+            <button type="button" class="btn btn-outline" onclick="downloadKTA('jpeg')">
+              <i class="fa-regular fa-image"></i> Unduh JPEG
+            </button>
+            <button type="button" class="btn btn-outline" onclick="printKTA()" style="color:#475569; border-color:#cbd5e1;">
+              <i class="fa-solid fa-print"></i> Cetak Langsung
             </button>
           </div>
 
@@ -1496,6 +1551,9 @@
             <!-- KARTU RESMI IGORNAS KOTA SUKABUMI (BLANKO RESMI DENGAN OVERLAY DATA) -->
             <div class="kta-card" id="ktaCardPreview">
               
+              <!-- Blanko Gambar Template Resmi (Dijamin Tercetak di Semua Browser) -->
+              <img src="assets/kta-template.png" class="kta-template-bg" alt="Template KTA IGORNAS" draggable="false">
+
               <!-- Foto Anggota -->
               <div class="kta-photo-box" id="ktaPhotoBox">
                 <img id="ktaPhotoImg" src="" alt="Foto Anggota" style="display:none;">
@@ -1524,7 +1582,7 @@
 
             <p class="kta-note" style="font-size:12px; color:var(--text-muted); max-width:580px; text-align:center; margin-top:14px; line-height:1.5;">
               <i class="fa-solid fa-circle-check" style="color:var(--primary);"></i>
-              Kartu Tanda Anggota Resmi Pengurus IGORNAS Kota Sukabumi. Klik <strong>Unduh E-Kartu Anggota</strong> untuk mengunduh E-Kartu dalam format PDF dengan ukuran presisi standar kartu ID Card CR80 (85.6 mm × 54 mm).
+              Kartu Tanda Anggota Resmi Pengurus IGORNAS Kota Sukabumi. Klik <strong>Unduh E-Kartu (PNG HD)</strong> untuk mengunduh file gambar kartu resolusi tinggi (kualitas siap cetak standar ID Card CR80).
             </p>
 
           </div>
@@ -1572,7 +1630,7 @@
       const titles = {
         dashboard: 'Dashboard Anggota',
         profil: 'Profil & Pengaturan Biodata',
-        kartu: 'Kartu Tanda Anggota (KTA)'
+        kartu: 'Unduh E-Kartu Anggota (KTA)'
       };
       document.getElementById('pageTitle').textContent = titles[tabId] || 'Portal Anggota';
 
@@ -1722,7 +1780,9 @@
       document.getElementById('ktaDate').textContent = String(formattedDate).replace(/^Sukabumi[,\s]*/i, '').trim();
 
       const qrData = encodeURIComponent(`IGORNAS-KOTA-SUKABUMI|${noAnggota}|${nama}|${sekolah}`);
-      document.getElementById('ktaQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+      const qrImg = document.getElementById('ktaQrImg');
+      qrImg.crossOrigin = 'anonymous';
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
     }
 
     function formatDateIndo(dateStr) {
@@ -1746,6 +1806,7 @@
         sideImg.style.display = 'block';
         sideText.style.display = 'none';
 
+        ktaImg.crossOrigin = 'anonymous';
         ktaImg.src = photoUrl;
         ktaImg.style.display = 'block';
         ktaPlaceholder.style.display = 'none';
@@ -1923,28 +1984,35 @@
       showAlert('KTA Digital berhasil diperbarui dengan data terbaru Anda.', 'success');
     }
 
-    async function downloadKTA() {
+    async function downloadKTA(format = 'png') {
       const card = document.getElementById('ktaCardPreview');
-      const button = document.querySelector('.kta-toolbar .btn-success');
+      if (!card) return;
 
-      if (!card) {
-        showAlert('Kartu anggota belum tersedia.', 'error');
+      if (typeof html2canvas === 'undefined') {
+        showAlert('Library gambar sedang dimuat, silakan coba beberapa saat lagi.', 'error');
         return;
       }
 
-      try {
-        if (button) {
-          button.disabled = true;
-          button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan PDF...';
-        }
+      const isJpeg = (format.toLowerCase() === 'jpg' || format.toLowerCase() === 'jpeg');
+      const mimeType = isJpeg ? 'image/jpeg' : 'image/png';
+      const extension = isJpeg ? 'jpg' : 'png';
+      const quality = 0.95;
 
-        // Pastikan font dan seluruh gambar pada kartu sudah selesai dimuat.
+      const btn = event && event.currentTarget ? event.currentTarget : null;
+      let origHtml = '';
+      if (btn) {
+        origHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+      }
+
+      try {
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
 
-        const images = Array.from(card.querySelectorAll('img'));
-        await Promise.all(images.map(img => {
+        const images = card.querySelectorAll('img');
+        await Promise.all(Array.from(images).map(img => {
           if (img.complete) return Promise.resolve();
           return new Promise(resolve => {
             img.onload = resolve;
@@ -1952,46 +2020,219 @@
           });
         }));
 
-        // Beri waktu singkat agar rendering background/template dan QR stabil.
-        await new Promise(resolve => setTimeout(resolve, 250));
-
+        // Skala 3x (1740 x 1098 px) untuk resolusi ultra-tajam siap cetak (300+ DPI)
         const canvas = await html2canvas(card, {
           scale: 3,
           useCORS: true,
           allowTaint: false,
-          backgroundColor: null,
+          backgroundColor: '#ffffff',
           logging: false
         });
 
-        const { jsPDF } = window.jspdf;
+        const noAnggota = (memberData && (memberData.NOMOR_ANGGOTA || memberData.MEMBER_ID)) || document.getElementById('ktaNumber').textContent || '06210208260001';
+        const nama = (memberData && memberData.NAMA_LENGKAP) || document.getElementById('ktaName').textContent || 'ANGGOTA';
+        const cleanNo = String(noAnggota).replace(/[^a-zA-Z0-9_-]/g, '');
+        const cleanNama = String(nama).trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '').toUpperCase();
+        const filename = `KTA_IGORNAS_${cleanNo}_${cleanNama}.${extension}`;
 
-        // Ukuran kartu ID Card CR80: 85.6 mm x 54 mm.
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'mm',
-          format: [85.6, 54],
-          compress: true
-        });
-
-        const imageData = canvas.toDataURL('image/png', 1.0);
-        pdf.addImage(imageData, 'PNG', 0, 0, 85.6, 54, undefined, 'FAST');
-
-        const nomor = (document.getElementById('ktaNumber')?.textContent || 'KTA')
-          .trim()
-          .replace(/[^a-zA-Z0-9_-]/g, '_');
-
-        pdf.save(`E-Kartu-Anggota-${nomor}.pdf`);
-
-        showAlert('E-Kartu Anggota berhasil diunduh dalam format PDF.', 'success');
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (!blob) throw new Error('Gagal menghasilkan data gambar.');
+            const fileUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              document.body.removeChild(a);
+              URL.revokeObjectURL(fileUrl);
+            }, 1000);
+            showAlert(`E-Kartu Anggota (${extension.toUpperCase()} Siap Cetak) berhasil diunduh!`, 'success');
+          }, mimeType, quality);
+        } else {
+          const dataUrl = canvas.toDataURL(mimeType, quality);
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => document.body.removeChild(a), 1000);
+          showAlert(`E-Kartu Anggota (${extension.toUpperCase()} Siap Cetak) berhasil diunduh!`, 'success');
+        }
       } catch (err) {
-        console.error('Gagal mengunduh E-Kartu:', err);
-        showAlert('E-Kartu gagal dibuat. Silakan coba lagi.', 'error');
+        console.error('Download KTA Error:', err);
+        showAlert('Gagal mengunduh kartu: ' + err.message, 'error');
       } finally {
-        if (button) {
-          button.disabled = false;
-          button.innerHTML = '<i class="fa-solid fa-download"></i> Unduh E-Kartu Anggota';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
         }
       }
+    }
+
+    function printKTA() {
+      const card = document.getElementById('ktaCardPreview');
+      if (!card) {
+        window.print();
+        return;
+      }
+
+      let printFrame = document.getElementById('ktaPrintFrame');
+      if (!printFrame) {
+        printFrame = document.createElement('iframe');
+        printFrame.id = 'ktaPrintFrame';
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = 'none';
+        document.body.appendChild(printFrame);
+      }
+
+      const frameDoc = printFrame.contentWindow.document;
+      frameDoc.open();
+      frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cetak Kartu Anggota IGORNAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 15mm;
+      background: #ffffff;
+    }
+    .kta-card {
+      width: 85.6mm;
+      height: 54mm;
+      min-width: 85.6mm;
+      min-height: 54mm;
+      position: relative;
+      overflow: hidden;
+      border-radius: 3.2mm;
+      border: 0.2mm solid #cbd5e1;
+      background: #ffffff;
+    }
+    .kta-template-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: 1;
+      display: block;
+    }
+    .kta-photo-box {
+      position: absolute;
+      left: 6.6%;
+      top: 23.8%;
+      width: 25.5%;
+      height: 53.6%;
+      border-radius: 2.2mm;
+      overflow: hidden;
+      border: 0.4mm solid #1e293b;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .kta-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .kta-photo-empty {
+      font-size: 16pt;
+      color: #94a3b8;
+    }
+    .kta-field-value {
+      position: absolute;
+      left: 57.5%;
+      right: 4%;
+      font-size: 6.3pt;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1;
+      z-index: 2;
+    }
+    .kta-val-nama   { top: 34.8%; font-size: 7.0pt; font-weight: 800; text-transform: uppercase; }
+    .kta-val-no     { top: 39.6%; font-size: 6.6pt; font-weight: 800; color: #dc2626; }
+    .kta-val-ttl    { top: 44.4%; }
+    .kta-val-jk     { top: 49.2%; }
+    .kta-val-unit   { top: 54.0%; }
+    .kta-val-alamat { top: 58.8%; }
+    .kta-date-display {
+      position: absolute;
+      left: 71.5%;
+      top: 67.6%;
+      font-size: 5.3pt;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    .kta-qr-stamp {
+      position: absolute;
+      right: 3.5%;
+      bottom: 5.5%;
+      width: 7.8mm;
+      height: 7.8mm;
+      background: #ffffff;
+      padding: 0.4mm;
+      border-radius: 1mm;
+      border: 0.2mm solid #cbd5e1;
+      z-index: 2;
+    }
+    .kta-qr-stamp img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="kta-card">
+    ${card.innerHTML}
+  </div>
+</body>
+</html>`);
+      frameDoc.close();
+
+      setTimeout(() => {
+        try {
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+        } catch (e) {
+          window.print();
+        }
+      }, 250);
     }
 
     function formatDateForInput(dateStr) {
