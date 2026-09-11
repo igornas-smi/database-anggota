@@ -16,6 +16,7 @@
     :root {
       --primary: #1e3a8a;
       --primary-dark: #0f172a;
+      --primary-light: #2563eb;
       --accent: #dc2626;
       --gold: #f59e0b;
       --bg: #f8fafc;
@@ -47,9 +48,9 @@
        SIDEBAR
        ======================================= */
     .sidebar {
-      width: 270px;
+      width: 260px;
       background: var(--primary-dark);
-      color: #ffffff;
+      color: white;
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -60,52 +61,47 @@
       transition: var(--transition);
     }
 
-    .sidebar-header {
+    .sidebar-brand {
       padding: 24px;
       display: flex;
       align-items: center;
       gap: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .sidebar-logo {
+    .sidebar-brand img {
       width: 42px;
       height: 42px;
-      background: var(--accent);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      color: white;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+      border-radius: 10px;
+      object-fit: contain;
+      background: white;
+      padding: 2px;
     }
 
-    .sidebar-title h2 {
+    .brand-text h2 {
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.5px;
     }
 
-    .sidebar-title p {
+    .brand-text p {
       font-size: 11px;
       color: #94a3b8;
     }
 
     .sidebar-menu {
-      padding: 16px 12px;
+      padding: 20px 14px;
       flex: 1;
       overflow-y: auto;
     }
 
     .menu-label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
       color: #64748b;
-      margin: 16px 12px 8px;
+      letter-spacing: 1px;
+      padding: 10px 14px 6px;
     }
 
     .nav-item {
@@ -115,12 +111,23 @@
       padding: 12px 16px;
       color: #94a3b8;
       text-decoration: none;
-      border-radius: var(--radius);
+      border-radius: 10px;
       font-size: 13.5px;
       font-weight: 600;
       margin-bottom: 4px;
-      transition: var(--transition);
       cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-item.active {
+      color: white;
+      background: var(--primary-light);
     }
 
     .nav-item i {
@@ -129,57 +136,51 @@
       text-align: center;
     }
 
-    .nav-item:hover, .nav-item.active {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-item.active {
-      background: var(--primary);
-      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.4);
-    }
-
-    .nav-item .badge {
+    .badge-count {
       margin-left: auto;
       background: var(--accent);
       color: white;
       font-size: 11px;
+      font-weight: 700;
       padding: 2px 8px;
       border-radius: 20px;
     }
 
     .sidebar-footer {
       padding: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .user-pill {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius);
     }
 
     .user-avatar {
-      width: 36px;
-      height: 36px;
-      background: var(--gold);
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
+      background: var(--gold);
+      color: var(--primary-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 16px;
     }
 
-    .user-info h4 {
+    .user-details {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .user-details h4 {
       font-size: 13px;
-      font-weight: 600;
+      color: white;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
-    .user-info p {
+    .user-details p {
       font-size: 11px;
       color: #94a3b8;
     }
@@ -188,7 +189,7 @@
        MAIN CONTENT
        ======================================= */
     .main-content {
-      margin-left: 270px;
+      margin-left: 260px;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -210,37 +211,43 @@
 
     .header-title h1 {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--primary-dark);
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
     .btn-api-setup {
       background: #f1f5f9;
+      color: var(--text-muted);
       border: 1px solid var(--border);
       padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12px;
+      border-radius: 9px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
-      color: var(--text);
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-api-setup:hover {
+      background: #e2e8f0;
+      color: var(--text);
     }
 
     .btn-logout {
       background: #fee2e2;
-      color: #991b1b;
+      color: var(--accent);
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -259,8 +266,16 @@
       flex: 1;
     }
 
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
     /* =======================================
-       CARDS & STATS
+       STAT CARDS
        ======================================= */
     .stats-grid {
       display: grid;
@@ -315,6 +330,65 @@
     .icon-green { background: #dcfce7; color: #15803d; }
     .icon-orange { background: #fef3c7; color: #b45309; }
     .icon-purple { background: #f3e8ff; color: #6b21a8; }
+    .icon-rose   { background: #ffe4e6; color: #be123c; }
+    .icon-cyan   { background: #cffafe; color: #0e7490; }
+    .icon-amber  { background: #fef3c7; color: #d97706; }
+    .icon-indigo { background: #e0e7ff; color: #4338ca; }
+    .icon-teal   { background: #ccfbf1; color: #0f766e; }
+
+    /* STATISTIK MINI GRID (JENJANG & KECAMATAN) */
+    .mini-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini-stat-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mini-stat-card:hover {
+      background: #ffffff;
+      border-color: var(--primary-light);
+      box-shadow: 0 6px 18px rgba(30, 58, 138, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .mini-stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .mini-stat-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .mini-stat-count {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 2px;
+      line-height: 1.2;
+    }
 
     /* =======================================
        DATA TABLES & CONTAINERS
@@ -334,74 +408,76 @@
       justify-content: space-between;
       margin-bottom: 20px;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
     }
 
     .panel-header h3 {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--primary-dark);
     }
 
     .filter-group {
       display: flex;
+      gap: 10px;
       align-items: center;
-      gap: 12px;
       flex-wrap: wrap;
     }
 
     .search-input {
-      padding: 9px 14px 9px 36px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 9px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
       font-size: 13px;
       outline: none;
-      width: 240px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 10px center / 18px;
+      min-width: 240px;
+      transition: var(--transition);
     }
 
     .search-input:focus {
-      border-color: var(--primary);
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
-    .select-filter {
-      padding: 9px 14px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+    .filter-select {
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
       font-size: 13px;
       outline: none;
       background: white;
+      cursor: pointer;
     }
 
     .btn-primary {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
+      padding: 9px 16px;
+      border-radius: 9px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 8px;
       transition: var(--transition);
     }
 
     .btn-primary:hover {
-      background: #1d4ed8;
+      background: var(--primary-light);
     }
 
     .table-responsive {
-      width: 100%;
       overflow-x: auto;
+      width: 100%;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 13px;
       text-align: left;
-      font-size: 13.5px;
     }
 
     th {
@@ -417,27 +493,38 @@
 
     td {
       padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     tr:hover td {
-      background: #f8fafc;
+      background-color: #f8fafc;
     }
 
+    /* =======================================
+       BADGES & BUTTONS
+       ======================================= */
     .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       padding: 4px 10px;
       border-radius: 20px;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      display: inline-block;
     }
 
     .badge-aktif { background: #dcfce7; color: #15803d; }
     .badge-nonaktif { background: #fee2e2; color: #991b1b; }
     .badge-menunggu { background: #fef3c7; color: #b45309; }
+    .badge-disetujui { background: #dcfce7; color: #15803d; }
+    .badge-ditolak { background: #fee2e2; color: #991b1b; }
 
-    .action-btns {
+    .action-btn-group {
       display: flex;
       gap: 6px;
     }
@@ -445,105 +532,71 @@
     .btn-sm {
       padding: 6px 10px;
       border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11.5px;
+      font-weight: 700;
       cursor: pointer;
-      border: 1px solid var(--border);
-      background: white;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       transition: var(--transition);
     }
 
-    .btn-sm:hover {
-      background: #f1f5f9;
-    }
-
-    .btn-sm.btn-approve { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
-    .btn-sm.btn-reject { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+    .btn-approve { background: #dcfce7; color: #15803d; }
+    .btn-approve:hover { background: #16a34a; color: white; }
+    .btn-reject { background: #fee2e2; color: #991b1b; }
+    .btn-reject:hover { background: var(--accent); color: white; }
+    .btn-edit { background: #e0e7ff; color: #3730a3; }
+    .btn-edit:hover { background: var(--primary-light); color: white; }
 
     /* =======================================
-       MODAL & OVERLAY
+       MODAL POPUPS
        ======================================= */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(15, 23, 42, 0.5);
       backdrop-filter: blur(4px);
-      z-index: 200;
       display: none;
       align-items: center;
       justify-content: center;
+      z-index: 200;
       padding: 20px;
     }
 
     .modal-card {
       background: white;
-      border-radius: 18px;
+      border-radius: 16px;
       width: 100%;
-      max-width: 600px;
-      padding: 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-width: 550px;
       max-height: 90vh;
       overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
     .modal-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
     }
 
     .modal-header h3 {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary-dark);
     }
 
-    .btn-close {
+    .modal-close {
       background: none;
       border: none;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
       color: var(--text-muted);
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .form-control:focus {
-      border-color: var(--primary);
-    }
-
-    /* Views toggle */
-    .tab-view {
-      display: none;
-    }
-
-    .tab-view.active {
-      display: block;
-    }
-
-    /* ========================================================
-       KARTU ANGGOTA RESMI PREVIEW & PRINT DI ADMIN
-       ======================================================== */
+    /* KTA CARD & PREVIEW STYLE DI ADMIN */
     .kta-card {
       width: 580px;
       height: 366px;
@@ -587,7 +640,6 @@
       color: #94a3b8;
     }
 
-    /* Nilai Identitas KTA Rata Kiri Presisi Setelah Titik Dua Template Blanko */
     .kta-field-value {
       position: absolute;
       left: 57.5% !important;
@@ -609,7 +661,6 @@
     .kta-val-unit   { top: 54.0%; }
     .kta-val-alamat { top: 58.8%; }
 
-    /* Titimangsa: Di Samping Teks Sukabumi, Tanpa Menumpuk */
     .kta-date-display {
       position: absolute;
       left: 71.5%;
@@ -644,9 +695,7 @@
       display: block;
     }
 
-    /* =======================================
-       RESPONSIVE MOBILE
-       ======================================= */
+    /* Responsive Mobile */
     @media (max-width: 900px) {
       .sidebar {
         transform: translateX(-100%);
@@ -655,41 +704,23 @@
         transform: translateX(0);
       }
       .main-content {
-        margin-left: 0 !important;
+        margin-left: 0;
       }
       .mobile-toggle {
         display: block !important;
       }
-      .stat-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-      .top-header {
-        padding: 0 16px !important;
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
       .content-body {
-        padding: 16px !important;
+        padding: 16px;
       }
-      .panel-header {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 12px !important;
-      }
-      .filter-group {
-        width: 100% !important;
-        flex-wrap: wrap !important;
-      }
-      .search-input {
-        width: 100% !important;
+      .top-header {
+        padding: 0 16px;
       }
     }
 
     @media (max-width: 520px) {
-      .stat-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .btn-api-setup span {
-        display: none;
-      }
       .kta-card {
         width: 100%;
         max-width: 340px;
@@ -706,18 +737,12 @@
         left: 71.5% !important;
         font-size: 7px; 
       }
-      .kta-qr-stamp {
-        width: 30px;
-        height: 30px;
-      }
-      .kta-photo-box {
-        border-radius: 10px;
-        border-width: 1.5px;
-      }
+      .kta-qr-stamp { width: 30px; height: 30px; }
+      .kta-photo-box { border-radius: 10px; border-width: 1.5px; }
     }
 
     /* =======================================
-       PRINT MEDIA QUERY DARI ADMIN (PRESISI CR80)
+       PRINT PREVIEW (PRESISI CETAK CR80)
        ======================================= */
     @media print {
       body * {
@@ -813,7 +838,7 @@
         background: #ffffff !important;
       }
 
-      .modal-header, .btn-primary, .btn-api-setup, .sidebar, .top-header, .modal-overlay {
+      .modal-header, .btn-primary, .top-header, .sidebar, .modal-overlay {
         display: none !important;
       }
     }
@@ -823,9 +848,9 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="assets/logo.svg" alt="Logo IGORNAS" style="width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));" onerror="this.onerror=null; this.src='assets/logo.png'">
-      <div class="sidebar-title">
+    <div class="sidebar-brand">
+      <img src="assets/logo.png" alt="Logo" onerror="this.src='assets/logo.svg'">
+      <div class="brand-text">
         <h2>IGORNAS SMI</h2>
         <p>Admin Dashboard v2.0</p>
       </div>
@@ -833,48 +858,40 @@
 
     <div class="sidebar-menu">
       <div class="menu-label">Navigasi Utama</div>
-      
       <div class="nav-item active" onclick="switchTab('dashboard')">
         <i class="fa-solid fa-chart-pie"></i>
         <span>Dashboard</span>
       </div>
-
       <div class="nav-item" onclick="switchTab('anggota')">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-id-card"></i>
         <span>Data Anggota</span>
       </div>
-
       <div class="nav-item" onclick="switchTab('pengajuan')">
         <i class="fa-solid fa-clipboard-check"></i>
         <span>Pengajuan</span>
-        <span class="badge" id="badgePengajuan">0</span>
+        <span class="badge-count" id="badgePengajuan">0</span>
       </div>
 
-      <div class="menu-label" id="superAdminMenuLabel" style="display:none;">Super Admin</div>
-
-      <div class="nav-item" id="navUsers" onclick="switchTab('users')" style="display:none;">
-        <i class="fa-solid fa-user-gear"></i>
+      <div class="menu-label" id="superAdminMenuLabel" style="display:none;">Super Admin Panel</div>
+      <div class="nav-item" id="navUsers" style="display:none;" onclick="switchTab('users')">
+        <i class="fa-solid fa-users-gear"></i>
         <span>Kelola User</span>
       </div>
-
-      <div class="nav-item" id="navPengumuman" onclick="switchTab('pengumuman')" style="display:none;">
+      <div class="nav-item" id="navPengumuman" style="display:none;" onclick="switchTab('pengumuman')">
         <i class="fa-solid fa-bullhorn"></i>
         <span>Pengumuman</span>
       </div>
-
-      <div class="nav-item" id="navLog" onclick="switchTab('log')" style="display:none;">
+      <div class="nav-item" id="navLog" style="display:none;" onclick="switchTab('log')">
         <i class="fa-solid fa-clock-rotate-left"></i>
         <span>Log Aktivitas</span>
       </div>
     </div>
 
     <div class="sidebar-footer">
-      <div class="user-pill">
-        <div class="user-avatar" id="userAvatar">A</div>
-        <div class="user-info">
-          <h4 id="userName">Admin IGORNAS</h4>
-          <p id="userRole">ADMIN</p>
-        </div>
+      <div class="user-avatar" id="userAvatar">A</div>
+      <div class="user-details">
+        <h4 id="userEmail">admin@igornas.com</h4>
+        <p id="userRole">ADMIN</p>
       </div>
     </div>
   </aside>
@@ -934,6 +951,26 @@
 
           <div class="stat-card">
             <div class="stat-info">
+              <p>Laki-Laki</p>
+              <h3 id="statLakiLaki">0</h3>
+            </div>
+            <div class="stat-icon icon-cyan">
+              <i class="fa-solid fa-person"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Perempuan</p>
+              <h3 id="statPerempuan">0</h3>
+            </div>
+            <div class="stat-icon icon-rose">
+              <i class="fa-solid fa-person-dress"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
               <p>Pengajuan Menunggu</p>
               <h3 id="statPengajuanMenunggu">0</h3>
             </div>
@@ -949,6 +986,96 @@
             </div>
             <div class="stat-icon icon-purple">
               <i class="fa-solid fa-users-gear"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATISTIK BERDASARKAN JENJANG SEKOLAH -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-graduation-cap" style="color:var(--primary-light);"></i> Sebaran Anggota Berdasarkan Jenjang Sekolah</h3>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Kota Sukabumi</span>
+          </div>
+          <div class="mini-stat-grid">
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-orange"><i class="fa-solid fa-child"></i></div>
+              <div class="mini-stat-title">Jenjang SD</div>
+              <div class="mini-stat-count" id="statSD">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-blue"><i class="fa-solid fa-school"></i></div>
+              <div class="mini-stat-title">Jenjang SMP</div>
+              <div class="mini-stat-count" id="statSMP">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-purple"><i class="fa-solid fa-building-columns"></i></div>
+              <div class="mini-stat-title">Jenjang SMA</div>
+              <div class="mini-stat-count" id="statSMA">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-cyan"><i class="fa-solid fa-gears"></i></div>
+              <div class="mini-stat-title">Jenjang SMK</div>
+              <div class="mini-stat-count" id="statSMK">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-green"><i class="fa-solid fa-book-open"></i></div>
+              <div class="mini-stat-title">Jenjang MI</div>
+              <div class="mini-stat-count" id="statMI">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-rose"><i class="fa-solid fa-mosque"></i></div>
+              <div class="mini-stat-title">Jenjang MTs</div>
+              <div class="mini-stat-count" id="statMTS">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-amber"><i class="fa-solid fa-scroll"></i></div>
+              <div class="mini-stat-title">Jenjang MA</div>
+              <div class="mini-stat-count" id="statMA">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATISTIK BERDASARKAN WILAYAH KECAMATAN -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-map-location-dot" style="color:var(--primary-light);"></i> Sebaran Anggota Berdasarkan Wilayah Kecamatan</h3>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Unit Kerja</span>
+          </div>
+          <div class="mini-stat-grid">
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-blue"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Baros</div>
+              <div class="mini-stat-count" id="statBaros">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-green"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Cibeureum</div>
+              <div class="mini-stat-count" id="statCibeureum">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-indigo"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Cikole</div>
+              <div class="mini-stat-count" id="statCikole">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-orange"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Citamiang</div>
+              <div class="mini-stat-count" id="statCitamiang">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-teal"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Gunungpuyuh</div>
+              <div class="mini-stat-count" id="statGunungpuyuh">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-purple"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Lembursitu</div>
+              <div class="mini-stat-count" id="statLembursitu">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-rose"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="mini-stat-title">Warudoyong</div>
+              <div class="mini-stat-count" id="statWarudoyong">0</div>
             </div>
           </div>
         </div>
@@ -990,24 +1117,23 @@
               <button type="button" class="btn-primary" style="background:#16a34a; border-color:#16a34a;" onclick="exportAnggotaToExcel()" title="Download seluruh data anggota ke format Excel">
                 <i class="fa-solid fa-file-excel"></i> Download Excel
               </button>
-              <button type="button" class="btn-primary" style="background:#0284c7; border-color:#0284c7;" onclick="perbaikiFormatNolAdmin()" title="Perbaiki dan kunci format angka 0 pada nomor telepon & anggota di Google Sheets">
+              <button type="button" class="btn-primary" style="background:#0284c7; border-color:#0284c7;" onclick="perbaikiFormatNol()" title="Kunci & rapihkan format angka 0 di Google Sheets">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Rapikan Angka 0
               </button>
               <button type="button" class="btn-primary" onclick="openTambahAnggotaModal()">
-                <i class="fa-solid fa-plus"></i> Tambah Anggota
+                <i class="fa-solid fa-user-plus"></i> Tambah Anggota
               </button>
             </div>
           </div>
-
           <div class="table-responsive">
             <table>
               <thead>
                 <tr>
-                  <th>ID / No. Anggota</th>
+                  <th>No. Anggota</th>
                   <th>Nama Lengkap</th>
                   <th>NIK</th>
-                  <th>Kecamatan</th>
-                  <th>Cabor</th>
+                  <th>Sekolah / Instansi</th>
+                  <th>No HP</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
@@ -1017,33 +1143,42 @@
               </tbody>
             </table>
           </div>
+          <div id="anggotaPagination" style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"></div>
         </div>
       </div>
 
       <!-- ==========================================
-           TAB 3: PENGAJUAN
+           TAB 3: PENGAJUAN PERUBAHAN
            ========================================== -->
       <div id="tab-pengajuan" class="tab-view">
         <div class="card-panel">
           <div class="panel-header">
-            <h3>Daftar Pengajuan Perubahan Data Anggota</h3>
+            <h3>Daftar Pengajuan Perubahan Data</h3>
+            <div class="filter-group">
+              <select class="filter-select" id="filterStatusPengajuan" onchange="fetchPengajuanData()">
+                <option value="">Semua Status</option>
+                <option value="MENUNGGU" selected>Menunggu</option>
+                <option value="DISETUJUI">Disetujui</option>
+                <option value="DITOLAK">Ditolak</option>
+              </select>
+            </div>
           </div>
           <div class="table-responsive">
             <table>
               <thead>
                 <tr>
-                  <th>ID Pengajuan</th>
+                  <th>ID</th>
                   <th>Member ID</th>
-                  <th>Field Diubah</th>
-                  <th>Nilai Lama</th>
-                  <th>Nilai Baru</th>
+                  <th>Field Perubahan</th>
+                  <th>Data Lama</th>
+                  <th>Data Baru</th>
                   <th>Alasan</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody id="pengajuanTableBody">
-                <tr><td colspan="8" style="text-align:center;">Memuat pengajuan...</td></tr>
+                <tr><td colspan="8" style="text-align:center;">Memuat data pengajuan...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1051,27 +1186,27 @@
       </div>
 
       <!-- ==========================================
-           TAB 4: KELOLA USER (Super Admin)
+           TAB 4: KELOLA USER (SUPER ADMIN ONLY)
            ========================================== -->
       <div id="tab-users" class="tab-view">
         <div class="card-panel">
           <div class="panel-header">
-            <h3>Manajemen Akun User</h3>
+            <h3>Manajemen Akun Pengguna</h3>
           </div>
           <div class="table-responsive">
             <table>
               <thead>
                 <tr>
                   <th>User ID</th>
-                  <th>Member ID</th>
                   <th>Email</th>
+                  <th>Member ID</th>
                   <th>Role</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody id="usersTableBody">
-                <tr><td colspan="6" style="text-align:center;">Memuat data user...</td></tr>
+                <tr><td colspan="6" style="text-align:center;">Memuat data akun user...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1079,29 +1214,29 @@
       </div>
 
       <!-- ==========================================
-           TAB 5: PENGUMUMAN (Super Admin)
+           TAB 5: PENGUMUMAN (SUPER ADMIN ONLY)
            ========================================== -->
       <div id="tab-pengumuman" class="tab-view">
         <div class="card-panel">
           <div class="panel-header">
-            <h3>Buat Pengumuman Baru</h3>
+            <h3>Buat & Terbitkan Pengumuman</h3>
           </div>
-          <form onsubmit="handleTambahPengumuman(event)">
-            <div class="form-group">
-              <label>Judul Pengumuman</label>
-              <input type="text" id="pengumumanJudul" class="form-control" placeholder="Masukkan Judul..." required>
+          <form id="formPengumuman" onsubmit="handleCreatePengumuman(event)">
+            <div style="margin-bottom:14px;">
+              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Judul Pengumuman</label>
+              <input type="text" id="pengumumanJudul" class="search-input" style="width:100%;" required placeholder="Contoh: Jadwal Rapat Anggota Tahunan">
             </div>
-            <div class="form-group">
-              <label>Isi Pengumuman</label>
-              <textarea id="pengumumanIsi" class="form-control" rows="4" placeholder="Tuliskan pengumuman..." required></textarea>
+            <div style="margin-bottom:14px;">
+              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Isi Pengumuman</label>
+              <textarea id="pengumumanIsi" rows="4" style="width:100%; border:1.5px solid var(--border); border-radius:9px; padding:10px; font-family:inherit; outline:none;" required placeholder="Tuliskan isi pengumuman lengkap..."></textarea>
             </div>
-            <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Terbitkan Pengumuman</button>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Publikasikan Pengumuman</button>
           </form>
         </div>
       </div>
 
       <!-- ==========================================
-           TAB 6: LOG AKTIVITAS (Super Admin)
+           TAB 6: LOG AKTIVITAS (SUPER ADMIN ONLY)
            ========================================== -->
       <div id="tab-log" class="tab-view">
         <div class="card-panel">
@@ -1113,10 +1248,10 @@
               <thead>
                 <tr>
                   <th>Log ID</th>
-                  <th>User ID</th>
-                  <th>Action</th>
+                  <th>User</th>
+                  <th>Aksi</th>
                   <th>Target</th>
-                  <th>Info</th>
+                  <th>Keterangan</th>
                   <th>Waktu</th>
                 </tr>
               </thead>
@@ -1131,110 +1266,110 @@
     </div>
   </main>
 
-  <!-- ==========================================
-       MODAL SETUP API
-       ========================================== -->
+  <!-- MODAL: ENDPOINT API SETUP -->
   <div class="modal-overlay" id="modalApiSetup">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Pengaturan Web App API Google Apps Script</h3>
-        <button class="btn-close" onclick="closeModal('modalApiSetup')">&times;</button>
+        <h3>Pengaturan Endpoint Google Apps Script</h3>
+        <button class="modal-close" onclick="closeModal('modalApiSetup')">&times;</button>
       </div>
-      <div class="form-group">
-        <label>URL Web App Deployment Google Apps Script</label>
-        <input type="url" id="apiUrlInput" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+      <div style="margin-bottom:16px;">
+        <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px;">Web App URL:</label>
+        <input type="text" id="apiUrlInput" class="search-input" style="width:100%;" placeholder="https://script.google.com/macros/s/.../exec">
+        <small style="color:var(--text-muted); font-size:11.5px; display:block; margin-top:6px;">
+          Pastikan Web App di-deploy dengan akses <strong>Anyone (Siapa Saja)</strong>.
+        </small>
       </div>
-      <button class="btn-primary" onclick="saveApiUrl()"><i class="fa-solid fa-save"></i> Simpan Endpoint API</button>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn-sm" style="background:#f1f5f9; padding:8px 14px;" onclick="closeModal('modalApiSetup')">Batal</button>
+        <button type="button" class="btn-primary" onclick="saveApiUrl()">Simpan URL</button>
+      </div>
     </div>
   </div>
 
-  <!-- ==========================================
-       MODAL TAMBAH ANGGOTA (ADMIN)
-       ========================================== -->
+  <!-- MODAL: TAMBAH ANGGOTA (ADMIN & SUPER ADMIN) -->
   <div class="modal-overlay" id="modalTambahAnggota">
     <div class="modal-card" style="max-width: 680px;">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-user-plus" style="color:var(--primary);"></i> Formulir Tambah Anggota Baru</h3>
-        <button class="btn-close" onclick="closeTambahAnggotaModal()">&times;</button>
+        <h3><i class="fa-solid fa-user-plus" style="color:var(--primary-light);"></i> Tambah Anggota Baru</h3>
+        <button class="modal-close" onclick="closeTambahAnggotaModal()">&times;</button>
       </div>
       <form id="formTambahAnggota" onsubmit="handleTambahAnggota(event)">
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
-          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
-            <label>Nama Lengkap (beserta gelar) <span style="color:red;">*</span></label>
-            <input type="text" id="addNama" class="form-control" required placeholder="Contoh: Budi Santoso, S.Pd.">
+          <div style="grid-column: 1 / -1;">
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Nama Lengkap (beserta gelar) <span style="color:red;">*</span></label>
+            <input type="text" id="addNama" class="search-input" style="width:100%;" required placeholder="Contoh: Budi Santoso, S.Pd.">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>NIK (16 Digit)</label>
-            <input type="text" id="addNik" class="form-control" maxlength="16" placeholder="3272xxxxxxxxxxxx">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">NIK (16 Digit)</label>
+            <input type="text" id="addNik" class="search-input" style="width:100%;" maxlength="16" placeholder="3272xxxxxxxxxxxx">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>NIP / NUPTK</label>
-            <input type="text" id="addNip" class="form-control" placeholder="19xxxxxxxxxxxxxxxx">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">NIP / NUPTK</label>
+            <input type="text" id="addNip" class="search-input" style="width:100%;" placeholder="19xxxxxxxxxxxxxxxx">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Jenis Kelamin</label>
-            <select id="addJk" class="form-control">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Jenis Kelamin</label>
+            <select id="addJk" class="filter-select" style="width:100%;">
               <option value="L">Laki-laki</option>
               <option value="P">Perempuan</option>
             </select>
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Nomor WhatsApp / HP</label>
-            <input type="tel" id="addHp" class="form-control" placeholder="08xxxxxxxxxx">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Nomor WhatsApp / HP</label>
+            <input type="tel" id="addHp" class="search-input" style="width:100%;" placeholder="08xxxxxxxxxx">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Tempat Lahir</label>
-            <input type="text" id="addTempatLahir" class="form-control" placeholder="Kota Sukabumi">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Tempat Lahir</label>
+            <input type="text" id="addTempatLahir" class="search-input" style="width:100%;" placeholder="Kota Sukabumi">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Tanggal Lahir</label>
-            <input type="date" id="addTanggalLahir" class="form-control">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Tanggal Lahir</label>
+            <input type="date" id="addTanggalLahir" class="search-input" style="width:100%;">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Sekolah / Unit Kerja</label>
-            <input type="text" id="addSekolah" class="form-control" placeholder="Contoh: SMPN 4 Kota Sukabumi">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Sekolah / Unit Kerja</label>
+            <input type="text" id="addSekolah" class="search-input" style="width:100%;" placeholder="Contoh: SMPN 4 Kota Sukabumi">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Kecamatan</label>
-            <input type="text" id="addKecamatan" class="form-control" placeholder="Contoh: Cikole">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Kecamatan</label>
+            <input type="text" id="addKecamatan" class="search-input" style="width:100%;" placeholder="Contoh: Cikole">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Kelurahan</label>
-            <input type="text" id="addKelurahan" class="form-control" placeholder="Contoh: Cisarua">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Kelurahan</label>
+            <input type="text" id="addKelurahan" class="search-input" style="width:100%;" placeholder="Contoh: Cisarua">
           </div>
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>Cabang Olahraga</label>
-            <input type="text" id="addCabor" class="form-control" placeholder="Contoh: Sepak Bola / Bola Voli">
+          <div>
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Cabang Olahraga</label>
+            <input type="text" id="addCabor" class="search-input" style="width:100%;" placeholder="Contoh: Sepak Bola / Bola Voli">
           </div>
-          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
-            <label>Email Anggota (Untuk Akun Login)</label>
-            <input type="email" id="addEmail" class="form-control" placeholder="anggota@gmail.com">
+          <div style="grid-column: 1 / -1;">
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Email Anggota (Untuk Akun Login)</label>
+            <input type="email" id="addEmail" class="search-input" style="width:100%;" placeholder="anggota@gmail.com">
           </div>
-          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
-            <label>Alamat Lengkap</label>
-            <textarea id="addAlamat" class="form-control" rows="2" placeholder="Alamat rumah tinggal"></textarea>
+          <div style="grid-column: 1 / -1;">
+            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">Alamat Lengkap</label>
+            <textarea id="addAlamat" rows="2" style="width:100%; border:1.5px solid var(--border); border-radius:9px; padding:8px; font-family:inherit; outline:none;" placeholder="Alamat rumah tinggal"></textarea>
           </div>
         </div>
-        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
-          <button type="button" class="btn-api-setup" onclick="closeTambahAnggotaModal()">Batal</button>
-          <button type="submit" id="btnSimpanAnggota" class="btn-primary"><i class="fa-solid fa-save"></i> Simpan Anggota</button>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn-sm" style="background:#f1f5f9; padding:8px 14px;" onclick="closeTambahAnggotaModal()">Batal</button>
+          <button type="submit" id="btnSimpanAnggota" class="btn-primary"><i class="fa-solid fa-save"></i> Simpan Data Anggota</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ==========================================
-       MODAL CETAK KTA (ADMIN)
-       ========================================== -->
+  <!-- MODAL: PREVIEW & CETAK KTA RESMI ADMIN -->
   <div class="modal-overlay" id="modalCetakKTA">
     <div class="modal-card" style="max-width: 660px; text-align:center;">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-id-card" style="color:var(--primary);"></i> Pratinjau & Cetak Kartu Anggota Resmi</h3>
-        <button class="btn-close" onclick="closeModal('modalCetakKTA')">&times;</button>
+        <h3><i class="fa-solid fa-id-card" style="color:var(--primary-light);"></i> Pratinjau & Cetak Kartu Anggota Resmi</h3>
+        <button class="modal-close" onclick="closeModal('modalCetakKTA')">&times;</button>
       </div>
 
       <div style="margin: 15px auto; display:flex; justify-content:center;">
-        <!-- KARTU RESMI DI ADMIN -->
+        <!-- KARTU RESMI DI ADMIN DASHBOARD -->
         <div class="kta-card" id="adminKtaPreview">
           <div class="kta-photo-box">
             <img id="adminKtaPhoto" src="" alt="Foto" style="display:none;">
@@ -1256,36 +1391,61 @@
       </div>
 
       <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
-        <button type="button" class="btn-api-setup" onclick="closeModal('modalCetakKTA')">Tutup</button>
-        <button type="button" class="btn-primary" style="background:#16a34a; border-color:#16a34a;" onclick="window.print()">
+        <button type="button" class="btn-sm" style="background:#f1f5f9; padding:9px 16px; font-size:13px;" onclick="closeModal('modalCetakKTA')">Tutup</button>
+        <button type="button" class="btn-primary" style="background:#16a34a;" onclick="window.print()">
           <i class="fa-solid fa-print"></i> Cetak Kartu Sekarang (Print / PDF)
         </button>
       </div>
     </div>
   </div>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // GLOBAL STATE & API ENDPOINT
+    // Konfigurasi API
     const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4/exec';
     let storedApi = localStorage.getItem('IGORNAS_API_URL');
     if (storedApi && (storedApi.includes('AKfycbxXjvSenoJFqqHCJi14cHKO2GfDP8y0D0lm8LoxwxpkY7Ddl0fp0zZou3gtSGSXXBx0') || !storedApi.startsWith('https://script.google.com/macros/s/AKfycbyotXwO6JGHPG7QydoOswO3-5FOttn5SqZqeupS2_KItOb3t9EQ99tcC1bQH9cNqCS4'))) {
       localStorage.removeItem('IGORNAS_API_URL');
       storedApi = null;
     }
-    let API_URL = DEFAULT_API_URL;
-    let authToken = localStorage.getItem('igornas_token') || localStorage.getItem('IGORNAS_TOKEN') || '';
-    
-    let savedUser = null;
-    try {
-      savedUser = JSON.parse(localStorage.getItem('igornas_user'));
-    } catch(e) {}
-    
-    let userRole = (savedUser && savedUser.ROLE) ? String(savedUser.ROLE).toUpperCase() : (localStorage.getItem('IGORNAS_ROLE') || 'ADMIN');
-    let userName = (savedUser && savedUser.EMAIL) ? savedUser.EMAIL : 'Admin IGORNAS';
+    let API_URL = storedApi || DEFAULT_API_URL;
 
+    // Data Session
+    let authToken = localStorage.getItem('igornas_token') || localStorage.getItem('IGORNAS_TOKEN') || '';
+    let currentUser = null;
+    try {
+      currentUser = JSON.parse(localStorage.getItem('igornas_user'));
+    } catch(e){}
+
+    let userRole = currentUser ? (currentUser.ROLE || 'ADMIN') : (localStorage.getItem('IGORNAS_ROLE') || 'ADMIN');
+    let userEmail = currentUser ? currentUser.EMAIL : (localStorage.getItem('IGORNAS_EMAIL') || 'admin.igornas@gmail.com');
+    let currentMembersList = [];
+
+    // Helper format nomor anggota 13/14 digit
+    function formatNomorAnggota(no) {
+      if (!no) return '';
+      let str = String(no).trim().replace(/^'+/, '');
+      if (str.length === 13 && str.startsWith('6210208')) {
+        return '0' + str;
+      }
+      return str;
+    }
+
+    // Helper format No HP diawali angka 0
+    function formatNoHp(hp) {
+      if (!hp) return '';
+      let str = String(hp).trim().replace(/^'+/, '');
+      if (str.startsWith('8') && str.length >= 9 && str.length <= 13) {
+        return '0' + str;
+      }
+      return str;
+    }
+
+    // Inisialisasi Halaman
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('userName').innerText = userName;
-      document.getElementById('userAvatar').innerText = userName.charAt(0).toUpperCase();
+      document.getElementById('userEmail').innerText = userEmail;
+      document.getElementById('userAvatar').innerText = userEmail.charAt(0).toUpperCase();
+
       setupUserRoleUI();
       loadDashboardData();
     });
@@ -1351,18 +1511,23 @@
 
     async function apiPost(action, body = {}) {
       if (!API_URL) return { success: false, message: 'URL API belum diset' };
-      const res = await fetch(`${API_URL}?action=${action}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: authToken, ...body })
-      });
-      return await res.json();
+      try {
+        const res = await fetch(`${API_URL}?action=${encodeURIComponent(action)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ token: authToken, ...body })
+        });
+        return await res.json();
+      } catch (err) {
+        console.error('apiPost error:', err);
+        return { success: false, message: 'Gagal menghubungi server: ' + err.message };
+      }
     }
 
     async function loadDashboardData() {
       const endpoint = userRole === 'SUPER_ADMIN' ? 'getDashboardSuperAdmin' : 'getDashboardAdmin';
       const res = await apiGet(endpoint);
-      if (res.success && res.data) {
+      if (res && res.success && res.data) {
         const d = res.data;
         document.getElementById('statTotalAnggota').innerText = d.anggota ? d.anggota.total : 0;
         document.getElementById('statAnggotaAktif').innerText = d.anggota ? d.anggota.aktif : 0;
@@ -1370,9 +1535,104 @@
         document.getElementById('badgePengajuan').innerText = d.pengajuan ? d.pengajuan.menunggu : 0;
         document.getElementById('statTotalUser').innerText = d.users ? d.users.total : (d.totalUser || 0);
 
+        if (d.jenisKelamin) {
+          document.getElementById('statLakiLaki').innerText = d.jenisKelamin.lakiLaki || 0;
+          document.getElementById('statPerempuan').innerText = d.jenisKelamin.perempuan || 0;
+        }
+
+        if (d.jenjang) {
+          renderStatistikJenjang(d.jenjang);
+        }
+        if (d.kecamatan) {
+          renderStatistikKecamatan(d.kecamatan);
+        }
+
+        // Fallback otomatis jika backend belum menyediakan field jenjang / kecamatan / gender
+        if (!d.jenjang || !d.kecamatan || !d.jenisKelamin) {
+          hitungStatistikDariAnggota();
+        }
+
         if (d.pengajuanTerbaru) {
           renderPengajuanPreview(d.pengajuanTerbaru);
         }
+      } else {
+        // Fallback langsung jika getDashboardAdmin gagal
+        hitungStatistikDariAnggota();
+      }
+    }
+
+    function renderStatistikJenjang(jenjang) {
+      if (!jenjang) return;
+      document.getElementById('statSD').innerText  = jenjang.SD || 0;
+      document.getElementById('statSMP').innerText = jenjang.SMP || 0;
+      document.getElementById('statSMA').innerText = jenjang.SMA || 0;
+      document.getElementById('statSMK').innerText = jenjang.SMK || 0;
+      document.getElementById('statMI').innerText  = jenjang.MI || 0;
+      document.getElementById('statMTS').innerText = jenjang.MTS || 0;
+      document.getElementById('statMA').innerText  = jenjang.MA || 0;
+    }
+
+    function renderStatistikKecamatan(kecamatan) {
+      if (!kecamatan) return;
+      document.getElementById('statBaros').innerText       = kecamatan.BAROS || 0;
+      document.getElementById('statCibeureum').innerText   = kecamatan.CIBEUREUM || 0;
+      document.getElementById('statCikole').innerText      = kecamatan.CIKOLE || 0;
+      document.getElementById('statCitamiang').innerText   = kecamatan.CITAMIANG || 0;
+      document.getElementById('statGunungpuyuh').innerText = kecamatan.GUNUNGPUYUH || 0;
+      document.getElementById('statLembursitu').innerText  = kecamatan.LEMBURSITU || 0;
+      document.getElementById('statWarudoyong').innerText  = kecamatan.WARUDOYONG || 0;
+    }
+
+    async function hitungStatistikDariAnggota() {
+      try {
+        const res = await apiGet('getAnggota');
+        if (!res || !res.success || !res.data) return;
+        const members = Array.isArray(res.data) ? res.data : (res.data.data || []);
+
+        let lakiLaki = 0;
+        let perempuan = 0;
+        const jenjang = { SD: 0, SMP: 0, SMA: 0, SMK: 0, MI: 0, MTS: 0, MA: 0 };
+        const kecamatan = { BAROS: 0, CIBEUREUM: 0, CIKOLE: 0, CITAMIANG: 0, GUNUNGPUYUH: 0, LEMBURSITU: 0, WARUDOYONG: 0 };
+
+        members.forEach(item => {
+          // Gender
+          const jk = String(item.JENIS_KELAMIN || '').trim().toUpperCase();
+          if (jk === 'L' || jk === 'LAKI-LAKI' || jk === 'LAKI LAKI') {
+            lakiLaki++;
+          } else if (jk === 'P' || jk === 'PEREMPUAN') {
+            perempuan++;
+          }
+
+          // Jenjang Sekolah
+          const sekolah = String(item.SEKOLAH_ID || item.SEKOLAH || '').toUpperCase();
+          if (sekolah.includes('SMK')) jenjang.SMK++;
+          else if (sekolah.includes('SMA')) jenjang.SMA++;
+          else if (sekolah.includes('SMP')) jenjang.SMP++;
+          else if (sekolah.includes('SD')) jenjang.SD++;
+          else if (sekolah.includes('MTS')) jenjang.MTS++;
+          else if (sekolah.includes('MA') && !sekolah.includes('SMA')) jenjang.MA++;
+          else if (sekolah.includes('MI')) jenjang.MI++;
+
+          // Wilayah Kecamatan
+          const kec = String(item.KECAMATAN_ID || item.KECAMATAN || item.ALAMAT || '').toUpperCase();
+          if (kec.includes('BAROS')) kecamatan.BAROS++;
+          else if (kec.includes('CIBEUREUM')) kecamatan.CIBEUREUM++;
+          else if (kec.includes('CIKOLE')) kecamatan.CIKOLE++;
+          else if (kec.includes('CITAMIANG')) kecamatan.CITAMIANG++;
+          else if (kec.includes('GUNUNGPUYUH') || kec.includes('GUNUNG PUYUH')) kecamatan.GUNUNGPUYUH++;
+          else if (kec.includes('LEMBURSITU') || kec.includes('LEMBUR SITU')) kecamatan.LEMBURSITU++;
+          else if (kec.includes('WARUDOYONG') || kec.includes('WARU DOYONG')) kecamatan.WARUDOYONG++;
+        });
+
+        const statLakiEl = document.getElementById('statLakiLaki');
+        const statPeremEl = document.getElementById('statPerempuan');
+        if (statLakiEl) statLakiEl.innerText = lakiLaki;
+        if (statPeremEl) statPeremEl.innerText = perempuan;
+
+        renderStatistikJenjang(jenjang);
+        renderStatistikKecamatan(kecamatan);
+      } catch (err) {
+        console.error('Gagal menghitung statistik anggota:', err);
       }
     }
 
@@ -1397,27 +1657,59 @@
       document.getElementById('sidebar').classList.toggle('open');
     }
 
-    function formatNomorAnggota(no) {
-      if (!no) return '';
-      let str = String(no).trim().replace(/^'+/, '');
-      if (str.length === 13 && str.startsWith('6210208')) {
-        return '0' + str;
+    // ==========================================
+    // LOGIKA DATA ANGGOTA & EXCEL & KTA
+    // ==========================================
+    async function fetchAnggotaData(page = 1) {
+      const query = document.getElementById('searchAnggota').value.trim();
+      const res = await apiGet('getAnggotaPaged', { page, limit: 10, search: query });
+      const tbody = document.getElementById('anggotaTableBody');
+
+      if (res.success && res.data) {
+        const members = res.data.data || [];
+        currentMembersList = members;
+        if (members.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Tidak ada data anggota.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = members.map(m => `
+          <tr>
+            <td><strong>${formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID)}</strong></td>
+            <td>${m.NAMA_LENGKAP}</td>
+            <td>${m.NIK || '-'}</td>
+            <td>${m.SEKOLAH_ID || m.SEKOLAH || '-'}</td>
+            <td>${formatNoHp(m.NO_HP) || '-'}</td>
+            <td><span class="badge-status ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${m.STATUS_KEANGGOTAAN || 'AKTIF'}</span></td>
+            <td>
+              <div class="action-btn-group">
+                <button class="btn-sm btn-approve" onclick="cetakKTAAdmin('${m.MEMBER_ID}')" title="Cetak Kartu Tanda Anggota">
+                  <i class="fa-solid fa-id-card"></i> KTA
+                </button>
+                <button class="btn-sm btn-reject" onclick="toggleStatusAnggota('${m.MEMBER_ID}', '${m.STATUS_KEANGGOTAAN}')">
+                  ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'Nonaktifkan' : 'Aktifkan'}
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        renderPagination(res.data.totalPages, res.data.page);
       }
-      return str;
     }
 
-    function formatNoHp(hp) {
-      if (!hp) return '';
-      let str = String(hp).trim().replace(/^'+/, '');
-      if (str.startsWith('8') && str.length >= 9 && str.length <= 13) {
-        return '0' + str;
+    function renderPagination(total, current) {
+      const el = document.getElementById('anggotaPagination');
+      if (total <= 1) { el.innerHTML = ''; return; }
+      let html = '';
+      for (let i = 1; i <= total; i++) {
+        html += `<button class="btn-sm ${i === current ? 'btn-primary' : ''}" style="padding:4px 8px;" onclick="fetchAnggotaData(${i})">${i}</button>`;
       }
-      return str;
+      el.innerHTML = html;
     }
 
-    let currentMembersList = [];
-
-    async function perbaikiFormatNolAdmin() {
+    // Perbaikan Format Angka 0 di Google Sheets
+    async function perbaikiFormatNol() {
       if (!confirm('Jalankan perbaikan format di Google Spreadsheet?\n\nProses ini akan mengunci kolom nomor anggota, nomor HP, NIK, dan NIP ke Plain Text (@) serta mengembalikan angka 0 di depan yang sempat hilang.')) return;
       
       try {
@@ -1429,41 +1721,93 @@
       }
     }
 
-    async function fetchAnggotaData() {
-      const search = document.getElementById('searchAnggota').value;
-      const res = await apiGet('getAnggotaPaged', { search });
-      const tbody = document.getElementById('anggotaTableBody');
-      
-      if (res.success && res.data && res.data.data) {
-        const members = res.data.data;
-        currentMembersList = members;
-        if (members.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Data anggota tidak ditemukan.</td></tr>';
-          return;
+    // Download Seluruh Data Anggota ke Excel
+    async function exportAnggotaToExcel() {
+      try {
+        alert('Mengunduh seluruh data anggota dari server, mohon tunggu sebentar...');
+        const res = await apiGet('getAnggota');
+        if (!res.success || !res.data) {
+          return alert('Gagal mengambil data anggota: ' + (res.message || 'Error'));
         }
-        tbody.innerHTML = members.map(m => `
-          <tr>
-            <td><strong>${formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID)}</strong></td>
-            <td>${m.NAMA_LENGKAP}</td>
-            <td>${m.NIK || '-'}</td>
-            <td>${m.KECAMATAN_ID || '-'}</td>
-            <td>${m.CABOR_ID || '-'}</td>
-            <td><span class="badge-status ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${m.STATUS_KEANGGOTAAN}</span></td>
-            <td>
-              <div class="action-btns">
-                <button type="button" class="btn-sm btn-approve" onclick="cetakKTAAdmin('${m.MEMBER_ID}')" title="Cetak KTA Anggota">
-                  <i class="fa-solid fa-id-card"></i> Cetak KTA
-                </button>
-                <button type="button" class="btn-sm btn-reject" onclick="nonaktifkanAnggota('${m.MEMBER_ID}')">
-                  <i class="fa-solid fa-user-slash"></i> Nonaktifkan
-                </button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
+
+        const members = Array.isArray(res.data) ? res.data : (Array.isArray(res.data.data) ? res.data.data : []);
+        if (!members || members.length === 0) {
+          return alert('Tidak ada data anggota untuk diekspor!');
+        }
+
+        const excelRows = members.map((m, idx) => {
+          const noAnggota = formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID);
+          const noHp = formatNoHp(m.NO_HP);
+          const nik = String(m.NIK || '').trim().replace(/^'+/, '');
+          const nip = String(m.NIP_NUPTK || '').trim().replace(/^'+/, '');
+
+          return {
+            'No': idx + 1,
+            'Member ID': m.MEMBER_ID || '',
+            'Nomor Anggota': noAnggota,
+            'Nama Lengkap': m.NAMA_LENGKAP || '',
+            'NIK': nik,
+            'NIP/NUPTK': nip,
+            'Jenis Kelamin': m.JENIS_KELAMIN === 'P' ? 'Perempuan' : 'Laki-laki',
+            'Tempat Lahir': m.TEMPAT_LAHIR || '',
+            'Tanggal Lahir': m.TANGGAL_LAHIR ? String(m.TANGGAL_LAHIR).split('T')[0] : '',
+            'No WhatsApp/HP': noHp,
+            'Email': m.EMAIL || '',
+            'Sekolah / Instansi': m.SEKOLAH_ID || m.SEKOLAH || '',
+            'Jabatan': m.JABATAN || '',
+            'Cabang Olahraga': m.CABOR_ID || '',
+            'Kecamatan': m.KECAMATAN_ID || '',
+            'Kelurahan': m.KELURAHAN || '',
+            'Alamat Lengkap': m.ALAMAT || '',
+            'Status Keanggotaan': m.STATUS_KEANGGOTAAN || 'AKTIF'
+          };
+        });
+
+        if (typeof XLSX !== 'undefined') {
+          const ws = XLSX.utils.json_to_sheet(excelRows);
+
+          const range = XLSX.utils.decode_range(ws['!ref']);
+          for (let R = range.s.r; R <= range.e.r; ++R) {
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+              const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+              const cell = ws[cellAddress];
+              if (!cell) continue;
+              if ([1, 2, 4, 5, 9].includes(C) && R > 0) {
+                cell.t = 's';
+                cell.z = '@';
+                cell.v = String(cell.v !== undefined && cell.v !== null ? cell.v : '');
+              }
+            }
+          }
+
+          ws['!cols'] = [
+            { wch: 5 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 22 },
+            { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 18 }, { wch: 26 }, { wch: 28 },
+            { wch: 16 }, { wch: 20 }, { wch: 16 }, { wch: 16 }, { wch: 35 }, { wch: 14 }
+          ];
+
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, 'Data Anggota');
+          XLSX.writeFile(wb, `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.xlsx`);
+        } else {
+          const headers = Object.keys(excelRows[0]);
+          let csv = '\uFEFF' + headers.join(';') + '\n';
+          excelRows.forEach(row => {
+            csv += headers.map(h => `"${String(row[h] || '').replace(/"/g, '""')}"`).join(';') + '\n';
+          });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.csv`;
+          link.click();
+        }
+
+      } catch (err) {
+        alert('Gagal mengunduh file Excel: ' + err.message);
       }
     }
 
+    // Modal Tambah Anggota
     function openTambahAnggotaModal() {
       document.getElementById('formTambahAnggota').reset();
       document.getElementById('modalTambahAnggota').style.display = 'flex';
@@ -1477,7 +1821,7 @@
       e.preventDefault();
       const nama = document.getElementById('addNama').value.trim();
       const nik = document.getElementById('addNik').value.trim();
-
+      
       if (nik && (!/^[0-9]{16}$/.test(nik))) {
         return alert('NIK harus terdiri dari 16 digit angka!');
       }
@@ -1523,7 +1867,7 @@
         alert('Gagal menghubungi server: ' + err.message);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Anggota';
+        btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Data Anggota';
       }
     }
 
@@ -1551,14 +1895,13 @@
       document.getElementById('adminKtaTtl').textContent = ttl;
 
       document.getElementById('adminKtaJk').textContent = (member.JENIS_KELAMIN === 'P') ? 'Perempuan' : 'Laki-laki';
-      document.getElementById('adminKtaUnit').textContent = member.SEKOLAH_ID || member.instansi || '-';
+      document.getElementById('adminKtaUnit').textContent = member.SEKOLAH_ID || member.SEKOLAH || member.instansi || '-';
 
       const kel = member.KELURAHAN ? `Kel. ${member.KELURAHAN}, ` : '';
       const kec = member.KECAMATAN_ID ? `Kec. ${member.KECAMATAN_ID}` : '';
       const alamatFull = member.ALAMAT || (kel + kec) || '-';
       document.getElementById('adminKtaAlamat').textContent = alamatFull;
 
-      // Tanggal di samping tulisan Sukabumi pada template
       const rawDate = member.TANGGAL_GABUNG || member.CREATED_AT || new Date();
       const formattedDate = formatDateIndo(rawDate) || `${new Date().getDate()} September ${new Date().getFullYear()}`;
       document.getElementById('adminKtaDate').textContent = String(formattedDate).replace(/^Sukabumi[,\s]*/i, '').trim();
@@ -1581,119 +1924,46 @@
       document.getElementById('modalCetakKTA').style.display = 'flex';
     }
 
-    async function exportAnggotaToExcel() {
-      try {
-        const res = await apiGet('getAnggota');
-        if (!res.success || !res.data) {
-          return alert('Gagal mengambil data anggota: ' + (res.message || 'Error'));
-        }
+    async function toggleStatusAnggota(memberId, currentStatus) {
+      const newStatus = currentStatus === 'AKTIF' ? 'NONAKTIF' : 'AKTIF';
+      if (!confirm(`Ubah status anggota ini menjadi ${newStatus}?`)) return;
 
-        // Ambil array anggota baik berupa array langsung maupun dalam res.data.data
-        const members = Array.isArray(res.data) ? res.data : (Array.isArray(res.data.data) ? res.data.data : []);
-        if (!members || members.length === 0) {
-          return alert('Tidak ada data anggota untuk diekspor!');
-        }
-
-        // Format data untuk sheet Excel dan pastikan angka 0 di depan tidak terpotong
-        const excelRows = members.map((m, idx) => {
-          const noAnggota = formatNomorAnggota(m.NOMOR_ANGGOTA || m.MEMBER_ID);
-          const noHp = formatNoHp(m.NO_HP);
-          const nik = String(m.NIK || '').trim().replace(/^'+/, '');
-          const nip = String(m.NIP_NUPTK || '').trim().replace(/^'+/, '');
-
-          return {
-            'No': idx + 1,
-            'Member ID': m.MEMBER_ID || '',
-            'Nomor Anggota': noAnggota,
-            'Nama Lengkap': m.NAMA_LENGKAP || '',
-            'NIK': nik,
-            'NIP/NUPTK': nip,
-            'Jenis Kelamin': m.JENIS_KELAMIN === 'P' ? 'Perempuan' : 'Laki-laki',
-            'Tempat Lahir': m.TEMPAT_LAHIR || '',
-            'Tanggal Lahir': m.TANGGAL_LAHIR ? String(m.TANGGAL_LAHIR).split('T')[0] : '',
-            'No WhatsApp/HP': noHp,
-            'Email': m.EMAIL || '',
-            'Sekolah / Instansi': m.SEKOLAH_ID || '',
-            'Jabatan': m.JABATAN || '',
-            'Cabang Olahraga': m.CABOR_ID || '',
-            'Kecamatan': m.KECAMATAN_ID || '',
-            'Kelurahan': m.KELURAHAN || '',
-            'Alamat Lengkap': m.ALAMAT || '',
-            'Status Keanggotaan': m.STATUS_KEANGGOTAAN || 'AKTIF'
-          };
-        });
-
-        if (typeof XLSX !== 'undefined') {
-          const ws = XLSX.utils.json_to_sheet(excelRows);
-
-          // Kunci semua sel nomor (Member ID, Nomor Anggota, NIK, NIP, HP) agar menjadi tipe String ('s') dan format Text ('@')
-          // sehingga Microsoft Excel / Google Sheets tidak mengubahnya menjadi angka atau menghilangkan angka 0 di depan
-          const range = XLSX.utils.decode_range(ws['!ref']);
-          for (let R = range.s.r; R <= range.e.r; ++R) {
-            for (let C = range.s.c; C <= range.e.c; ++C) {
-              const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
-              const cell = ws[cellAddress];
-              if (!cell) continue;
-              // Kolom: Member ID (C=1), Nomor Anggota (C=2), NIK (C=4), NIP (C=5), No HP (C=9)
-              if ([1, 2, 4, 5, 9].includes(C) && R > 0) {
-                cell.t = 's';
-                cell.z = '@';
-                cell.v = String(cell.v !== undefined && cell.v !== null ? cell.v : '');
-              }
-            }
-          }
-
-          // Set lebar kolom Excel agar rapi
-          ws['!cols'] = [
-            { wch: 5 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 22 },
-            { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 18 }, { wch: 26 }, { wch: 28 },
-            { wch: 16 }, { wch: 20 }, { wch: 16 }, { wch: 16 }, { wch: 35 }, { wch: 14 }
-          ];
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, 'Data Anggota');
-          XLSX.writeFile(wb, `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.xlsx`);
-        } else {
-          // Fallback CSV (gunakan pemisah titik koma dan kutip)
-          const headers = Object.keys(excelRows[0]);
-          let csv = '\uFEFF' + headers.join(';') + '\n';
-          excelRows.forEach(row => {
-            csv += headers.map(h => `"${String(row[h] || '').replace(/"/g, '""')}"`).join(';') + '\n';
-          });
-          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = `Data_Anggota_IGORNAS_Kota_Sukabumi_${new Date().toISOString().split('T')[0]}.csv`;
-          link.click();
-        }
-
-      } catch (err) {
-        alert('Gagal mengunduh file Excel: ' + err.message);
+      const res = await apiPost('nonaktifkanAnggota', { memberId });
+      if (res.success) {
+        alert('Status keanggotaan berhasil diperbarui!');
+        fetchAnggotaData();
       }
     }
 
+    // ==========================================
+    // LOGIKA PENGAJUAN PERUBAHAN DATA
+    // ==========================================
     async function fetchPengajuanData() {
-      const res = await apiGet('getPengajuan');
+      const status = document.getElementById('filterStatusPengajuan').value;
+      const res = await apiGet('getPengajuan', { status });
       const tbody = document.getElementById('pengajuanTableBody');
-      if (res.success && res.data && res.data.data) {
-        const requests = res.data.data;
-        if (requests.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Belum ada pengajuan.</td></tr>';
+
+      if (res.success && res.data) {
+        const items = res.data.data || res.data;
+        if (!items || items.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Tidak ada data pengajuan.</td></tr>';
           return;
         }
-        tbody.innerHTML = requests.map(r => `
+
+        tbody.innerHTML = items.map(p => `
           <tr>
-            <td><strong>${r.REQUEST_ID}</strong></td>
-            <td>${r.MEMBER_ID}</td>
-            <td><strong>${r.FIELD_NAME}</strong></td>
-            <td>${r.OLD_VALUE || '-'}</td>
-            <td style="color:var(--primary); font-weight:bold;">${r.NEW_VALUE}</td>
-            <td>${r.REASON}</td>
-            <td><span class="badge-status ${r.STATUS === 'MENUNGGU' ? 'badge-menunggu' : (r.STATUS === 'DISETUJUI' ? 'badge-aktif' : 'badge-nonaktif')}">${r.STATUS}</span></td>
+            <td><strong>${p.REQUEST_ID}</strong></td>
+            <td>${p.MEMBER_ID}</td>
+            <td>${p.FIELD_NAME}</td>
+            <td><s style="color:var(--text-muted);">${p.OLD_VALUE || '-'}</s></td>
+            <td style="color:var(--primary); font-weight:700;">${p.NEW_VALUE}</td>
+            <td>${p.REASON}</td>
+            <td><span class="badge-status badge-${p.STATUS.toLowerCase()}">${p.STATUS}</span></td>
             <td>
-              ${r.STATUS === 'MENUNGGU' ? `
-                <div class="action-btns">
-                  <button class="btn-sm btn-approve" onclick="prosesPengajuan('${r.REQUEST_ID}', true)"><i class="fa-solid fa-check"></i> Setujui</button>
-                  <button class="btn-sm btn-reject" onclick="prosesPengajuan('${r.REQUEST_ID}', false)"><i class="fa-solid fa-xmark"></i> Tolak</button>
+              ${p.STATUS === 'MENUNGGU' ? `
+                <div class="action-btn-group">
+                  <button class="btn-sm btn-approve" onclick="prosesPengajuan('${p.REQUEST_ID}', true)"><i class="fa-solid fa-check"></i> Setujui</button>
+                  <button class="btn-sm btn-reject" onclick="prosesPengajuan('${p.REQUEST_ID}', false)"><i class="fa-solid fa-xmark"></i> Tolak</button>
                 </div>
               ` : '-'}
             </td>
@@ -1702,23 +1972,25 @@
       }
     }
 
-    async function prosesPengajuan(requestId, setujui) {
-      const note = prompt(setujui ? 'Catatan Persetujuan (Opsional):' : 'Alasan Penolakan:');
-      if (!setujui && !note) return alert('Alasan penolakan wajib diisi!');
-      
-      const action = setujui ? 'setujuiPengajuan' : 'tolakPengajuan';
-      const res = await apiPost(action, { requestId, adminNote: note || '' });
-      alert(res.message);
-      fetchPengajuanData();
+    async function prosesPengajuan(requestId, disetujui) {
+      const action = disetujui ? 'setujuiPengajuan' : 'tolakPengajuan';
+      let adminNote = '';
+      if (!disetujui) {
+        adminNote = prompt('Masukkan alasan penolakan:');
+        if (!adminNote) return;
+      }
+
+      const res = await apiPost(action, { requestId, adminNote });
+      if (res.success) {
+        alert(res.message);
+        fetchPengajuanData();
+        loadDashboardData();
+      }
     }
 
-    async function nonaktifkanAnggota(memberId) {
-      if (!confirm(`Apakah Anda yakin ingin menonaktifkan anggota ${memberId}?`)) return;
-      const res = await apiPost('nonaktifkanAnggota', { memberId });
-      alert(res.message);
-      fetchAnggotaData();
-    }
-
+    // ==========================================
+    // LOGIKA SUPER ADMIN ONLY
+    // ==========================================
     async function fetchUsersData() {
       const res = await apiGet('getUsers');
       const tbody = document.getElementById('usersTableBody');
@@ -1726,34 +1998,40 @@
         tbody.innerHTML = res.data.map(u => `
           <tr>
             <td><strong>${u.USER_ID}</strong></td>
-            <td>${u.MEMBER_ID || '-'}</td>
             <td>${u.EMAIL}</td>
+            <td>${u.MEMBER_ID || '-'}</td>
             <td><span class="badge-status badge-aktif">${u.ROLE}</span></td>
-            <td><span class="badge-status ${u.STATUS === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${u.STATUS}</span></td>
+            <td>${u.STATUS}</td>
             <td>
-              <button class="btn-sm" onclick="resetPassword('${u.USER_ID}')"><i class="fa-solid fa-key"></i> Reset Password</button>
+              <button class="btn-sm btn-reject" onclick="toggleUserStatus('${u.USER_ID}', '${u.STATUS}')">
+                ${u.STATUS === 'AKTIF' ? 'Nonaktifkan' : 'Aktifkan'}
+              </button>
             </td>
           </tr>
         `).join('');
       }
     }
 
-    async function resetPassword(userId) {
-      const newPass = prompt('Masukkan Password Baru (min 8 Karakter):');
-      if (!newPass || newPass.length < 8) return alert('Password minimal 8 karakter!');
-      const res = await apiPost('resetUserPassword', { userId, newPassword: newPass });
-      alert(res.message);
+    async function toggleUserStatus(userId, currentStatus) {
+      const newStatus = currentStatus === 'AKTIF' ? 'NONAKTIF' : 'AKTIF';
+      if (!confirm(`Ubah status user ${userId} menjadi ${newStatus}?`)) return;
+      const res = await apiPost('updateUserStatus', { userId, status: newStatus });
+      if (res.success) {
+        alert(res.message);
+        fetchUsersData();
+      }
     }
 
-    async function handleTambahPengumuman(e) {
+    async function handleCreatePengumuman(e) {
       e.preventDefault();
-      const judul = document.getElementById('pengumumanJudul').value;
-      const isi = document.getElementById('pengumumanIsi').value;
+      const judul = document.getElementById('pengumumanJudul').value.trim();
+      const isi = document.getElementById('pengumumanIsi').value.trim();
 
-      const res = await apiPost('tambahPengumuman', { data: { JUDUL: judul, ISI: isi } });
-      alert(res.message);
-      document.getElementById('pengumumanJudul').value = '';
-      document.getElementById('pengumumanIsi').value = '';
+      const res = await apiPost('tambahPengumuman', { data: { JUDUL: judul, ISI: isi, STATUS: 'AKTIF' } });
+      if (res.success) {
+        alert('Pengumuman berhasil diterbitkan!');
+        document.getElementById('formPengumuman').reset();
+      }
     }
 
     async function fetchLogData() {
@@ -1762,20 +2040,24 @@
       if (res.success && res.data) {
         tbody.innerHTML = res.data.map(l => `
           <tr>
-            <td><strong>${l.LOG_ID}</strong></td>
+            <td><code>${l.LOG_ID}</code></td>
             <td>${l.USER_ID}</td>
-            <td><span class="badge-status badge-aktif">${l.ACTION}</span></td>
-            <td>${l.TARGET} (${l.TARGET_ID})</td>
-            <td>${l.INFO}</td>
-            <td>${new Date(l.CREATED_AT).toLocaleString('id-ID')}</td>
+            <td><strong>${l.ACTION}</strong></td>
+            <td>${l.TARGET} (${l.TARGET_ID || '-'})</td>
+            <td>${l.INFO || '-'}</td>
+            <td style="font-size:11px; color:var(--text-muted);">${new Date(l.CREATED_AT).toLocaleString('id-ID')}</td>
           </tr>
         `).join('');
       }
     }
 
     function logout() {
-      localStorage.removeItem('IGORNAS_TOKEN');
-      window.location.href = 'index.html';
+      if (confirm('Apakah Anda yakin ingin keluar dari Admin Dashboard?')) {
+        localStorage.removeItem('igornas_token');
+        localStorage.removeItem('igornas_user');
+        localStorage.removeItem('IGORNAS_TOKEN');
+        window.location.href = 'index.html';
+      }
     }
   </script>
 </body>
