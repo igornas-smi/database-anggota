@@ -1974,8 +1974,9 @@
         return alert('Gagal mengambil data anggota: ' + (res.message || 'Error'));
       }
 
-      const members = res.data;
-      if (members.length === 0) {
+      // Ambil array anggota baik berupa array langsung maupun dalam res.data.data
+      const members = Array.isArray(res.data) ? res.data : (Array.isArray(res.data.data) ? res.data.data : []);
+      if (!members || members.length === 0) {
         return alert('Tidak ada data anggota untuk diekspor!');
       }
 
