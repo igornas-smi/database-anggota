@@ -360,6 +360,46 @@
     textarea.form-control { resize: vertical; min-height: 80px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
+    /* Input Password with Eye Toggle */
+    .input-password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-password-wrapper .form-control {
+      padding-right: 42px !important;
+    }
+    .btn-toggle-pwd {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--ease);
+    }
+    .btn-toggle-pwd:hover {
+      color: var(--blue2);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     /* =============================================
        MODAL
        ============================================= */
@@ -1406,11 +1446,21 @@
     </div>
     <div class="form-group">
       <label class="form-label">Password Baru * (min. 8 karakter)</label>
-      <input type="password" id="resetNewPassword" class="form-control" placeholder="••••••••" minlength="8">
+      <div class="input-password-wrapper">
+        <input type="password" id="resetNewPassword" class="form-control" placeholder="••••••••" minlength="8">
+        <button type="button" class="btn-toggle-pwd" onclick="togglePwdVisibility('resetNewPassword', this)" title="Lihat/Sembunyikan Password" tabindex="-1">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
     </div>
     <div class="form-group">
       <label class="form-label">Konfirmasi Password Baru *</label>
-      <input type="password" id="resetConfirmPassword" class="form-control" placeholder="••••••••">
+      <div class="input-password-wrapper">
+        <input type="password" id="resetConfirmPassword" class="form-control" placeholder="••••••••">
+        <button type="button" class="btn-toggle-pwd" onclick="togglePwdVisibility('resetConfirmPassword', this)" title="Lihat/Sembunyikan Password" tabindex="-1">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
     </div>
     <div style="display:flex; gap:10px;">
       <button class="btn btn-gold" onclick="doResetPassword()" style="flex:1;" id="btnResetPwd">
@@ -1627,12 +1677,17 @@
   }
 
   async function apiPost(action, body = {}) {
-    const res = await fetch(`${API_URL}?action=${action}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: TOKEN, ...body })
-    });
-    return res.json();
+    try {
+      const res = await fetch(`${API_URL}?action=${encodeURIComponent(action)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ token: TOKEN, ...body })
+      });
+      return await res.json();
+    } catch (err) {
+      console.error('apiPost error:', err);
+      return { success: false, message: 'Gagal menghubungi server: ' + err.message };
+    }
   }
 
   /* -------------------------------------------------------
@@ -2182,11 +2237,42 @@
     }).join('');
   }
 
+  function togglePwdVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+      input.type = 'text';
+      if (icon) {
+        icon.className = 'fa-solid fa-eye-slash';
+      }
+    } else {
+      input.type = 'password';
+      if (icon) {
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+  }
+
   function openResetPassword(userId) {
     document.getElementById('resetUserId').value = userId;
     document.getElementById('resetUserIdDisplay').value = userId;
-    document.getElementById('resetNewPassword').value = '';
-    document.getElementById('resetConfirmPassword').value = '';
+    
+    const newPwd = document.getElementById('resetNewPassword');
+    const confirmPwd = document.getElementById('resetConfirmPassword');
+    if (newPwd) {
+      newPwd.value = '';
+      newPwd.type = 'password';
+    }
+    if (confirmPwd) {
+      confirmPwd.value = '';
+      confirmPwd.type = 'password';
+    }
+
+    document.querySelectorAll('#modalResetPassword .btn-toggle-pwd i').forEach(icon => {
+      icon.className = 'fa-solid fa-eye';
+    });
+
     openModal('modalResetPassword');
   }
 
@@ -2194,15 +2280,39 @@
     const userId  = document.getElementById('resetUserId').value;
     const newPwd  = document.getElementById('resetNewPassword').value;
     const confirm = document.getElementById('resetConfirmPassword').value;
-    if (newPwd.length < 8)    { showToast('Password minimal 8 karakter!', 'error'); return; }
-    if (newPwd !== confirm)   { showToast('Konfirmasi password tidak cocok!', 'error'); return; }
+
+    if (!newPwd || newPwd.length < 8) {
+      alert('Password minimal 8 karakter!');
+      showToast('Password minimal 8 karakter!', 'error');
+      return;
+    }
+    if (newPwd !== confirm) {
+      alert('Konfirmasi password tidak cocok!');
+      showToast('Konfirmasi password tidak cocok!', 'error');
+      return;
+    }
 
     const btn = document.getElementById('btnResetPwd');
-    btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Memproses...';
-    const res = await apiPost('resetUserPassword', { userId, newPassword: newPwd });
-    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> Reset Password';
-    showToast(res.message, res.success ? 'success' : 'error');
-    if (res.success) closeModal('modalResetPassword');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Memproses...';
+
+    try {
+      const res = await apiPost('resetUserPassword', { userId, newPassword: newPwd });
+      if (res && res.success) {
+        alert(res.message || 'Password berhasil direset!');
+        showToast(res.message || 'Password berhasil direset!', 'success');
+        closeModal('modalResetPassword');
+      } else {
+        alert('Gagal mereset password: ' + (res?.message || 'Terjadi kesalahan pada server'));
+        showToast(res?.message || 'Gagal mereset password', 'error');
+      }
+    } catch (err) {
+      alert('Terjadi kesalahan koneksi: ' + err.message);
+      showToast('Error: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-key"></i> Reset Password';
+    }
   }
 
   function openUbahRole(userId, email, currentRole) {
