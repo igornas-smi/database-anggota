@@ -644,6 +644,21 @@
       display: block;
     }
 
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 95;
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+
     /* =============================================
        RESPONSIVE MOBILE
        ============================================= */
@@ -874,6 +889,9 @@
   </style>
 </head>
 <body>
+
+<!-- SIDEBAR OVERLAY (MOBILE) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(true)"></div>
 
 <!-- ===================================================
      SIDEBAR
@@ -1721,8 +1739,16 @@
   /* -------------------------------------------------------
      SIDEBAR TOGGLE
   ------------------------------------------------------- */
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
+  function toggleSidebar(forceClose = false) {
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebarOverlay');
+    if (forceClose) {
+      sb?.classList.remove('open');
+      ov?.classList.remove('active');
+    } else {
+      sb?.classList.toggle('open');
+      if (ov) ov.classList.toggle('active', sb?.classList.contains('open'));
+    }
   }
 
   /* -------------------------------------------------------
@@ -1768,6 +1794,10 @@
   };
 
   function switchTab(tab) {
+    if (window.innerWidth <= 900 || document.getElementById('sidebar')?.classList.contains('open')) {
+      toggleSidebar(true);
+    }
+
     document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
