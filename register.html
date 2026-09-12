@@ -133,7 +133,6 @@
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
-    /* Wrapper untuk fitur intip kata sandi */
     .input-wrapper {
       position: relative;
     }
@@ -303,7 +302,6 @@
 
       <form id="registerForm">
 
-        <!-- Data Pribadi -->
         <div class="section-title"><i class="fa-solid fa-user"></i> Data Pribadi</div>
         <div class="form-grid">
           <div class="form-group full">
@@ -341,18 +339,18 @@
           </div>
 
           <div class="form-group">
-            <label for="kecamatan">Kecamatan Domisili</label>
-            <input type="text" id="kecamatan" placeholder="Nama kecamatan">
+            <label for="kecamatan">Kecamatan Domisili (Tempat Tinggal)</label>
+            <input type="text" id="kecamatan" placeholder="Nama kecamatan domisili">
           </div>
 
           <div class="form-group">
-            <label for="kelurahan">Kelurahan</label>
-            <input type="text" id="kelurahan" placeholder="Nama kelurahan">
+            <label for="kelurahan">Kelurahan Domisili</label>
+            <input type="text" id="kelurahan" placeholder="Nama kelurahan domisili">
           </div>
 
           <div class="form-group full">
-            <label for="alamat">Alamat Lengkap</label>
-            <textarea id="alamat" placeholder="Alamat RT/RW, Jalan, No. Rumah"></textarea>
+            <label for="alamat">Alamat Lengkap Rumah / Tempat Tinggal</label>
+            <textarea id="alamat" placeholder="Alamat rumah tinggal (RT/RW, Jalan, No. Rumah)"></textarea>
           </div>
 
           <div class="form-group full">
@@ -361,17 +359,59 @@
           </div>
         </div>
 
-        <!-- Data Keanggotaan & Profesi -->
         <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> Data Keanggotaan & Profesi</div>
         <div class="form-grid">
           <div class="form-group">
-            <label for="sekolah">Sekolah / Instansi Mengajar</label>
-            <input type="text" id="sekolah" placeholder="Contoh: SMPN 4 Kota Sukabumi">
+            <label for="sekolah">Sekolah / Instansi Mengajar <span class="required">*</span></label>
+            <input type="text" id="sekolah" placeholder="Contoh: SMPN 4 Kota Sukabumi" required>
           </div>
 
           <div class="form-group">
-            <label for="jabatan">Jabatan Guru</label>
-            <input type="text" id="jabatan" placeholder="Contoh: Guru PJOK">
+            <label for="jenjang">Jenjang Sekolah</label>
+            <select id="jenjang">
+              <option value="">-- Pilih Jenjang --</option>
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA">SMA</option>
+              <option value="SMK">SMK</option>
+              <option value="MI">MI</option>
+              <option value="MTS">MTs</option>
+              <option value="MA">MA</option>
+              <option value="LAINNYA">Lainnya</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="kecamatanSekolah">Kecamatan Unit Kerja / Sekolah <span class="required">*</span></label>
+            <select id="kecamatanSekolah" required>
+              <option value="">-- Pilih Kecamatan Sekolah --</option>
+              <option value="Baros">Baros</option>
+              <option value="Cibeureum">Cibeureum</option>
+              <option value="Cikole">Cikole</option>
+              <option value="Citamiang">Citamiang</option>
+              <option value="Gunungpuyuh">Gunungpuyuh</option>
+              <option value="Lembursitu">Lembursitu</option>
+              <option value="Warudoyong">Warudoyong</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="kelurahanSekolah">Kelurahan Unit Kerja / Sekolah</label>
+            <input type="text" id="kelurahanSekolah" placeholder="Nama kelurahan lokasi sekolah">
+          </div>
+
+          <div class="form-group">
+            <label for="jabatan">Jabatan</label>
+            <select id="jabatan">
+              <option value="Guru PJOK" selected>Guru PJOK</option>
+              <option value="Kepala Sekolah">Kepala Sekolah</option>
+              <option value="Instansi Lainnya">Instansi Lainnya</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="alamatSekolah">Alamat Lengkap Unit Kerja / Sekolah</label>
+            <input type="text" id="alamatSekolah" placeholder="Alamat jalan / lokasi sekolah mengajar">
           </div>
 
           <div class="form-group full">
@@ -380,7 +420,6 @@
           </div>
         </div>
 
-        <!-- Akun Login -->
         <div class="section-title"><i class="fa-solid fa-lock"></i> Akun Login</div>
         <div class="form-grid">
           <div class="form-group full">
@@ -451,7 +490,6 @@
   const message = document.getElementById('message');
   const resultBox = document.getElementById('resultBox');
 
-  // Fungsi toggle lihat/sembunyikan kata sandi
   function togglePasswordVisibility(inputId, iconId) {
     const input = document.getElementById(inputId);
     const icon = document.getElementById(iconId);
@@ -477,7 +515,6 @@
     message.className = 'message';
   }
 
-  // Helper format 14 digit nomor anggota agar angka 0 di depan selalu ada
   function formatNomorAnggota(no) {
     if (!no) return '';
     let str = String(no).trim().replace(/^'+/, '');
@@ -515,14 +552,15 @@
     const alamat = document.getElementById('alamat').value.trim();
     const kecamatan = document.getElementById('kecamatan').value.trim();
     const kelurahan = document.getElementById('kelurahan').value.trim();
-
-    // Normalisasi nomor HP: otomatis tambahkan angka 0 jika pengguna mengetik 812...
     let noHp = document.getElementById('noHp').value.trim();
     if (noHp.startsWith('8') && noHp.length >= 9) {
       noHp = '0' + noHp;
     }
-
     const sekolah = document.getElementById('sekolah').value.trim();
+    const jenjang = document.getElementById('jenjang').value;
+    const kecamatanSekolah = document.getElementById('kecamatanSekolah').value.trim();
+    const kelurahanSekolah = document.getElementById('kelurahanSekolah').value.trim();
+    const alamatSekolah = document.getElementById('alamatSekolah').value.trim();
     const jabatan = document.getElementById('jabatan').value.trim();
     const cabor = document.getElementById('cabor').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -531,6 +569,8 @@
 
     if (!nama) return showMessage('Nama lengkap wajib diisi.', 'error');
     if (!validateNIK(nik)) return showMessage('NIK harus terdiri dari 16 digit angka.', 'error');
+    if (!sekolah) return showMessage('Sekolah / Instansi Mengajar wajib diisi.', 'error');
+    if (!kecamatanSekolah) return showMessage('Kecamatan Unit Kerja / Sekolah wajib dipilih.', 'error');
     if (!email) return showMessage('Email wajib diisi.', 'error');
     if (password.length < 8) return showMessage('Password minimal 8 karakter.', 'error');
     if (password !== passwordConfirm) return showMessage('Konfirmasi password tidak sama.', 'error');
@@ -551,6 +591,10 @@
         NO_HP: noHp,
         EMAIL: email,
         SEKOLAH_ID: sekolah,
+        JENJANG: jenjang,
+        KECAMATAN_SEKOLAH: kecamatanSekolah,
+        KELURAHAN_SEKOLAH: kelurahanSekolah,
+        ALAMAT_SEKOLAH: alamatSekolah,
         JABATAN: jabatan,
         CABOR_ID: cabor,
         PASSWORD: password
