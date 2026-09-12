@@ -1195,6 +1195,31 @@
           </div>
         </div>
 
+        <!-- STATISTIK BERDASARKAN JABATAN -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-user-tie" style="color:var(--primary-light);"></i> Sebaran Anggota Berdasarkan Jabatan</h3>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">IGORNAS Kota Sukabumi</span>
+          </div>
+          <div class="mini-stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-purple"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="mini-stat-title">Kepala Sekolah</div>
+              <div class="mini-stat-count" id="statKepalaSekolah">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-blue"><i class="fa-solid fa-person-chalkboard"></i></div>
+              <div class="mini-stat-title">Guru PJOK</div>
+              <div class="mini-stat-count" id="statGuruPJOK">0</div>
+            </div>
+            <div class="mini-stat-card">
+              <div class="mini-stat-icon icon-orange"><i class="fa-solid fa-building-user"></i></div>
+              <div class="mini-stat-title">Instansi Lainnya</div>
+              <div class="mini-stat-count" id="statInstansiLainnya">0</div>
+            </div>
+          </div>
+        </div>
+
         <!-- RECENT PENGAJUAN PREVIEW -->
         <div class="card-panel">
           <div class="panel-header">
@@ -1433,28 +1458,71 @@
             <input type="date" id="addTanggalLahir" class="form-control">
           </div>
           <div class="form-group" style="margin-bottom:10px;">
-            <label>Sekolah / Unit Kerja</label>
-            <input type="text" id="addSekolah" class="form-control" placeholder="Contoh: SMPN 4 Kota Sukabumi">
+            <label>Sekolah / Tempat Tugas <span style="color:var(--accent);">*</span></label>
+            <input type="text" id="addSekolah" class="form-control" placeholder="Contoh: SMPN 4 Kota Sukabumi" required>
           </div>
           <div class="form-group" style="margin-bottom:10px;">
-            <label>Kecamatan</label>
+            <label>Jenjang Sekolah</label>
+            <select id="addJenjang" class="form-control">
+              <option value="">-- Pilih Jenjang --</option>
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA">SMA</option>
+              <option value="SMK">SMK</option>
+              <option value="MI">MI</option>
+              <option value="MTS">MTs</option>
+              <option value="MA">MA</option>
+              <option value="LAINNYA">Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Kecamatan Unit Kerja / Sekolah <span style="color:var(--accent);">*</span></label>
+            <select id="addKecamatanSekolah" class="form-control" required>
+              <option value="">-- Pilih Kecamatan Sekolah --</option>
+              <option value="Baros">Baros</option>
+              <option value="Cibeureum">Cibeureum</option>
+              <option value="Cikole">Cikole</option>
+              <option value="Citamiang">Citamiang</option>
+              <option value="Gunungpuyuh">Gunungpuyuh</option>
+              <option value="Lembursitu">Lembursitu</option>
+              <option value="Warudoyong">Warudoyong</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Kelurahan Unit Kerja / Sekolah</label>
+            <input type="text" id="addKelurahanSekolah" class="form-control" placeholder="Kelurahan tempat sekolah berdiri">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
+            <label>Alamat Lengkap Unit Kerja / Sekolah</label>
+            <input type="text" id="addAlamatSekolah" class="form-control" placeholder="Alamat jalan/lokasi tempat sekolah berdiri">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Kecamatan Domisili (Tempat Tinggal)</label>
             <input type="text" id="addKecamatan" class="form-control" placeholder="Contoh: Cikole">
           </div>
           <div class="form-group" style="margin-bottom:10px;">
-            <label>Kelurahan</label>
+            <label>Kelurahan Domisili (Tempat Tinggal)</label>
             <input type="text" id="addKelurahan" class="form-control" placeholder="Contoh: Cisarua">
           </div>
           <div class="form-group" style="margin-bottom:10px;">
             <label>Cabang Olahraga</label>
             <input type="text" id="addCabor" class="form-control" placeholder="Contoh: Sepak Bola / Bola Voli">
           </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Jabatan</label>
+            <select id="addJabatan" class="form-control">
+              <option value="Guru PJOK" selected>Guru PJOK</option>
+              <option value="Kepala Sekolah">Kepala Sekolah</option>
+              <option value="Instansi Lainnya">Instansi Lainnya</option>
+            </select>
+          </div>
           <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
             <label>Email Anggota (Untuk Akun Login)</label>
             <input type="email" id="addEmail" class="form-control" placeholder="anggota@gmail.com">
           </div>
           <div class="form-group" style="grid-column: 1 / -1; margin-bottom:10px;">
-            <label>Alamat Lengkap</label>
-            <textarea id="addAlamat" class="form-control" rows="2" placeholder="Alamat rumah tinggal"></textarea>
+            <label>Alamat Lengkap Domisili (Tempat Tinggal)</label>
+            <textarea id="addAlamat" class="form-control" rows="2" placeholder="Alamat rumah tempat tinggal"></textarea>
           </div>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
@@ -1637,9 +1705,12 @@
         if (d.kecamatan) {
           renderStatistikKecamatan(d.kecamatan);
         }
+        if (d.jabatan) {
+          renderStatistikJabatan(d.jabatan);
+        }
 
-        // Fallback otomatis jika backend belum menyediakan field jenjang / kecamatan
-        if (!d.jenjang || !d.kecamatan || !d.jenisKelamin) {
+        // Fallback otomatis jika backend belum menyediakan field jenjang / kecamatan / jabatan
+        if (!d.jenjang || !d.kecamatan || !d.jenisKelamin || !d.jabatan) {
           hitungStatistikDariAnggota();
         }
 
@@ -1674,6 +1745,16 @@
       document.getElementById('statWarudoyong').innerText  = kecamatan.WARUDOYONG || 0;
     }
 
+    function renderStatistikJabatan(jabatan) {
+      if (!jabatan) return;
+      const kepsekEl = document.getElementById('statKepalaSekolah');
+      const pjokEl = document.getElementById('statGuruPJOK');
+      const lainnyaEl = document.getElementById('statInstansiLainnya');
+      if (kepsekEl) kepsekEl.innerText = jabatan.KEPALA_SEKOLAH || jabatan.kepalaSekolah || 0;
+      if (pjokEl) pjokEl.innerText = jabatan.GURU_PJOK || jabatan.guruPJOK || 0;
+      if (lainnyaEl) lainnyaEl.innerText = jabatan.LAINNYA || jabatan.instansiLainnya || 0;
+    }
+
     async function hitungStatistikDariAnggota() {
       try {
         const res = await apiGet('getAnggota');
@@ -1684,6 +1765,7 @@
         let perempuan = 0;
         const jenjang = { SD: 0, SMP: 0, SMA: 0, SMK: 0, MI: 0, MTS: 0, MA: 0 };
         const kecamatan = { BAROS: 0, CIBEUREUM: 0, CIKOLE: 0, CITAMIANG: 0, GUNUNGPUYUH: 0, LEMBURSITU: 0, WARUDOYONG: 0 };
+        const jabatan = { KEPALA_SEKOLAH: 0, GURU_PJOK: 0, LAINNYA: 0 };
 
         members.forEach(item => {
           // Gender
@@ -1695,8 +1777,11 @@
           }
 
           // Jenjang Sekolah
+          const jVal = String(item.JENJANG || item.TINGKAT || '').toUpperCase().trim();
           const sekolah = String(item.SEKOLAH_ID || item.SEKOLAH || '').toUpperCase();
-          if (sekolah.includes('SMK')) jenjang.SMK++;
+          if (jenjang.hasOwnProperty(jVal)) {
+            jenjang[jVal]++;
+          } else if (sekolah.includes('SMK')) jenjang.SMK++;
           else if (sekolah.includes('SMA')) jenjang.SMA++;
           else if (sekolah.includes('SMP')) jenjang.SMP++;
           else if (sekolah.includes('SD')) jenjang.SD++;
@@ -1704,8 +1789,8 @@
           else if (sekolah.includes('MA') && !sekolah.includes('SMA')) jenjang.MA++;
           else if (sekolah.includes('MI')) jenjang.MI++;
 
-          // Wilayah Kecamatan
-          const kec = String(item.KECAMATAN_ID || item.KECAMATAN || item.ALAMAT || '').toUpperCase();
+          // Wilayah Kecamatan (Berdasarkan Unit Kerja / Sekolah)
+          const kec = String(item.KECAMATAN_SEKOLAH || item.ALAMAT_SEKOLAH || item.KECAMATAN_ID || item.KECAMATAN || item.ALAMAT || '').toUpperCase();
           if (kec.includes('BAROS')) kecamatan.BAROS++;
           else if (kec.includes('CIBEUREUM')) kecamatan.CIBEUREUM++;
           else if (kec.includes('CIKOLE')) kecamatan.CIKOLE++;
@@ -1713,6 +1798,16 @@
           else if (kec.includes('GUNUNGPUYUH') || kec.includes('GUNUNG PUYUH')) kecamatan.GUNUNGPUYUH++;
           else if (kec.includes('LEMBURSITU') || kec.includes('LEMBUR SITU')) kecamatan.LEMBURSITU++;
           else if (kec.includes('WARUDOYONG') || kec.includes('WARU DOYONG')) kecamatan.WARUDOYONG++;
+
+          // Jabatan
+          const j = String(item.JABATAN || '').trim().toUpperCase();
+          if (j.includes('KEPALA') || j.includes('KEPSEK') || j === 'KS') {
+            jabatan.KEPALA_SEKOLAH++;
+          } else if (j.includes('PJOK') || j.includes('PENJAS') || j.includes('OLAHRAGA') || j.includes('GURU') || !j) {
+            jabatan.GURU_PJOK++;
+          } else {
+            jabatan.LAINNYA++;
+          }
         });
 
         const statLakiEl = document.getElementById('statLakiLaki');
@@ -1722,6 +1817,7 @@
 
         renderStatistikJenjang(jenjang);
         renderStatistikKecamatan(kecamatan);
+        renderStatistikJabatan(jabatan);
       } catch (err) {
         console.error('Gagal menghitung statistik anggota:', err);
       }
@@ -1842,6 +1938,11 @@
         hp = '0' + hp;
       }
 
+      const kecSekolah = document.getElementById('addKecamatanSekolah').value;
+      if (!kecSekolah) {
+        return alert('Silakan pilih Kecamatan Unit Kerja / Sekolah!');
+      }
+
       const payload = {
         NAMA_LENGKAP: nama,
         NIK: nik,
@@ -1851,9 +1952,14 @@
         TEMPAT_LAHIR: document.getElementById('addTempatLahir').value.trim(),
         TANGGAL_LAHIR: document.getElementById('addTanggalLahir').value,
         SEKOLAH_ID: document.getElementById('addSekolah').value.trim(),
+        JENJANG: document.getElementById('addJenjang').value,
+        JABATAN: document.getElementById('addJabatan').value.trim(),
+        KECAMATAN_SEKOLAH: kecSekolah,
+        KELURAHAN_SEKOLAH: document.getElementById('addKelurahanSekolah').value.trim(),
+        ALAMAT_SEKOLAH: document.getElementById('addAlamatSekolah').value.trim(),
+        CABOR_ID: document.getElementById('addCabor').value.trim(),
         KECAMATAN_ID: document.getElementById('addKecamatan').value.trim(),
         KELURAHAN: document.getElementById('addKelurahan').value.trim(),
-        CABOR_ID: document.getElementById('addCabor').value.trim(),
         EMAIL: document.getElementById('addEmail').value.trim(),
         ALAMAT: document.getElementById('addAlamat').value.trim()
       };
@@ -2216,11 +2322,15 @@
             'No WhatsApp/HP': noHp,
             'Email': m.EMAIL || '',
             'Sekolah / Instansi': m.SEKOLAH_ID || '',
+            'Jenjang': m.JENJANG || '',
             'Jabatan': m.JABATAN || '',
             'Cabang Olahraga': m.CABOR_ID || '',
-            'Kecamatan': m.KECAMATAN_ID || '',
-            'Kelurahan': m.KELURAHAN || '',
-            'Alamat Lengkap': m.ALAMAT || '',
+            'Kecamatan Unit Kerja': m.KECAMATAN_SEKOLAH || '',
+            'Kelurahan Unit Kerja': m.KELURAHAN_SEKOLAH || '',
+            'Alamat Unit Kerja': m.ALAMAT_SEKOLAH || '',
+            'Kecamatan Domisili': m.KECAMATAN_ID || '',
+            'Kelurahan Domisili': m.KELURAHAN || '',
+            'Alamat Domisili': m.ALAMAT || '',
             'Status Keanggotaan': m.STATUS_KEANGGOTAAN || 'AKTIF'
           };
         });
@@ -2249,7 +2359,8 @@
           ws['!cols'] = [
             { wch: 5 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 22 },
             { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 18 }, { wch: 26 }, { wch: 28 },
-            { wch: 16 }, { wch: 20 }, { wch: 16 }, { wch: 16 }, { wch: 35 }, { wch: 14 }
+            { wch: 12 }, { wch: 16 }, { wch: 20 }, { wch: 22 }, { wch: 22 }, { wch: 30 },
+            { wch: 20 }, { wch: 20 }, { wch: 35 }, { wch: 14 }
           ];
           const wb = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(wb, ws, 'Data Anggota');
