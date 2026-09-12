@@ -1324,6 +1324,34 @@
           </div>
         </div>
 
+        <!-- STATISTIK BERDASARKAN JABATAN (KEPALA SEKOLAH, GURU PJOK, INSTANSI LAINNYA) -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-user-tie"></i> Sebaran Anggota Berdasarkan Jabatan</h3>
+            <span style="font-size:12.5px; color:var(--text-muted); font-weight:600;">IGORNAS Kota Sukabumi</span>
+          </div>
+
+          <div class="jenjang-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="jenjang-card">
+              <div class="jenjang-icon icon-purple"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="jenjang-title">Kepala Sekolah</div>
+              <div class="jenjang-count" id="statJabatanKepsek">0</div>
+            </div>
+
+            <div class="jenjang-card">
+              <div class="jenjang-icon icon-blue"><i class="fa-solid fa-person-chalkboard"></i></div>
+              <div class="jenjang-title">Guru PJOK</div>
+              <div class="jenjang-count" id="statJabatanPJOK">0</div>
+            </div>
+
+            <div class="jenjang-card">
+              <div class="jenjang-icon icon-amber"><i class="fa-solid fa-building-user"></i></div>
+              <div class="jenjang-title">Instansi Lainnya</div>
+              <div class="jenjang-count" id="statJabatanLainnya">0</div>
+            </div>
+          </div>
+        </div>
+
         <!-- RINGKASAN DATA SAYA -->
         <div class="card-panel">
           <div class="panel-header">
@@ -1457,18 +1485,18 @@
                 </div>
 
                 <div class="form-group full">
-                  <label for="formAlamat">Alamat Tempat Tinggal</label>
+                  <label for="formAlamat">Alamat Tempat Tinggal (Domisili)</label>
                   <input type="text" id="formAlamat" class="form-control" placeholder="Jalan, RT/RW, No. Rumah">
                 </div>
 
                 <div class="form-group">
-                  <label for="formKecamatan">Kecamatan</label>
-                  <input type="text" id="formKecamatan" class="form-control" placeholder="Kecamatan">
+                  <label for="formKecamatan">Kecamatan Domisili</label>
+                  <input type="text" id="formKecamatan" class="form-control" placeholder="Kecamatan Tempat Tinggal">
                 </div>
 
                 <div class="form-group">
-                  <label for="formKelurahan">Kelurahan</label>
-                  <input type="text" id="formKelurahan" class="form-control" placeholder="Kelurahan">
+                  <label for="formKelurahan">Kelurahan Domisili</label>
+                  <input type="text" id="formKelurahan" class="form-control" placeholder="Kelurahan Tempat Tinggal">
                 </div>
               </div>
 
@@ -1478,18 +1506,61 @@
 
               <div class="form-grid">
                 <div class="form-group full">
-                  <label for="formSekolah">Sekolah / Tempat Bertugas</label>
+                  <label for="formSekolah">Sekolah / Tempat Bertugas <span style="color:var(--accent);">*</span></label>
                   <input type="text" id="formSekolah" class="form-control" required placeholder="Contoh: SMPN 4 Kota Sukabumi">
                 </div>
 
                 <div class="form-group">
-                  <label for="formJabatan">Jabatan Guru</label>
-                  <input type="text" id="formJabatan" class="form-control" placeholder="Contoh: Guru PJOK / Guru Olahraga">
+                  <label for="formJenjang">Jenjang Sekolah</label>
+                  <select id="formJenjang" class="form-control">
+                    <option value="">-- Pilih Jenjang --</option>
+                    <option value="SD">SD</option>
+                    <option value="SMP">SMP</option>
+                    <option value="SMA">SMA</option>
+                    <option value="SMK">SMK</option>
+                    <option value="MI">MI</option>
+                    <option value="MTS">MTs</option>
+                    <option value="MA">MA</option>
+                    <option value="LAINNYA">Lainnya</option>
+                  </select>
                 </div>
 
                 <div class="form-group">
+                  <label for="formJabatan">Jabatan</label>
+                  <select id="formJabatan" class="form-control">
+                    <option value="Guru PJOK" selected>Guru PJOK</option>
+                    <option value="Kepala Sekolah">Kepala Sekolah</option>
+                    <option value="Instansi Lainnya">Instansi Lainnya</option>
+                  </select>
+                </div>
+
+                <div class="form-group full">
                   <label for="formCabor">Spesialisasi Cabang Olahraga</label>
                   <input type="text" id="formCabor" class="form-control" placeholder="Contoh: Sepak Bola / Bola Voli / Atletik">
+                </div>
+
+                <div class="form-group">
+                  <label for="formKecamatanSekolah">Kecamatan Unit Kerja / Sekolah <span style="color:var(--accent);">*</span></label>
+                  <select id="formKecamatanSekolah" class="form-control" required>
+                    <option value="">-- Pilih Kecamatan Sekolah --</option>
+                    <option value="Baros">Baros</option>
+                    <option value="Cibeureum">Cibeureum</option>
+                    <option value="Cikole">Cikole</option>
+                    <option value="Citamiang">Citamiang</option>
+                    <option value="Gunungpuyuh">Gunungpuyuh</option>
+                    <option value="Lembursitu">Lembursitu</option>
+                    <option value="Warudoyong">Warudoyong</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="formKelurahanSekolah">Kelurahan Unit Kerja / Sekolah</label>
+                  <input type="text" id="formKelurahanSekolah" class="form-control" placeholder="Kelurahan tempat sekolah berdiri">
+                </div>
+
+                <div class="form-group full">
+                  <label for="formAlamatSekolah">Alamat Lengkap Unit Kerja / Sekolah</label>
+                  <input type="text" id="formAlamatSekolah" class="form-control" placeholder="Jalan, No., RT/RW tempat sekolah berdiri">
                 </div>
 
                 <div class="form-group full">
@@ -1750,8 +1821,22 @@
       document.getElementById('formKecamatan').value = data.KECAMATAN_ID || '';
       document.getElementById('formKelurahan').value = data.KELURAHAN || '';
       document.getElementById('formSekolah').value = data.SEKOLAH_ID || '';
-      document.getElementById('formJabatan').value = data.JABATAN || '';
+      document.getElementById('formJenjang').value = data.JENJANG || '';
+      const rawJabatan = String(data.JABATAN || '').toUpperCase();
+      const jabEl = document.getElementById('formJabatan');
+      if (rawJabatan.includes('KEPALA') || rawJabatan.includes('KEPSEK') || rawJabatan === 'KS') {
+        jabEl.value = 'Kepala Sekolah';
+      } else if (rawJabatan.includes('PJOK') || rawJabatan.includes('PENJAS') || rawJabatan.includes('OLAHRAGA') || rawJabatan.includes('GURU')) {
+        jabEl.value = 'Guru PJOK';
+      } else if (rawJabatan) {
+        jabEl.value = 'Instansi Lainnya';
+      } else {
+        jabEl.value = 'Guru PJOK';
+      }
       document.getElementById('formCabor').value = data.CABOR_ID || '';
+      document.getElementById('formKecamatanSekolah').value = data.KECAMATAN_SEKOLAH || '';
+      document.getElementById('formKelurahanSekolah').value = data.KELURAHAN_SEKOLAH || '';
+      document.getElementById('formAlamatSekolah').value = data.ALAMAT_SEKOLAH || '';
       document.getElementById('formEmail').value = data.EMAIL || '';
 
       // Avatar
@@ -1917,8 +2002,12 @@
           KECAMATAN_ID: document.getElementById('formKecamatan').value.trim(),
           KELURAHAN: document.getElementById('formKelurahan').value.trim(),
           SEKOLAH_ID: document.getElementById('formSekolah').value.trim(),
+          JENJANG: document.getElementById('formJenjang').value,
           JABATAN: document.getElementById('formJabatan').value.trim(),
-          CABOR_ID: document.getElementById('formCabor').value.trim()
+          CABOR_ID: document.getElementById('formCabor').value.trim(),
+          KECAMATAN_SEKOLAH: document.getElementById('formKecamatanSekolah').value,
+          KELURAHAN_SEKOLAH: document.getElementById('formKelurahanSekolah').value.trim(),
+          ALAMAT_SEKOLAH: document.getElementById('formAlamatSekolah').value.trim()
         };
 
         const user = JSON.parse(localStorage.getItem('igornas_user') || '{}');
@@ -1966,6 +2055,15 @@
             document.getElementById('statMI').textContent = d.jenjang.MI || 0;
             document.getElementById('statMTS').textContent = d.jenjang.MTS || 0;
             document.getElementById('statMA').textContent = d.jenjang.MA || 0;
+          }
+
+          if (d.jabatan) {
+            const kepEl = document.getElementById('statJabatanKepsek');
+            const pjokEl = document.getElementById('statJabatanPJOK');
+            const lainEl = document.getElementById('statJabatanLainnya');
+            if (kepEl) kepEl.textContent = d.jabatan.KEPALA_SEKOLAH || 0;
+            if (pjokEl) pjokEl.textContent = d.jabatan.GURU_PJOK || 0;
+            if (lainEl) lainEl.textContent = d.jabatan.LAINNYA || 0;
           }
         } else {
           document.getElementById('statTotalAnggota').textContent = '120+';
