@@ -1627,9 +1627,15 @@
     }
     let API_URL = DEFAULT_API_URL;
     const token = localStorage.getItem('igornas_token');
+    let user = null;
+    try {
+      user = JSON.parse(localStorage.getItem('igornas_user') || 'null');
+    } catch(e) { user = null; }
 
-    // Cek Session
-    if (!token) {
+    // Cek Session: Jika belum login, alihkan ke index.html
+    if (!token || !user) {
+      localStorage.removeItem('igornas_token');
+      localStorage.removeItem('igornas_user');
       window.location.href = 'index.html';
     }
 
@@ -1678,6 +1684,7 @@
       const icon = type === 'success' ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-triangle-exclamation"></i>';
       box.innerHTML = `${icon} <span>${text}</span>`;
       box.className = 'alert-msg ' + type;
+      box.style.display = 'flex';
       box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       setTimeout(() => { box.style.display = 'none'; }, 6000);
     }
@@ -1687,15 +1694,29 @@
       showLoading(true, 'Mengambil data profil anggota...');
 
       try {
-        const user = JSON.parse(localStorage.getItem('igornas_user') || '{}');
-        const memberId = user.MEMBER_ID || user.memberId;
+        const userStr = localStorage.getItem('igornas_user');
+        const userObj = userStr ? JSON.parse(userStr) : null;
+        const memberId = userObj ? (userObj.MEMBER_ID || userObj.memberId || userObj.USER_ID) : '';
 
-        if (!memberId) throw new Error('Data sesi tidak lengkap. Silakan login kembali.');
+        if (!memberId) {
+          localStorage.removeItem('igornas_token');
+          localStorage.removeItem('igornas_user');
+          window.location.href = 'index.html';
+          return;
+        }
 
         const response = await fetch(`${API_URL}?action=getAnggotaById&token=${encodeURIComponent(token)}&memberId=${encodeURIComponent(memberId)}`);
         const result = await response.json();
 
-        if (!result.success) throw new Error(result.message || 'Gagal memuat profil anggota');
+        if (!result.success) {
+          if (result.message && (result.message.includes('Session') || result.message.includes('Token') || result.message.includes('berakhir'))) {
+            localStorage.removeItem('igornas_token');
+            localStorage.removeItem('igornas_user');
+            window.location.href = 'index.html';
+            return;
+          }
+          throw new Error(result.message || 'Gagal memuat profil anggota');
+        }
 
         memberData = result.data || {};
         populateUI(memberData);
@@ -1704,10 +1725,6 @@
       } catch (error) {
         console.error('Error:', error);
         showAlert(error.message, 'error');
-        const err = String(error.message || '').toLowerCase();
-        if (err.includes('token') || err.includes('session')) {
-          logout();
-        }
       } finally {
         showLoading(false);
       }
