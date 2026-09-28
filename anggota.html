@@ -1172,8 +1172,8 @@
 
       <button type="button" class="nav-item" onclick="switchTab('kartu')" id="nav-kartu">
         <i class="fa-solid fa-address-card"></i>
-        <span>Unduh E-Kartu</span>
-        <span class="badge">E-KTA</span>
+        <span>Portal KTA</span>
+        <span class="badge" style="background:#16a34a; color:white;">Link</span>
       </button>
     </div>
 
@@ -1586,76 +1586,29 @@
       </section>
 
       <!-- ========================================================
-           TAB 3: KARTU ANGGOTA (GENERATE & CETAK E-KTA RESMI)
+           TAB 3: PORTAL KTA & INDONESIA BUGAR
            ======================================================== -->
       <section id="tab-kartu" class="tab-view">
         
-        <div class="card-panel" style="text-align:center;">
-          <div class="panel-header" style="justify-content:center; text-align:center;">
-            <div>
-              <h3 style="justify-content:center;"><i class="fa-solid fa-address-card"></i> Unduh E-Kartu Anggota (KTA) Digital</h3>
-              <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
-                Kartu Tanda Anggota Resmi Ikatan Guru Olahraga Nasional (IGORNAS) Pengurus Kota Sukabumi
-              </p>
+        <div class="card-panel" style="text-align:center; padding: 48px 24px;">
+          <div style="max-width:600px; margin:0 auto;">
+            <div style="width:84px; height:84px; background:#eff6ff; color:#2563eb; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:38px; margin-bottom:22px; box-shadow:0 10px 25px rgba(37,99,235,0.2);">
+              <i class="fa-solid fa-address-card"></i>
             </div>
-          </div>
-
-          <!-- TOOLBAR UNDUH & CETAK -->
-          <div class="kta-toolbar" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
-            <button type="button" class="btn btn-primary" onclick="generateKTA()">
-              <i class="fa-solid fa-arrows-rotate"></i> Perbarui Tampilan
-            </button>
-            <button type="button" class="btn btn-success" onclick="downloadKTA('png')" style="background:#16a34a; border-color:#16a34a; font-weight:700;">
-              <i class="fa-solid fa-download"></i> Unduh E-Kartu (PNG HD)
-            </button>
-            <button type="button" class="btn btn-outline" onclick="downloadKTA('jpeg')">
-              <i class="fa-regular fa-image"></i> Unduh JPEG
-            </button>
-            <button type="button" class="btn btn-outline" onclick="printKTA()" style="color:#475569; border-color:#cbd5e1;">
-              <i class="fa-solid fa-print"></i> Cetak Langsung
-            </button>
-          </div>
-
-          <!-- KTA PREVIEW SECTION -->
-          <div class="kta-section">
             
-            <!-- KARTU RESMI IGORNAS KOTA SUKABUMI (BLANKO RESMI DENGAN OVERLAY DATA) -->
-            <div class="kta-card" id="ktaCardPreview">
-              
-              <!-- Blanko Gambar Template Resmi (Dijamin Tercetak di Semua Browser) -->
-              <img src="assets/kta-template.png" class="kta-template-bg" alt="Template KTA IGORNAS" draggable="false">
-
-              <!-- Foto Anggota -->
-              <div class="kta-photo-box" id="ktaPhotoBox">
-                <img id="ktaPhotoImg" src="" alt="Foto Anggota" style="display:none;">
-                <div class="kta-photo-empty" id="ktaPhotoPlaceholder">
-                  <i class="fa-solid fa-user"></i>
-                </div>
-              </div>
-
-              <!-- Nilai Data Dinamis (Rata Kiri Presisi Setelah Titik Dua Template) -->
-              <div class="kta-field-value kta-val-nama" id="ktaName">NAMA LENGKAP ANGGOTA</div>
-              <div class="kta-field-value kta-val-no" id="ktaNumber">06210208260001</div>
-              <div class="kta-field-value kta-val-ttl" id="ktaTtl">-</div>
-              <div class="kta-field-value kta-val-jk" id="ktaJk">-</div>
-              <div class="kta-field-value kta-val-unit" id="ktaSekolah">-</div>
-              <div class="kta-field-value kta-val-alamat" id="ktaAlamat">-</div>
-
-              <!-- Elemen Tanggal di Samping Tulisan Sukabumi (Tanpa Menumpuk) -->
-              <div class="kta-date-display" id="ktaDate">11 September 2026</div>
-
-              <!-- QR Code Verifikasi -->
-              <div class="kta-qr-stamp" id="ktaQrBox" title="Pindai untuk verifikasi">
-                <img id="ktaQrImg" src="" alt="QR">
-              </div>
-
-            </div>
-
-            <p class="kta-note" style="font-size:12px; color:var(--text-muted); max-width:580px; text-align:center; margin-top:14px; line-height:1.5;">
-              <i class="fa-solid fa-circle-check" style="color:var(--primary);"></i>
-              Kartu Tanda Anggota Resmi Pengurus IGORNAS Kota Sukabumi. Klik <strong>Unduh E-Kartu (PNG HD)</strong> untuk mengunduh file gambar kartu resolusi tinggi (kualitas siap cetak standar ID Card CR80).
+            <h2 style="font-size:24px; font-weight:800; color:#0f172a; margin-bottom:12px;">Portal Pembuatan Kartu Tanda Anggota (KTA)</h2>
+            <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:28px;">
+              Pembuatan, pencetakan, dan verifikasi Kartu Tanda Anggota (KTA) IGORNAS terhubung secara resmi dengan <strong>Portal Guru Indonesia Bugar</strong>. Silakan klik tombol di bawah ini untuk menuju portal resmi.
             </p>
 
+            <a href="https://guru.indonesiabugar.id/login" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:16px 32px; font-size:16px; font-weight:800; border-radius:14px; display:inline-flex; align-items:center; gap:12px; background:linear-gradient(135deg, #16a34a, #15803d); color:white; text-decoration:none; box-shadow:0 12px 24px rgba(22,163,74,0.3); transition:transform 0.2s ease;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Buka Portal KTA (guru.indonesiabugar.id)
+            </a>
+
+            <div style="margin-top:28px; font-size:12.5px; color:#94a3b8; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <i class="fa-solid fa-shield-halved" style="color:#16a34a;"></i> Terhubung secara langsung ke sistem resmi Indonesia Bugar
+            </div>
           </div>
         </div>
 
