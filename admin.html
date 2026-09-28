@@ -1000,19 +1000,19 @@
         <span class="badge" id="badgePengajuan">0</span>
       </div>
 
-      <div class="menu-label" id="superAdminMenuLabel" style="display:none;">Super Admin</div>
+      <div class="menu-label">Pengelolaan Sistem</div>
 
-      <div class="nav-item" id="navUsers" onclick="switchTab('users')" style="display:none;">
+      <div class="nav-item" id="navUsers" onclick="switchTab('users')">
         <i class="fa-solid fa-user-gear"></i>
         <span>Kelola User</span>
       </div>
 
-      <div class="nav-item" id="navPengumuman" onclick="switchTab('pengumuman')" style="display:none;">
+      <div class="nav-item" id="navPengumuman" onclick="switchTab('pengumuman')">
         <i class="fa-solid fa-bullhorn"></i>
         <span>Pengumuman</span>
       </div>
 
-      <div class="nav-item" id="navLog" onclick="switchTab('log')" style="display:none;">
+      <div class="nav-item" id="navLog" onclick="switchTab('log')">
         <i class="fa-solid fa-clock-rotate-left"></i>
         <span>Log Aktivitas</span>
       </div>
@@ -1647,13 +1647,10 @@
     }
 
     function setupUserRoleUI() {
-      document.getElementById('userRole').innerText = userRole;
-      if (userRole === 'SUPER_ADMIN') {
-        document.getElementById('superAdminMenuLabel').style.display = 'block';
-        document.getElementById('navUsers').style.display = 'flex';
-        document.getElementById('navPengumuman').style.display = 'flex';
-        document.getElementById('navLog').style.display = 'flex';
-      }
+      document.getElementById('userRole').innerText = 'ADMINISTRATOR';
+      document.getElementById('navUsers').style.display = 'flex';
+      document.getElementById('navPengumuman').style.display = 'flex';
+      document.getElementById('navLog').style.display = 'flex';
     }
 
     function switchTab(tabName) {
@@ -1706,8 +1703,7 @@
     }
 
     async function loadDashboardData() {
-      const endpoint = userRole === 'SUPER_ADMIN' ? 'getDashboardSuperAdmin' : 'getDashboardAdmin';
-      const res = await apiGet(endpoint);
+      const res = await apiGet('getDashboardAdmin');
       if (res && res.success && res.data) {
         const d = res.data;
         document.getElementById('statTotalAnggota').innerText = d.anggota ? d.anggota.total : 0;
@@ -1928,9 +1924,9 @@
             <td><span class="badge-status ${m.STATUS_KEANGGOTAAN === 'AKTIF' ? 'badge-aktif' : 'badge-nonaktif'}">${m.STATUS_KEANGGOTAAN}</span></td>
             <td>
               <div class="action-btns">
-                <button type="button" class="btn-sm btn-approve" onclick="cetakKTAAdmin('${m.MEMBER_ID}')" title="Cetak KTA Anggota">
-                  <i class="fa-solid fa-id-card"></i> Cetak KTA
-                </button>
+                <a href="https://guru.indonesiabugar.id/login" target="_blank" rel="noopener noreferrer" class="btn-sm btn-approve" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px; background:#16a34a; border-color:#16a34a; font-weight:700;" title="Buka Portal KTA Indonesia Bugar">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Portal KTA
+                </a>
                 <button type="button" class="btn-sm btn-reject" onclick="nonaktifkanAnggota('${m.MEMBER_ID}')">
                   <i class="fa-solid fa-user-slash"></i> Nonaktifkan
                 </button>
