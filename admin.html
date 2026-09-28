@@ -1611,11 +1611,16 @@
     }
     let API_URL = DEFAULT_API_URL;
     let authToken = localStorage.getItem('igornas_token') || localStorage.getItem('IGORNAS_TOKEN') || '';
-    
     let savedUser = null;
     try {
       savedUser = JSON.parse(localStorage.getItem('igornas_user'));
     } catch(e) {}
+
+    if (!authToken || !savedUser) {
+      localStorage.removeItem('igornas_token');
+      localStorage.removeItem('igornas_user');
+      window.location.href = 'index.html';
+    }
     
     let userRole = (savedUser && savedUser.ROLE) ? String(savedUser.ROLE).toUpperCase() : (localStorage.getItem('IGORNAS_ROLE') || 'ADMIN');
     let userName = (savedUser && savedUser.EMAIL) ? savedUser.EMAIL : 'Admin IGORNAS';
